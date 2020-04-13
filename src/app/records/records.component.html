@@ -1,0 +1,17 @@
+<mat-accordion displayMode="flat">
+    <mat-expansion-panel *ngFor="let case of caseList" (click)=onClickCase(case)>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{case.caseName}}
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+            <mat-list>
+                <mat-list-item *ngFor="let r of dzgjRecords" (click)= "onItemClick(r);$event.stopPropagation()"> {{r.phoneNumber}} </mat-list-item>
+            </mat-list>
+        </ng-template>
+
+    </mat-expansion-panel>
+
+</mat-accordion>

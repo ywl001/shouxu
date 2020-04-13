@@ -1,0 +1,6 @@
+{
+    "/shouxu": {
+        "target": "http://localhost",
+        "secure": false
+    }
+}

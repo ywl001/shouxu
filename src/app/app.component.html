@@ -1,20 +1,46 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<div class="root">
+    <div class="left" ngResizable [rzHandles]="'e'">
+        <app-records [type]=formType [caseList] = caseList (caseData) = getCaseData($event)></app-records>
+    </div>
+    <div class="right">
+        <div class="formType">
+            <mat-radio-group class="radio-group" [(ngModel)]="formType">
+                <mat-radio-button class="radio-button" *ngFor="let type of formTypes" [value]="type" [checked]=true>
+                    {{type}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <hr>
+        </div>
 
+        <div class="case">
+            <mat-form-field style="width:35%">
+                <mat-label>案件编号：</mat-label>
+                <input [(ngModel)]="caseNumber" matInput>
+            </mat-form-field>
+            <mat-form-field style="width:50%">
+                <mat-label>案件名称：</mat-label>
+                <input matInput [(ngModel)]='caseName'>
+            </mat-form-field>
+            <button mat-button color='primary' (click)=onSaveCase()>保存案件</button>
+            <mat-form-field style="width: 100%;">
+                <mat-label>简要案情：</mat-label>
+                <textarea matInput [(ngModel)]='caseContent' cdkTextareaAutosize></textarea>
+            </mat-form-field>
+        </div>
+
+        <div class="formContent">
+            <app-dzgj #dzgj *ngIf="formType =='电子轨迹'" [caseName]=caseName [caseNumber]=caseNumber [caseContent]=caseContent [isSeal] = isSeal></app-dzgj>
+            <app-dqzj #dqzj *ngIf="formType =='调取证据'" [caseName]=caseName [caseNumber]=caseNumber [isSeal] = isSeal></app-dqzj>
+        </div>
+
+        <div class=btnContainer>
+            <button mat-raised-button color='primary' (click)=onSave()>保存</button>
+            <button mat-raised-button color='accent' (click)='onPrint()'>打印</button>
+            <button mat-raised-button color='accent' (click)='onSaveImg()'>存图</button>
+            <button mat-raised-button color='warn' (click)=onClear()>清除</button>
+            <mat-checkbox [(ngModel)]="isSeal">使用印章</mat-checkbox>
+        </div>
+
+    </div>
+
+</div>

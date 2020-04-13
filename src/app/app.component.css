@@ -1,0 +1,58 @@
+.root {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    display: -webkit-flex;
+    /* overflow: hidden; */
+}
+
+.left {
+    height: 100%;
+    width: 500px;
+    border-right: 2px solid black;
+    overflow: hidden;
+}
+
+.right {
+    height: 100%;
+    flex: 1;
+    /* background-color: azure; */
+    display: flex;
+    flex-direction: column;
+}
+
+.formType {
+    height: 30px;
+    background-color:lightblue;
+    padding-top: 10px;
+}
+
+.formContent {
+    /* background-color: linen; */
+}
+
+.radio-group{
+    display: inline-flex;
+}
+
+.radio-button{
+    margin-right: 15px;
+}
+
+
+.btnContainer{
+    display:inline-flex;
+    width: 500px;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 30px;
+    /* background-color: aqua; */
+    margin-bottom: 20px;
+    align-items:flex-end
+}
+
+.btnContainer>button{
+    width: 100px;
+}
+
+

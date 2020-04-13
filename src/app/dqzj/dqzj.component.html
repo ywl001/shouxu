@@ -1,0 +1,54 @@
+<mat-form-field>
+    <mat-label>填表时间：</mat-label>
+    <input [(ngModel)]="createDate" matInput [matDatepicker]="picker" (dblclick)=onDblClickCreateDate($event)>
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>编号</mat-label>
+    <input matInput [value]="NO">
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>调取单位</mat-label>
+    <input matInput [matAutocomplete]=auto [(ngModel)]="company">
+    <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of fananceCompanys" [value]="option">{{option}}</mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+
+<br>
+<mat-form-field style="width: 100%;">
+    <mat-label>证据内容</mat-label>
+    <input matInput [(ngModel)]="evidenceContent">
+</mat-form-field>
+
+<div id="print" style="display: none;">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="1150px" height="1622px">
+        <rect x="173" y="143" fill="none" stroke="#000000" stroke-width="6" stroke-miterlimit="10" width="877.531" height="1275" />
+        <rect x="179" y="148" fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" width="865.439" height="1263.939" />
+        <line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="173" y1="115" x2="1044.439" y2="115" />
+        <text transform="matrix(1 0 0 1 421 108)" font-family="'SimSun'" font-size="26">{{caseNumber}}</text>
+        <text transform="matrix(1 0 0 1 424.0181 253)" font-family="'AdobeSongStd-Light-GBpc-EUC-H'" font-size="30" letter-spacing="13">洛阳市吉利区公安局</text>
+        <text transform="matrix(1 0 0 1 396.5 312)" font-family="'SimHei'" font-size="44" letter-spacing="19">调取证据通知书</text>
+        <text transform="matrix(1 0 0 1 521.5059 425)" font-family="'FangSong_GB2312'" font-size="30">吉公（刑）调证字[{{year}}]{{NO}}号</text>
+        <foreignObject x=186 y=500 width="845" height="320">
+            <xhtml:div style="text-align: justify; font-family:FangSong_GB2312; font-size:30px; line-height:2em;">
+                <p style="margin: 0;"><span style="padding-bottom: 5px;border-bottom:1px solid black">{{company}}:</span></p>
+                <p style="margin:0; text-indent:2em">根据《中华人民共和国刑事诉讼法》第五十四条之规定，我局侦办的
+                    <span style="padding-bottom: 5px;border-bottom:1px solid black">{{caseName}}</span>
+                    需调取你处下列有关证据:
+                    <span style="padding-bottom: 5px;border-bottom:1px solid black">{{evidenceContent}}</span>
+                </p>
+                <p style="margin:0; text-indent:2em">伪造证据、隐匿证据或者毁灭证据的，将受法律追究。</p>
+            </xhtml:div>
+        </foreignObject>
+        <text transform="matrix(1 0 0 1 723 1004)" font-family="'FangSong_GB2312'" font-size="30" letter-spacing="1">洛阳市吉利区公安局</text>
+        <text transform="matrix(1 0 0 1 698 954)" font-family="'FangSong_GB2312'" font-size="30" letter-spacing="1">{{addDate}}</text>
+        <image *ngIf="isSeal" xlink:href="../assets/seal.png" transform="matrix(0.235 0 0 0.235 736.876 835)"></image>
+        <text transform="matrix(1 0 0 1 228 1462)" font-family="'FangSong_GB2312'" font-size="30">此联交证据持有人</text>
+    </svg>
+</div>
+
+<button #btnPrint ngxPrint printSectionId='print' style="display: none;">print</button>
