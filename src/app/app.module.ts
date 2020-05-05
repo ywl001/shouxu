@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http'
 
 import { AngularDraggableModule } from 'angular2-draggable'
@@ -16,7 +16,8 @@ import {
   MatDatepickerModule,
   MatAutocompleteModule,
   MatListModule,
-  MatExpansionModule
+  MatExpansionModule,
+  MatDialogModule
 } from '@angular/material'
 
 import { MatNativeDateModule } from '@angular/material/core';
@@ -26,13 +27,15 @@ import { DzgjComponent } from './dzgj/dzgj.component';
 import { DqzjComponent } from './dqzj/dqzj.component';
 import { from } from 'rxjs';
 import { RecordsComponent } from './records/records.component';
+import { AddCaseComponent } from './add-case/add-case.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DzgjComponent,
     DqzjComponent,
-    RecordsComponent
+    RecordsComponent,
+    AddCaseComponent
   ],
   imports: [
     BrowserModule,
@@ -51,9 +54,12 @@ import { RecordsComponent } from './records/records.component';
     NgxPrintModule,
     MatAutocompleteModule,
     MatListModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ReactiveFormsModule,
+    MatDialogModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DzgjComponent,DqzjComponent,AddCaseComponent]
 })
 export class AppModule { }

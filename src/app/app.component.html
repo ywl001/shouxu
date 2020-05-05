@@ -1,46 +1,38 @@
 <div class="root">
     <div class="left" ngResizable [rzHandles]="'e'">
-        <app-records [type]=formType [caseList] = caseList (caseData) = getCaseData($event)></app-records>
+        <div class="left_top">
+            <button id=btnAddCase mat-raised-button color="primary" (click)=onAddCase()>添加案件</button>
+        </div>
+        <div class="left_middle">
+            <app-records [state]=state [data]=filterCase$|async (clickCase)=showCaseData($event) (clickItem)=showShouxuData($event) (delComplete)=getData()></app-records>
+        </div>
+        <div class="left_bottom">
+            <mat-checkbox [(ngModel)]="isShouxu">仅显示有手续的案件</mat-checkbox>
+            <mat-form-field style="margin-left: 30px;">
+                <input [value]="filterCase" [formControl]="caseControl" matInput placeholder="过滤。。。">
+            </mat-form-field>
+        </div>
+
     </div>
     <div class="right">
-        <div class="formType">
-            <mat-radio-group class="radio-group" [(ngModel)]="formType">
-                <mat-radio-button class="radio-button" *ngFor="let type of formTypes" [value]="type" [checked]=true>
-                    {{type}}
+        <div class="right_top">
+            <mat-radio-group class="radio-group" [value]=state (change)=onStateChange($event)>
+                <mat-radio-button class="radio-button" *ngFor="let state of states" [value]="state">
+                    {{state.label}}
                 </mat-radio-button>
             </mat-radio-group>
-            <hr>
         </div>
-
-        <div class="case">
-            <mat-form-field style="width:35%">
-                <mat-label>案件编号：</mat-label>
-                <input [(ngModel)]="caseNumber" matInput>
-            </mat-form-field>
-            <mat-form-field style="width:50%">
-                <mat-label>案件名称：</mat-label>
-                <input matInput [(ngModel)]='caseName'>
-            </mat-form-field>
-            <button mat-button color='primary' (click)=onSaveCase()>保存案件</button>
-            <mat-form-field style="width: 100%;">
-                <mat-label>简要案情：</mat-label>
-                <textarea matInput [(ngModel)]='caseContent' cdkTextareaAutosize></textarea>
-            </mat-form-field>
+        <div class="right_middle">
+            <p>{{caseNumber}}－－－－{{caseName}}</p>
+            <p>{{caseContent}}</p>
+            <template #shouxuContainer></template>
         </div>
-
-        <div class="formContent">
-            <app-dzgj #dzgj *ngIf="formType =='电子轨迹'" [caseName]=caseName [caseNumber]=caseNumber [caseContent]=caseContent [isSeal] = isSeal></app-dzgj>
-            <app-dqzj #dqzj *ngIf="formType =='调取证据'" [caseName]=caseName [caseNumber]=caseNumber [isSeal] = isSeal></app-dqzj>
-        </div>
-
-        <div class=btnContainer>
+        <div class="right_bottom">
             <button mat-raised-button color='primary' (click)=onSave()>保存</button>
             <button mat-raised-button color='accent' (click)='onPrint()'>打印</button>
-            <button mat-raised-button color='accent' (click)='onSaveImg()'>存图</button>
-            <button mat-raised-button color='warn' (click)=onClear()>清除</button>
-            <mat-checkbox [(ngModel)]="isSeal">使用印章</mat-checkbox>
+            <button mat-raised-button color='accent' (click)='onToImage()'>存图</button>
+            <mat-checkbox [(ngModel)]="isSeal">印章</mat-checkbox>
         </div>
-
     </div>
 
 </div>

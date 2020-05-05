@@ -1,15 +1,26 @@
 <mat-accordion displayMode="flat">
-    <mat-expansion-panel *ngFor="let case of caseList" (click)=onClickCase(case)>
+    <mat-expansion-panel *ngFor="let lawCase of caseList" (click)=onClickCase(lawCase) (dblclick)=onDblClick(lawCase)>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                {{case.caseName}}
+                {{lawCase.caseName}}
             </mat-panel-title>
         </mat-expansion-panel-header>
 
         <ng-template matExpansionPanelContent>
-            <mat-list>
-                <mat-list-item *ngFor="let r of dzgjRecords" (click)= "onItemClick(r);$event.stopPropagation()"> {{r.phoneNumber}} </mat-list-item>
-            </mat-list>
+            <div *ngIf="state.label=='电子轨迹'">
+                <div class="dzgjItem" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();"> <span class= 'phoneTxt'>
+                    {{item.desc}} </span>
+                    <span class="createDate">{{item.createDate}}</span>
+                    <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
+                </div>
+            </div>
+
+            <div *ngIf="state.label=='调取证据'">
+                <div class="dzgjItem" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();"> <span class= 'phoneTxt'>
+                    {{item.evidenceContent}} </span>
+                    <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
+                </div>
+            </div>
         </ng-template>
 
     </mat-expansion-panel>

@@ -1,5 +1,41 @@
 .print{
     position: relative;
-    display:none;
     font-family: '宋体';
+    width: 1150px;
+    height: 1627px;
 }
+
+.seal{
+    width: 304px;
+    height: 275px;
+    background-image: url('../../assets/seal.png');
+    /* background-color: lightcoral; */
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left:730px;
+    top: 1200px;
+}
+
+.zyf{
+    width: 190px;
+    height: 190px;
+    background-image: url('../../assets/zyf.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left:260px;
+    top: 1210px;
+}
+
+.ryj{
+    width: 200px;
+    height: 200px;
+    background-image: url('../../assets/ryj.png');
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    left:650px;
+    top: 1210px;
+}
+
