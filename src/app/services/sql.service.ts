@@ -47,36 +47,36 @@ export class SQLService {
 //   }
 
 //   getData(){
-//     let sql =  `select lawCase.id caseID,caseNumber,caseName,caseContent,caseContent,dzgj.id,createDate,cause,phoneNumber,requestUser,userPhone,startDate,endDate
-//     from lawCase left join dzgj on lawCase.id = dzgj.caseID 
+//     let sql =  `select lawCase.id lawCaseID,caseNumber,caseName,caseContent,caseContent,dzgj.id,createDate,cause,phoneNumber,requestUser,userPhone,startDate,endDate
+//     from lawCase left join dzgj on lawCase.id = dzgj.lawCaseID 
 //  `
 //     console.log(sql)
 //     return this.http.post<any>(this.sqlurl,{'sql':sql,'action':'select'})
 //   }
   
 //   getDzgjRecords(){
-//     let sql = `select lawcase.id caseID,caseNumber,caseName,caseContent,dzgj.id,createDate,cause,phoneNumber,requestUser,userPhone,startDate,endDate 
-//     from dzgj left join lawCase on dzgj.caseID = lawCase.id order by createDate desc`;
+//     let sql = `select lawcase.id lawCaseID,caseNumber,caseName,caseContent,dzgj.id,createDate,cause,phoneNumber,requestUser,userPhone,startDate,endDate 
+//     from dzgj left join lawCase on dzgj.lawCaseID = lawCase.id order by createDate desc`;
 //     console.log(sql)
 //     return this.http.post<any>(this.sqlurl,{'sql':sql,'action':'select'})
 //   }
 
 //   getDzgjRecords2(){
-//     let sql = `select lawcase.id caseID,caseNumber,caseName,caseContent,dzgj.id,createDate,cause,phoneNumber,requestUser,userPhone,startDate,endDate 
-//     from lawCase left join dzgj on dzgj.caseID = lawCase.id order by createDate desc`;
+//     let sql = `select lawcase.id lawCaseID,caseNumber,caseName,caseContent,dzgj.id,createDate,cause,phoneNumber,requestUser,userPhone,startDate,endDate 
+//     from lawCase left join dzgj on dzgj.lawCaseID = lawCase.id order by createDate desc`;
 //     console.log(sql)
 //     return this.http.post<any>(this.sqlurl,{'sql':sql,'action':'select'})
 //   }
 
 //   getDqzjRecords2(){
-//     let sql = `select lawcase.id caseID,caseNumber,caseName,caseContent,dqzj.id,docNumber,company,evidenceContent,createDate
-//      from lawCase left join dqzj on dqzj.caseID = lawCase.id order by createDate desc`;
+//     let sql = `select lawcase.id lawCaseID,caseNumber,caseName,caseContent,dqzj.id,docNumber,company,evidenceContent,createDate
+//      from lawCase left join dqzj on dqzj.lawCaseID = lawCase.id order by createDate desc`;
 //     console.log(sql)
 //     return this.http.post<any>(this.sqlurl,{'sql':sql,'action':'select'})
 //   }
 //   getDqzjRecords(){
-//     let sql = `select lawcase.id caseID,caseNumber,caseName,caseContent,dqzj.id,docNumber,company,evidenceContent,createDate
-//      from dqzj left join lawCase on dqzj.caseID = lawCase.id order by createDate desc`;
+//     let sql = `select lawcase.id lawCaseID,caseNumber,caseName,caseContent,dqzj.id,docNumber,company,evidenceContent,createDate
+//      from dqzj left join lawCase on dqzj.lawCaseID = lawCase.id order by createDate desc`;
 //     console.log(sql)
 //     return this.http.post<any>(this.sqlurl,{'sql':sql,'action':'select'})
 //   }

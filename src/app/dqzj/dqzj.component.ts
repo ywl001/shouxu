@@ -175,12 +175,13 @@ export class DqzjComponent extends Shouxu {
     if(!this.createDate) this.createDate = moment()
     this.btnPrint.nativeElement.click()
   }
-  save(caseID) {
-    console.log('save 调取证据')
+  save(lawCaseID) {
+    console.log('save 调取证据');
+    this.lawCaseID = lawCaseID;
     if (!this.validate())
       return;
     let tableData = this.getSqlData();
-    tableData['caseID'] = caseID;
+    tableData['caseID'] = lawCaseID;
     let data={
       tableName:'dqzj',
       tableData:tableData
@@ -200,6 +201,10 @@ export class DqzjComponent extends Shouxu {
   }
 
   private validate() {
+    if(!this.lawCaseID){
+      toastr.warning('请选择一个案件，没有请先添加案件');
+      return false;
+    }
     if (!this.docNumber || this.docNumber.trim() == '') {
       toastr.warning('文书编号没有填写')
       return false;

@@ -5,7 +5,7 @@ export class RecordData {
 }
 
 export class LawCase {
-    caseID:string;
+    lawCaseID:string;
     caseName: string
     caseNumber: string;
     caseContent:string;
@@ -13,7 +13,7 @@ export class LawCase {
 
 export class DZGJ {
     id:string
-    caseID:string
+    lawCaseID:string
     cause:string
     phoneNumber:string
     requestUser:string
@@ -25,7 +25,7 @@ export class DZGJ {
 
 export class DQZJ {
     id:string
-    caseID:string
+    lawCaseID:string
     number:string
     companyName:string
     evidenceContent:string

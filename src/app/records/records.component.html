@@ -16,8 +16,8 @@
             </div>
 
             <div *ngIf="state.label=='调取证据'">
-                <div class="dzgjItem" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();"> <span class= 'phoneTxt'>
-                    {{item.evidenceContent}} </span>
+                <div class="dzgjItem" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
+                    <span class= 'phoneTxt'>{{item.evidenceContent}} </span>
                     <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
                 </div>
             </div>

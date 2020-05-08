@@ -7,12 +7,12 @@ export abstract class Shouxu {
     caseName:string;
     caseNumber:string;
     caseContent:string;
-    caseID:string;
+    lawCaseID:string;
 
     createDate:any
     abstract print();
     abstract toImage();
-    abstract save(caseID);
+    abstract save(lawCaseID);
 
     abstract set data(value)
     abstract get data()

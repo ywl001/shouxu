@@ -13,7 +13,7 @@ export class AddCaseComponent implements OnInit {
 
   constructor(private sqlService: SQLService, private message: MessageService) { }
 
-  caseID: string;
+  lawCaseID: string;
   caseName: string;
   caseNumber: string;
   caseContent: string;
@@ -24,7 +24,7 @@ export class AddCaseComponent implements OnInit {
 
   set data(value) {
     this._data = value;
-    this.caseID = value.caseID;
+    this.lawCaseID = value.lawCaseID;
     this.caseName = value.caseName;
     this.caseNumber = value.caseNumber;
     this.caseContent = value.caseContent;
@@ -39,7 +39,7 @@ export class AddCaseComponent implements OnInit {
       let data = {
         tableName: 'law_case',
         tableData: this.sqlData,
-        id: this.caseID
+        id: this.lawCaseID
       }
       this.sqlService.exec(PhpFunctionName.UPDATE, data).subscribe(
         res => {

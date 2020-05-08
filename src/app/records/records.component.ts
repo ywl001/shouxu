@@ -42,7 +42,7 @@ export class RecordsComponent {
       let c = new Map()
       for (let i = 0; i < value.length; i++) {
         let o = value[i];
-        c.set(o.caseID, o)
+        c.set(o.lawCaseID, o)
       }
       c.forEach((value) => {
         this.caseList.push(value)
@@ -63,12 +63,12 @@ export class RecordsComponent {
         if (item.phoneNumber) {
           let phones = item.phoneNumber.split('|')
           item.desc = phones.length > 2 ? `${phones.slice(0, 2)}　等${phones.length}个号码` : item.phoneNumber;
-          return item.caseID == lawCase.caseID && item.id;
+          return item.lawCaseID == lawCase.lawCaseID && item.id;
         }
         return null;
       }
       else
-        return item.caseID == lawCase.caseID && item.id;
+        return item.lawCaseID == lawCase.lawCaseID && item.id;
     })
     console.log(this.itemList)
   }

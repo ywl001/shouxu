@@ -124,7 +124,7 @@ export class DzgjComponent extends Shouxu {
 
   isShowPrint = 'none'
   toImage() {
-    if(!this.createDate) this.createDate = moment()
+    if (!this.createDate) this.createDate = moment()
     this.isShowPrint = 'block'
     setTimeout(() => {
       domtoimage.toPng(document.getElementById('print'), { bgcolor: 'white' })
@@ -135,7 +135,7 @@ export class DzgjComponent extends Shouxu {
     }, 0.5);
   }
 
-  clear(){
+  clear() {
     this.requestUser = this.userPhone = this.cause = '';
     this.number1 = this.number2 = this.number3 = this.number4 = this.number5 = this.number6 = '';
     this.startDate = this.endDate = this.createDate = null;
@@ -143,25 +143,25 @@ export class DzgjComponent extends Shouxu {
   }
 
   print() {
-    if(!this.createDate) this.createDate = moment()
+    if (!this.createDate) this.createDate = moment()
     this.btnPrint.nativeElement.click()
   }
 
-  save(caseID) {
+  save(lawCaseID) {
     console.log('save 电子轨迹')
     if (!this.validate())
       return;
     let tableData = this.getSqlData();
-    tableData['caseID'] = caseID;
-    let data={
-      tableName:'dzgj',
-      tableData:tableData
+    tableData['caseID'] = lawCaseID;
+    let data = {
+      tableName: 'dzgj',
+      tableData: tableData
     }
 
-    this.sql.exec(PhpFunctionName.INSERT,data)
+    this.sql.exec(PhpFunctionName.INSERT, data)
       .subscribe(
         res => {
-          if (res > 0) { 
+          if (res > 0) {
             this.saveComplete.emit();
             this.clear();
             toastr.success('手续数据保存成功')
@@ -171,12 +171,16 @@ export class DzgjComponent extends Shouxu {
   }
 
   private validate() {
-    if(!this.caseNumber || this.caseNumber.trim()==''){
-      toastr.warning('案件编号随便写一个都行')
+    if(!this.lawCaseID){
+      toastr.warning('请选择一个案件，没有请先添加案件');
       return false;
     }
-    if(!this.caseName || this.caseName.trim()==''){
-      toastr.warning('案件名称随便写一个都行')
+    if (!this.caseNumber || this.caseNumber.trim() == '') {
+      toastr.warning('案件编号没有填写')
+      return false;
+    }
+    if (!this.caseName || this.caseName.trim() == '') {
+      toastr.warning('案件名称没有填写')
       return false;
     }
     if (this.phoneNumbers.trim() == '') {
@@ -187,7 +191,7 @@ export class DzgjComponent extends Shouxu {
   }
 
   private getSqlData() {
-    if(!this.createDate) this.createDate = moment()
+    if (!this.createDate) this.createDate = moment()
     let createDate = this.createDate.format('YYYY/MM/DD')
     let endDate = this.endDate ? this.endDate.format('YYYY/MM/DD') : createDate;
     return {
@@ -225,9 +229,9 @@ export class DzgjComponent extends Shouxu {
     return strNumbers.substr(0, strNumbers.length - 1)
   }
 
-  get upCount(){
+  get upCount() {
     let count = this.phoneNumbers.split('|').length;
-    let arr = new Array("零","壹","贰","叁","肆","伍","陆","柒","捌","玖");
+    let arr = new Array("零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖");
     return arr[count];
   }
 }

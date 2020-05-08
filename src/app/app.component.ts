@@ -13,6 +13,7 @@ import { map } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { AddCaseComponent } from './add-case/add-case.component';
 import { PhpFunctionName } from './models/php-function-name';
+import { MessageService } from './services/message.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,6 @@ import { PhpFunctionName } from './models/php-function-name';
 export class AppComponent {
   title = 'shouxu';
 
-
   // ---------------------------------------html直接绑定----------------------------------
   state: any;
   states: Array<any> = [State.dzgj, State.dqzj];
@@ -30,7 +30,9 @@ export class AppComponent {
   caseName: string;
   caseNumber: string;
   caseContent: string;
-  caseID: string;
+
+  lawCaseID: string;
+
 
   private _lawcases: Array<any>;
 
@@ -50,6 +52,7 @@ export class AppComponent {
     private sql: SQLService,
     private http: HttpClient,
     private resolver: ComponentFactoryResolver, 
+    private message:MessageService,
     private dialog:MatDialog) {
   }
 
@@ -57,6 +60,9 @@ export class AppComponent {
     this.state = State.dzgj;
     this.getConfigData()
     this.getData();
+    this.message.refresh$.subscribe(
+      res=>{this.getData()}
+    )
   }
 
   /**创建动态组件 */
@@ -167,14 +173,15 @@ export class AppComponent {
     this.caseNumber = caseData.caseNumber;
     this.caseName = caseData.caseName;
     this.caseContent = caseData.caseContent;
-    this.caseID = caseData.caseID;
+
+    this.lawCaseID = caseData.lawCaseID;
     this.shouxu.caseName = caseData.caseName;
     this.shouxu.caseNumber = caseData.caseNumber;
     this.shouxu.caseContent = caseData.caseContent;
   }
 
   clear(){
-    this.caseName = this.caseNumber = this.caseContent = this.caseID = null;
+    this.caseName = this.caseNumber = this.caseContent = this.lawCaseID = null;
   }
 
   showShouxuData(itemData) {
@@ -188,7 +195,8 @@ export class AppComponent {
   }
 
   onSave() {
-    this.shouxu.save(this.caseID)
+    this.shouxu.lawCaseID = this.lawCaseID;
+    this.shouxu.save(this.lawCaseID)
   }
 
   onToImage() {
