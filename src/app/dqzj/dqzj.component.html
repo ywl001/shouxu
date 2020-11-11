@@ -26,7 +26,6 @@
     <mat-label style="color: darkcyan;">{{evidenceContent2}}</mat-label>
 </div>
 
-
 <div class="baseDate">
     <mat-form-field>
         <mat-label>基准时间：</mat-label>
@@ -43,9 +42,9 @@
         <rect x="179" y="148" fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" width="865.439" height="1263.939" />
         <line fill="none" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10" x1="173" y1="115" x2="1044.439" y2="115" />
         <text transform="matrix(1 0 0 1 421 108)" font-family="'SimSun'" font-size="26">{{caseNumber}}</text>
-        <text transform="matrix(1 0 0 1 424.0181 253)" font-family="'AdobeSongStd-Light-GBpc-EUC-H'" font-size="30" letter-spacing="13">洛阳市吉利区公安局</text>
+        <text transform="matrix(1 0 0 1 424.0181 253)" font-family="'AdobeSongStd-Light-GBpc-EUC-H'" font-size="30" letter-spacing="13">{{unit}}</text>
         <text transform="matrix(1 0 0 1 396.5 312)" font-family="'SimHei'" font-size="44" letter-spacing="19">调取证据通知书</text>
-        <text transform="matrix(1 0 0 1 521.5059 425)" font-family="'FangSong_GB2312'" font-size="30">吉公（刑）调证字[{{year}}]{{docNumber}}号</text>
+        <text transform="matrix(1 0 0 1 521.5059 425)" font-family="'FangSong_GB2312'" font-size="30">{{unit_1}}（刑）调证字[{{year}}]{{docNumber}}号</text>
         <foreignObject x=186 y=500 width="845" height="900">
             <xhtml:div style="text-align: justify; font-family:FangSong_GB2312; font-size:30px; line-height:2em;width:100%">
                 <p style="margin: 0;"><span style="padding-bottom: 5px;border-bottom:1px solid black">{{company}}:</span></p>
@@ -57,7 +56,7 @@
                 <p style="margin:0; text-indent:2em">伪造证据、隐匿证据或者毁灭证据的，将受法律追究。</p>
                 <div style="position:relative;margin-top:50px">
                     <div style="text-align:right; font-family:FangSong_GB2312; font-size:30px;width:100%;">{{addDate}}</div>
-                    <div style="text-align:right; width:100%; font-family:FangSong_GB2312; font-size:30px;">洛阳市吉利区公安局</div>
+                    <div style="text-align:right; width:100%; font-family:FangSong_GB2312; font-size:30px;">{{unit}}</div>
                     <img *ngIf="isSeal" src="assets/seal.png" width="220px" height="220px" style="position:absolute;right:0;top:-50px;"/>
                 </div>
             </xhtml:div>

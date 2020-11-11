@@ -1,28 +1,38 @@
-<mat-form-field>
-    <mat-label>填表时间：</mat-label>
-    <input matInput [(ngModel)]="createDate" [matDatepicker]="picker" placeholder="不选择为当天日期">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
+<div class="contactsDiv">
+    <mat-form-field>
+        <mat-label>填表时间：</mat-label>
+        <input matInput [(ngModel)]="createDate" [matDatepicker]="picker" placeholder="不选择为当天日期">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-<mat-form-field>
-    <mat-label>提请人：</mat-label>
-    <input [(ngModel)]="requestUser" matInput [matAutocomplete]="autoUserName">
-    <mat-autocomplete #autoUserName='matAutocomplete'>
-        <mat-option *ngFor="let item of users" [value]=item>{{item}}</mat-option>
-    </mat-autocomplete>
-</mat-form-field>
-<mat-form-field>
-    <mat-label>联系电话：</mat-label>
-    <input [(ngModel)]="userPhone" matInput [matAutocomplete]="autoUserPhone">
-    <mat-autocomplete #autoUserPhone='matAutocomplete'>
-        <mat-option *ngFor="let p of phones" [value]=p>{{p}}</mat-option>
-    </mat-autocomplete>
-</mat-form-field>
+    <mat-form-field>
+        <mat-label>提请人：</mat-label>
+        <input [(ngModel)]="requestUser" matInput [matAutocomplete]="autoUserName">
+        <mat-autocomplete #autoUserName='matAutocomplete'>
+            <mat-option *ngFor="let item of users" [value]=item.name>{{item.name}}</mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>联系电话：</mat-label>
+        <input [(ngModel)]="userPhone" matInput [matAutocomplete]="autoUserPhone">
+        <mat-autocomplete #autoUserPhone='matAutocomplete'>
+            <mat-option *ngFor="let item of users" [value]=item.phoneNumber>{{item.phoneNumber}}</mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>反馈方式：</mat-label>
+        <input [(ngModel)]="feedbackWay" matInput [matAutocomplete]="autoFeedbackWay">
+        <mat-autocomplete #autoFeedbackWay='matAutocomplete'>
+            <mat-option *ngFor="let item of users" [value]=item.email>{{item.email}}</mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+</div>
 
 <mat-form-field style="width: 100%;">
     <mat-label>查询理由：</mat-label>
-    <textarea matInput [(ngModel)]="cause" (dblclick)="cause = '经查XXX有作案嫌疑，电话号码为：'" cdkTextareaAutosize></textarea>
+    <textarea matInput [(ngModel)]="cause" cdkTextareaAutosize></textarea>
 </mat-form-field>
 
 <div class="numberDiv">
@@ -68,107 +78,127 @@
 </div>
 
 <div id="print" class="print" [style.display]='isShowPrint'>
-    <svg id='svg' version="1.1" xmlns="http://www.w3.org/2000/svg" width="1150px" height="1620px">
-        <text transform="matrix(1 0 0 1 176.1094 127.1504)" font-family="'SimHei'" font-size="30">编号：2020-270</text>
-        <text transform="matrix(1 0 0 1 320.438 177.6758)" font-family="'SimHei'" font-size="42">提请公安机关技术侦察部门</text>
-        <text transform="matrix(1 0 0 1 427.2305 232.9639)" font-family="'SimHei'" font-size="42">数据查询审批表</text>
-        <text transform="matrix(1 0 0 1 615.04 302.9932)" font-family="'SimSun'" font-size="27">填表时间：</text>
-        <text transform="matrix(1 0 0 1 239.4946 347.9902)" font-family="'SimSun'" font-size="18">提请单位</text>
-        <text transform="matrix(1 0 0 1 238.8174 400.0273)" font-family="'SimSun'" font-size="18">联系电话</text>
-        <text transform="matrix(1 0 0 1 187.8042 493.3389)" font-family="'SimSun'" font-size="18">查</text>
-        <text transform="matrix(1 0 0 1 187.8042 514.9385)" font-family="'SimSun'" font-size="18">询</text>
-        <text transform="matrix(1 0 0 1 187.8042 536.5381)" font-family="'SimSun'" font-size="18">事</text>
-        <text transform="matrix(1 0 0 1 187.8042 558.1387)" font-family="'SimSun'" font-size="18">由</text>
-        <text transform="matrix(1 0 0 1 269.1938 653.623)" font-family="'SimSun'" font-size="18">查询目标</text>
-        <text transform="matrix(1 0 0 1 461.5 348)" font-family="'SimSun'" font-size="18">洛阳市吉利区公安局</text>
-        <text transform="matrix(1 0 0 1 739 347.5)" font-family="'SimSun'" font-size="18">提请人</text>
-        <text transform="matrix(1 0 0 1 729 401.5)" font-family="'SimSun'" font-size="18">反馈方式</text>
-        <text transform="matrix(1 0 0 1 775 653.5)" font-family="'SimSun'" font-size="18">查询时间范围</text>
-        <text transform="matrix(1 0 0 1 483.5 653.5)" font-family="'SimSun'" font-size="18">查询数据类型</text>
-        <text transform="matrix(1 0 0 1 190.3042 896.1709)" font-family="'SimSun'" font-size="18">查</text>
-        <text transform="matrix(1 0 0 1 190.3042 927.7705)" font-family="'SimSun'" font-size="18">询</text>
-        <text transform="matrix(1 0 0 1 190.3042 959.3711)" font-family="'SimSun'" font-size="18">内</text>
-        <text transform="matrix(1 0 0 1 190.3042 990.9707)" font-family="'SimSun'" font-size="18">容</text>
-        <text transform="matrix(1 0 0 1 187.5 1286.6709)" font-family="'SimSun'" font-size="18">审</text>
-        <text transform="matrix(1 0 0 1 187.5 1308.2705)" font-family="'SimSun'" font-size="18">核</text>
-        <text transform="matrix(1 0 0 1 187.5 1329.8711)" font-family="'SimSun'" font-size="18">意</text>
-        <text transform="matrix(1 0 0 1 187.5 1351.4707)" font-family="'SimSun'" font-size="18">见</text>
-        <text transform="matrix(1 0 0 1 571.5 1290.1709)" font-family="'SimSun'" font-size="18">审</text>
-        <text transform="matrix(1 0 0 1 571.5 1311.7705)" font-family="'SimSun'" font-size="18">批</text>
-        <text transform="matrix(1 0 0 1 571.5 1333.3711)" font-family="'SimSun'" font-size="18">意</text>
-        <text transform="matrix(1 0 0 1 571.5 1354.9707)" font-family="'SimSun'" font-size="18">见</text>
-        <text transform="matrix(1 0 0 1 447.5 1401.5)" font-family="'SimSun'" font-size="18">年　月　日</text>
-        <text transform="matrix(1 0 0 1 868 1401.5)" font-family="'SimSun'" font-size="18">年　月　日</text>
-        <text transform="matrix(1 0 0 1 872.5 1371)" font-family="'SimSun'" font-size="18">（单位印）</text>
-        <text transform="matrix(1 0 0 1 188.3345 1438.1729)" font-family="'SimSun'" font-size="18">备</text>
-        <text transform="matrix(1 0 0 1 188.3345 1459.7725)" font-family="'SimSun'" font-size="18">注</text>
-        <rect x="172" y="313" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" width="808" height="1161.333" />
-        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="172" y1="366" x2="980" y2="366" />
-        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="172" y1="417" x2="980" y2="417" />
-        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="172" y1="621" x2="980" y2="621" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="224" y1="417" x2="224" y2="1474.333" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="386" y1="313" x2="386" y2="417" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="707" y1="313" x2="707" y2="417" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="818" y1="313" x2="818" y2="417" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="224" y1="669" x2="980" y2="669" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="224" y1="755" x2="980" y2="755" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="224" y1="836" x2="980" y2="836" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="224" y1="919" x2="980" y2="919" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="224" y1="1001" x2="980" y2="1001" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="224" y1="1087" x2="980" y2="1087" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="224" y1="1166" x2="980" y2="1166" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="394" y1="621" x2="394" y2="1166" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="694" y1="621" x2="694" y2="1166" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="172" y1="1215" x2="980" y2="1215" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="172" y1="1409" x2="980" y2="1409" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="557" y1="1215" x2="557" y2="1409" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="609" y1="1215" x2="609" y2="1409" />
-        <text transform="matrix(1 0 0 1 743.5 302.5)" font-family="'SimSun'" font-size="27">{{createDate_str}}</text>
-        <text transform="matrix(1 0 0 1 854.5 348.5)" font-family="'SimSun'" font-size="18">{{requestUser}}</text>
-        <text transform="matrix(1 0 0 1 491.5 400.0273)" font-family="'SimSun'" font-size="18">{{userPhone}}</text>
-        <text transform="matrix(1 0 0 1 272.5 450)" font-family="'SimSun'" font-size="18">案件名称：{{caseName}}</text>
-        <text transform="matrix(1 0 0 1 272.5 475)" font-family="'SimSun'" font-size="18">案件编号：{{caseNumber}}</text>
-        <foreignObject x=236 y=482 width="731" height="140">
-            <xhtml:div style="text-align: justify; font-family:SimSun; font-size:18px;text-indent:2em">{{caseContent}}</xhtml:div>
-            <xhtml:div style="text-align: justify; font-family:SimSun; font-size:18px;margin-top:2px;text-indent:2em">{{cause}}</xhtml:div>
-        </foreignObject>
-        <text transform="matrix(1 0 0 1 491.5 1200.5)" font-family="'AdobeSongStd-Light-GBpc-EUC-H'" font-size="18">以上共{{upCount}}个查询目标（大写）</text>
-        <text transform="matrix(1 0 0 1 235 718.5)" font-family="'SimSun'" font-size="21">{{number1}}</text>
-        <text transform="matrix(1 0 0 1 462.5 694.9326)" font-family="'SimSun'" font-size="18" *ngIf="number1">电信用户登记资料信息</text>
-        <text transform="matrix(1 0 0 1 462.5 717.1328)" font-family="'SimSun'" font-size="18" *ngIf="number1">电信用户通话记录信息</text>
-        <text transform="matrix(1 0 0 1 410.0918 739.333)" font-family="'SimSun'" font-size="18" *ngIf="number1">移动网警用户定位系统（LBS）信息</text>
-        <text transform="matrix(1 0 0 1 707.9736 719.2617)" font-family="'SimSun'" font-size="18" *ngIf="number1">{{duration}}</text>
-        <text transform="matrix(1 0 0 1 235 804.5)" font-family="'SimSun'" font-size="21">{{number2}}</text>
-        <text transform="matrix(1 0 0 1 462.5 780.9326)" font-family="'SimSun'" font-size="18" *ngIf="number2">电信用户登记资料信息</text>
-        <text transform="matrix(1 0 0 1 462.5 803.1328)" font-family="'SimSun'" font-size="18" *ngIf="number2">电信用户通话记录信息</text>
-        <text transform="matrix(1 0 0 1 410.0918 825.333)" font-family="'SimSun'" font-size="18" *ngIf="number2">移动网警用户定位系统（LBS）信息</text>
-        <text transform="matrix(1 0 0 1 707.9736 805.2617)" font-family="'SimSun'" font-size="18" *ngIf="number2">{{duration}}</text>
-        <text transform="matrix(1 0 0 1 235 885.5)" font-family="'SimSun'" font-size="21" *ngIf="number3">{{number3}}</text>
-        <text transform="matrix(1 0 0 1 458.5 861.9326)" font-family="'SimSun'" font-size="18" *ngIf="number3">电信用户登记资料信息</text>
-        <text transform="matrix(1 0 0 1 458.5 884.1328)" font-family="'SimSun'" font-size="18" *ngIf="number3">电信用户通话记录信息</text>
-        <text transform="matrix(1 0 0 1 410.0918 906.333)" font-family="'SimSun'" font-size="18" *ngIf="number3">移动网警用户定位系统（LBS）信息</text>
-        <text transform="matrix(1 0 0 1 703.9736 886.2617)" font-family="'SimSun'" font-size="18" *ngIf="number3">{{duration}}</text>
-        <text transform="matrix(1 0 0 1 235 970.4902)" font-family="'SimSun'" font-size="21" *ngIf="number4">{{number4}}</text>
-        <text transform="matrix(1 0 0 1 458.5 946.9229)" font-family="'SimSun'" font-size="18" *ngIf="number4">电信用户登记资料信息</text>
-        <text transform="matrix(1 0 0 1 458.5 969.123)" font-family="'SimSun'" font-size="18" *ngIf="number4">电信用户通话记录信息</text>
-        <text transform="matrix(1 0 0 1 410.0918 991.3232)" font-family="'SimSun'" font-size="18" *ngIf="number4">移动网警用户定位系统（LBS）信息</text>
-        <text transform="matrix(1 0 0 1 703.9736 971.252)" font-family="'SimSun'" font-size="18" *ngIf="number4">{{duration}}</text>
-        <text transform="matrix(1 0 0 1 235 1051.4902)" font-family="'SimSun'" font-size="21" *ngIf="number5">{{number5}}</text>
-        <text transform="matrix(1 0 0 1 458.5 1027.9229)" font-family="'SimSun'" font-size="18" *ngIf="number5">电信用户登记资料信息</text>
-        <text transform="matrix(1 0 0 1 458.5 1050.123)" font-family="'SimSun'" font-size="18" *ngIf="number5">电信用户通话记录信息</text>
-        <text transform="matrix(1 0 0 1 414.0918 1072.3232)" font-family="'SimSun'" font-size="18" *ngIf="number5">移动网警用户定位系统（LBS）信息</text>
-        <text transform="matrix(1 0 0 1 703.9736 1052.252)" font-family="'SimSun'" font-size="18" *ngIf="number5">{{duration}}</text>
-        <text transform="matrix(1 0 0 1 235 1134.4902)" font-family="'SimSun'" font-size="21" *ngIf="number6">{{number6}}</text>
-        <text transform="matrix(1 0 0 1 462.5 1110.9229)" font-family="'SimSun'" font-size="18" *ngIf="number6">电信用户登记资料信息</text>
-        <text transform="matrix(1 0 0 1 462.5 1133.123)" font-family="'SimSun'" font-size="18" *ngIf="number6">电信用户通话记录信息</text>
-        <text transform="matrix(1 0 0 1 412.0918 1155.3232)" font-family="'SimSun'" font-size="18" *ngIf="number6">移动网警用户定位系统（LBS）信息</text>
-        <text transform="matrix(1 0 0 1 707.9736 1135.252)" font-family="'SimSun'" font-size="18" *ngIf="number6">{{duration}}</text>
-        <!-- <image *ngIf="isSeal" overflow="visible" xlink:href="assets/seal.png" transform="matrix(0.235 0 0 0.235 730 1200)"></image> -->
+    <svg version="1.1" id="图层_2" xmlns="http://www.w3.org/2000/svg" width="1150px" height="1626px">
+        <rect x="172.066" y="235.058" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" width="808.196" height="1328.131" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="172.066" y1="288" x2="980.262" y2="288" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="172.066" y1="339" x2="980.262" y2="339" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="224" y1="339" x2="224" y2="1563.188" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="172.066" y1="768" x2="980.262" y2="768" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="224" y1="815" x2="980.262" y2="815" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="224" y1="887.167" x2="980.262" y2="887.167" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="224" y1="959.333" x2="980.262" y2="959.333" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="224" y1="1031.5" x2="980.262" y2="1031.5" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="224" y1="1103.667" x2="980.262" y2="1103.667" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="224" y1="1175.833" x2="980.262" y2="1175.833" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="224" y1="1248" x2="980.262" y2="1248" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="172.066" y1="1297" x2="976" y2="1297" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="172.066" y1="1493" x2="980.262" y2="1493" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="557" y1="1297" x2="557" y2="1493" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="610" y1="1297" x2="610" y2="1493" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="392" y1="768" x2="392" y2="1248" />
+        <line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="694" y1="768" x2="694" y2="1248" />
+        <text transform="matrix(1 0 0 1 319 117)" font-family="'SimHei'" font-size="42">提请公安机关技术侦察部门</text>
+        <text transform="matrix(1 0 0 1 428 166)" font-family="'SimHei'" font-size="42">数据查询审批表</text>
+        <text transform="matrix(1 0 0 1 176 66)" font-family="'SimHei'" font-size="30">编号：{{docNumber}}</text>
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="392" y1="339" x2="392" y2="235.058" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="704.811" y1="339" x2="704.811" y2="235.058" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="815.622" y1="339" x2="815.622" y2="235.058" />
+        <text transform="matrix(1 0 0 1 232.9756 270.0107)" font-family="'SimSun'" font-size="18">提请单位</text>
+        <text transform="matrix(1 0 0 1 695 222.4146)" font-family="'SimSun'" font-size="24">填表时间：</text>
+        <text transform="matrix(1 0 0 1 810 222.4146)" font-family="'SimSun'" font-size="24">{{createDate_china}}</text>
+        <text transform="matrix(1 0 0 1 237.0889 319.478)" font-family="'SimSun'" font-size="18">联系电话</text>
+        <text transform="matrix(1 0 0 1 728.9863 320.3008)" font-family="'SimSun'" font-size="18">反馈方式</text>
+        <text transform="matrix(1 0 0 1 733.0996 270.1235)" font-family="'SimSun'" font-size="18">提请人</text>
+        <text transform="matrix(1 0 0 1 467.4087 270.1235)" font-family="'SimSun'" font-size="18">{{unit}}</text>
+        <text transform="matrix(1 0 0 1 493.731 325.2358)" font-family="'SimSun'" font-size="18">{{userPhone}}</text>
+        <text transform="matrix(1 0 0 1 820 318.6553)" font-family="'SimSun'" font-size="18">{{feedbackWay}}</text>
+        <text transform="matrix(1 0 0 1 850.7266 270.1235)" font-family="'SimSun'" font-size="18">{{requestUser}}</text>
+        <text transform="matrix(1 0 0 1 197.605 471.9438)" font-family="'SimSun'" font-size="18" glyph-orientation-vertical="0" writing-mode="tb" letter-spacing="7">查询事由</text>
+        <text transform="matrix(1 0 0 1 197.605 987.0068)" font-family="'SimSun'" font-size="18" glyph-orientation-vertical="0" writing-mode="tb" letter-spacing="7">查询内容</text>
+        <text transform="matrix(1 0 0 1 197.605 1353.9434)" font-family="'SimSun'" font-size="18" glyph-orientation-vertical="0" writing-mode="tb" letter-spacing="7">审核意见</text>
+        <text transform="matrix(1 0 0 1 584.6055 1353.9434)" font-family="'SimSun'" font-size="18" glyph-orientation-vertical="0" writing-mode="tb" letter-spacing="7">审批意见</text>
+        <text transform="matrix(1 0 0 1 488.7305 1279)" font-family="'SimSun'" font-size="18">以上共{{upCount}}个查询目标（大写）</text>
+        <text transform="matrix(1 0 0 1 454 841)" *ngIf="number1">
+            <tspan x="0" y="0" font-family="'SimSun'" font-size="16">电信用户登记资料信息</tspan>
+            <tspan x="0" y="19.2" font-family="'SimSun'" font-size="16">电信用户通话记录信息</tspan>
+            <tspan x="-44" y="38.4" font-family="'SimSun'" font-size="16">移动网警用户定位系统（LBS）信息</tspan>
+        </text>
+        <text transform="matrix(1 0 0 1 454 912.7998)" *ngIf="number2">
+            <tspan x="0" y="0" font-family="'SimSun'" font-size="16">电信用户登记资料信息</tspan>
+            <tspan x="0" y="19.2" font-family="'SimSun'" font-size="16">电信用户通话记录信息</tspan>
+            <tspan x="-44" y="38.4" font-family="'SimSun'" font-size="16">移动网警用户定位系统（LBS）信息</tspan>
+        </text>
+        <text transform="matrix(1 0 0 1 459 984.5996)" *ngIf="number3">
+            <tspan x="0" y="0" font-family="'SimSun'" font-size="16">电信用户登记资料信息</tspan>
+            <tspan x="0" y="19.201" font-family="'SimSun'" font-size="16">电信用户通话记录信息</tspan>
+            <tspan x="-44" y="38.4" font-family="'SimSun'" font-size="16">移动网警用户定位系统（LBS）信息</tspan>
+        </text>
+        <text transform="matrix(1 0 0 1 459 1056.4004)" *ngIf="number4">
+            <tspan x="0" y="0" font-family="'SimSun'" font-size="16">电信用户登记资料信息</tspan>
+            <tspan x="0" y="19.199" font-family="'SimSun'" font-size="16">电信用户通话记录信息</tspan>
+            <tspan x="-44" y="38.4" font-family="'SimSun'" font-size="16">移动网警用户定位系统（LBS）信息</tspan>
+        </text>
+        <text transform="matrix(1 0 0 1 454 1128.2002)" *ngIf="number5">
+            <tspan x="0" y="0" font-family="'SimSun'" font-size="16">电信用户登记资料信息</tspan>
+            <tspan x="0" y="19.2" font-family="'SimSun'" font-size="16">电信用户通话记录信息</tspan>
+            <tspan x="-44" y="38.4" font-family="'SimSun'" font-size="16">移动网警用户定位系统（LBS）信息</tspan>
+        </text>
+        <text transform="matrix(1 0 0 1 459 1200)" *ngIf="number6">
+            <tspan x="0" y="0" font-family="'SimSun'" font-size="16">电信用户登记资料信息</tspan>
+            <tspan x="0" y="19.2" font-family="'SimSun'" font-size="16">电信用户通话记录信息</tspan>
+            <tspan x="-44" y="38.4" font-family="'SimSun'" font-size="16">移动网警用户定位系统（LBS）信息</tspan>
+        </text>
+       
+        <text transform="matrix(1 0 0 1 272 799)" font-family="'SimSun'" font-size="18">查询目标</text>
+        <text transform="matrix(1 0 0 1 480 799)" font-family="'SimSun'" font-size="18">查询数据类型</text>
+        <text transform="matrix(1 0 0 1 774.0176 799)" font-family="'SimSun'" font-size="18">查询时间范围</text>
+        <text transform="matrix(1 0 0 1 258.5 858.7695)" font-family="'SimSun'" font-size="18">{{number1}}</text>
+        <text transform="matrix(1 0 0 1 258.5 931.2939)" font-family="'SimSun'" font-size="18">{{number2}}</text>
+        <text transform="matrix(1 0 0 1 258.5 1003.8184)" font-family="'SimSun'" font-size="18">{{number3}}</text>
+        <text transform="matrix(1 0 0 1 258.5 1076.3428)" font-family="'SimSun'" font-size="18">{{number4}}</text>
+        <text transform="matrix(1 0 0 1 258.5 1148.8672)" font-family="'SimSun'" font-size="18">{{number5}}</text>
+        <text transform="matrix(1 0 0 1 258.5 1221.3916)" font-family="'SimSun'" font-size="18">{{number6}}</text>
+        <text transform="matrix(1 0 0 1 703.0586 859.7305)" font-family="'SimSun'" font-size="18" *ngIf="number1">{{duration}}</text>
+        <text transform="matrix(1 0 0 1 703.0586 931.0527)" font-family="'SimSun'" font-size="18" *ngIf="number2">{{duration}}</text>
+        <text transform="matrix(1 0 0 1 703.0586 1002.375)" font-family="'SimSun'" font-size="18" *ngIf="number3">{{duration}}</text>
+        <text transform="matrix(1 0 0 1 703.0586 1073.6973)" font-family="'SimSun'" font-size="18" *ngIf="number4">{{duration}}</text>
+        <text transform="matrix(1 0 0 1 703.0586 1145.0186)" font-family="'SimSun'" font-size="18" *ngIf="number5">{{duration}}</text>
+        <text transform="matrix(1 0 0 1 703.0586 1216.3408)" font-family="'SimSun'" font-size="18" *ngIf="number6">{{duration}}</text>
+        <text transform="matrix(1 0 0 1 447.5 1480.5)" font-family="'SimSun'" font-size="18">年　月　日</text>
+        <text transform="matrix(1 0 0 1 868 1480.5)" font-family="'SimSun'" font-size="18">年　月　日</text>
+        <text transform="matrix(1 0 0 1 197.605 1512.5156)" font-family="'SimSun'" font-size="18" glyph-orientation-vertical="0" writing-mode="tb">备注</text>
+    
         <foreignObject x=0 y=0 width="1150" height="1622">
             <xhtml:div>
-                <img *ngIf="isSeal" src="assets/seal.png" alt="" width="220px" height="220px" style=" position: absolute;left:760px;top: 1230px;" />
-                <img *ngIf="isSeal" src="assets/zyf.png" alt="" width="190px" height="190px" style=" position: absolute;left:270px;top: 1220px;"/>
-                <img *ngIf="isSeal" src="assets/ryj.png" alt="" width="190px" height="190px" style=" position: absolute;left:670px;top: 1220px;"/>
+                <img *ngIf="isSeal" src="assets/seal.png" alt="" width="220px" height="220px" style=" position: absolute;left:760px;top: 1310px;" />
+                <img *ngIf="isSeal" src="assets/signal_dui.png" alt="" width="190px" height="190px" style=" position: absolute;left:270px;top: 1300px;"/>
+                <img *ngIf="isSeal" src="assets/signal_ju.png" alt="" width="190px" height="190px" style=" position: absolute;left:670px;top: 1300px;"/>
+                
+                <img *ngIf="isSeal" [attr.src]=getYearImg(1,1) alt="" width="10px" height="20px" style=" position: absolute;left:397px;top: 1465px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(2,1) alt="" width="10px" height="20px" style=" position: absolute;left:408px;top: 1465px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(3,1) alt="" width="10px" height="20px" style=" position: absolute;left:420px;top: 1465px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(4,1) alt="" width="10px" height="20px" style=" position: absolute;left:432px;top: 1465px;"/>
+                <img *ngIf="isSeal" [attr.src]=getMonthImg(1,1) alt="" width="10px" height="20px" style=" position: absolute;left:468px;top: 1465px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_month()" [attr.src]=getMonthImg(2,1) alt="" width="10px" height="20px" style=" position: absolute;left:476px;top: 1465px;"/>
+                <img *ngIf="isSeal" [attr.src]=getDayImg(1,1) alt="" width="10px" height="20px" style=" position: absolute;left:500px;top: 1465px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,1) alt="" width="10px" height="20px" style=" position: absolute;left:510px;top: 1465px;"/>
+
+                <img *ngIf="isSeal" [attr.src]=getYearImg(1,3) alt="" width="10px" height="20px" style=" position: absolute;left:825px;top: 1465px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(2,3) alt="" width="10px" height="20px" style=" position: absolute;left:836px;top: 1465px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(3,3) alt="" width="10px" height="20px" style=" position: absolute;left:847px;top: 1465px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(4,3) alt="" width="10px" height="20px" style=" position: absolute;left:858px;top: 1465px;"/>
+                <img *ngIf="isSeal" [attr.src]=getMonthImg(1,3) alt="" width="10px" height="20px" style=" position: absolute;left:888px;top: 1465px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_month()" [attr.src]=getMonthImg(2,3) alt="" width="10px" height="20px" style=" position: absolute;left:896px;top: 1465px;"/>
+                <img *ngIf="isSeal " [attr.src]=getDayImg(1,3) alt="" width="10px" height="20px" style=" position: absolute;left:923px;top: 1465px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,3) alt="" width="10px" height="20px" style=" position: absolute;left:931px;top: 1465px;"/>
+            </xhtml:div>
+        </foreignObject>
+        <foreignObject x=240 y=350 width="720" height="410">
+            <xhtml:div style="display:flex;flex-direction:column;justify-content:center; width:100%;height:100% ">
+                <xhtml:div style="text-align: justify; font-family:SimSun; font-size:18px;text-indent:2em">案件名称：{{caseName}}</xhtml:div>
+                <xhtml:div style="text-align: justify; font-family:SimSun; font-size:18px;text-indent:2em">案件编号：{{caseNumber}}</xhtml:div>
+                <xhtml:div style="text-align: justify; font-family:SimSun; font-size:18px;text-indent:2em">{{caseContent}}</xhtml:div>
+                <xhtml:div style="padding-top:5px;text-align: justify; font-family:SimSun; font-size:18px;margin-top:2px;text-indent:2em;">{{cause}}</xhtml:div>
             </xhtml:div>
         </foreignObject>
     </svg>

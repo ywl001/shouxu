@@ -1,0 +1,157 @@
+<mat-form-field>
+    <mat-label>填表时间：</mat-label>
+    <input matInput [(ngModel)]="createDate" [matDatepicker]="picker" placeholder="不选择为当天日期">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>冻结类别：</mat-label>
+    <input matInput [matAutocomplete]="autoFreezeType" [(ngModel)]="freezeType">
+    <mat-autocomplete #autoFreezeType='matAutocomplete'>
+        <mat-option *ngFor="let item of freezeTypes" [value]=item>{{item}}</mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+
+<mat-form-field>
+    <mat-label>承办人1：</mat-label>
+    <input [(ngModel)]="requestUser1" matInput [matAutocomplete]="autoUserName">
+    <mat-autocomplete #autoUserName='matAutocomplete'>
+        <mat-option *ngFor="let item of users" [value]=item.name>{{item.name}}</mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+<mat-form-field>
+    <mat-label>承办人2：</mat-label>
+    <input [(ngModel)]="requestUser2" matInput [matAutocomplete]="autoUserName2">
+    <mat-autocomplete #autoUserName2='matAutocomplete'>
+        <mat-option *ngFor="let item of users" [value]=item.name>{{item.name}}</mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+<mat-form-field>
+    <mat-label>联系电话：</mat-label>
+    <input [(ngModel)]="userPhone" matInput  [matAutocomplete]="autoUserPhone">
+    <mat-autocomplete #autoUserPhone='matAutocomplete'>
+        <mat-option *ngFor="let item of users" [value]=item.phoneNumber>{{item.phoneNumber}}</mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+
+<mat-form-field style="width: 100%;">
+    <mat-label>法律文书编号：</mat-label>
+    <input matInput [(ngModel)]="docNumber" [matAutocomplete] = "autoDocNumber" placeholder="直接选择冻结通知书编号">
+    <mat-autocomplete #autoDocNumber='matAutocomplete'>
+        <mat-option *ngFor="let item of freezeInfo" [value] = getDocNumbers(item.docNumber) >{{item.freezeName}}：{{item.docNumber}}</mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+
+<mat-form-field style="width: 100%;">
+    <mat-label>冻结账号：</mat-label>
+    <input matInput [(ngModel)]="freezeNumber" [matAutocomplete] = autoFreezeNumbers placeholder="直接选择冻结通知书中的账号">
+    <mat-autocomplete #autoFreezeNumbers='matAutocomplete'>
+        <mat-option *ngFor="let item of freezeInfo" [value] = getFreezeNumbers(item.freezeNumber) >{{item.freezeName}}:{{item.freezeNumber}}</mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+
+
+<div id="print" class="print" [style.display]=isShowPrint>
+    <svg id="svg" xmlns="http://www.w3.org/2000/svg" width="1150px" height="1620px">
+        <text transform="matrix(1.0037 0 0 1 127.3762 284.8018)" font-family="'SimHei'" font-size="42.6234">公安部电信诈骗案件侦办平台呈请冻结审批表</text>
+        <text transform="matrix(1.0037 0 0 1 80.7039 143.6191)" font-family="'FangSong_GB2312'" font-size="30.9988">附件</text>
+        <text transform="matrix(1.0037 0 0 1 142.9314 146.2764)" font-family="'SimSun'" font-size="30.9988">2：</text>
+        <text transform="matrix(1.0037 0 0 1 856.6272 181.1494)" font-family="'SimHei'" font-size="30.9988">(正反面打印)</text>
+        <rect x="70.981" y="341.956" fill="none" stroke="#000000" stroke-miterlimit="10" width="989.837" height="1160.52" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="70.981" y1="414.609" x2="1060.818" y2="414.609" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="70.981" y1="489.2" x2="1060.818" y2="489.2" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="70.981" y1="560.885" x2="1060.818" y2="560.885" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="70.981" y1="632.57" x2="1060.818" y2="632.57" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="70.981" y1="743.003" x2="1060.818" y2="743.003" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="70.981" y1="809.738" x2="1060.818" y2="809.738" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="597.014" y1="743.003" x2="597.014" y2="809.738" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="723.418" y1="743.003" x2="723.418" y2="809.738" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="70.981" y1="1026.836" x2="1060.818" y2="1026.836" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="70.981" y1="1275.795" x2="1060.818" y2="1275.795" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="143.906" y1="809.738" x2="143.906" y2="1502.475" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="549.369" y1="1026.836" x2="549.369" y2="1275.795" />
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="607.71" y1="1026.836" x2="607.71" y2="1275.795" />
+        <text transform="matrix(1.0037 0 0 1 91.8884 335.4551)" font-family="'FangSong_GB2312'" font-size="23.2491">填表单位:</text>
+        <text transform="matrix(1.0037 0 0 1 231.4163 335.4551)" font-family="'FangSong_GB2312'" font-size="23.2491">{{unit}}</text>
+        <text transform="matrix(1.0037 0 0 1 641.2551 335.4561)" font-family="'FangSong_GB2312'" font-size="23.2491">填表日期：</text>
+        <text transform="matrix(1.0037 0 0 1 780.7854 335.4551)" font-family="'FangSong_GB2312'" font-size="23.2491">{{createDate_china}}</text>
+        <text transform="matrix(1.0037 0 0 1 110 384.0947)" font-family="'FangSong_GB2312'" font-size="23.2491">案件名称</text>
+        <text transform="matrix(1.0037 0 0 1 110 454.3271)" font-family="'FangSong_GB2312'" font-size="23.2491">案件名称</text>
+        <text transform="matrix(1.0037 0 0 1 110 535)" font-family="'FangSong_GB2312'" font-size="23.2491">法律文书号</text>
+        <text transform="matrix(1.0037 0 0 1 110 601.5713)" font-family="'FangSong_GB2312'" font-size="23.2491">冻结类别</text>
+        <text transform="matrix(1.0037 0 0 1 110 700)" font-family="'FangSong_GB2312'" font-size="23.2491">冻结账号</text>
+        <text transform="matrix(1.0037 0 0 1 110 784.1738)" font-family="'FangSong_GB2312'" font-size="23.2491">承办人</text>
+        <text transform="matrix(1.0037 0 0 1 276.1438 384.0947)" font-family="'FangSong_GB2312'" font-size="23.2491">{{caseName}}</text>
+        <text transform="matrix(1.0037 0 0 1 271.7683 461.5928)" font-family="'FangSong_GB2312'" font-size="27.124">{{caseNumber}}</text>
+        <text transform="matrix(1.0037 0 0 1 271.7678 532.793)" font-family="'FangSong_GB2312'" font-size="27.124">{{docNumber}}</text>
+        <text transform="matrix(1.0037 0 0 1 271.7683 605.4463)" font-family="'FangSong_GB2312'" font-size="27.124">{{freezeType}}</text>
+        <text transform="matrix(1 0 0 0.9963 106.9578 867.4834)" font-family="'FangSong_GB2312'" font-size="23.336" glyph-orientation-vertical="0" writing-mode="tb">基本案情</text>
+        <text transform="matrix(1 0 0 0.9963 106.9573 1099.0068)" font-family="'FangSong_GB2312'" font-size="23.336" glyph-orientation-vertical="0" writing-mode="tb">申请人签字</text>
+        <text transform="matrix(1 0 0 0.9963 106.9573 1324.7178)" font-family="'FangSong_GB2312'" font-size="23.336" glyph-orientation-vertical="0" writing-mode="tb">分管领导签字</text>
+        <text transform="matrix(1.0037 0 0 1 732.6545 1420)" font-family="'FangSong_GB2312'" font-size="29.0614">签名</text>
+        <text transform="matrix(1.0037 0 0 1 746.2678 1177.4717)" font-family="'FangSong_GB2312'" font-size="29.0614">签名</text>
+        <text transform="matrix(1.0037 0 0 1 254.0051 1177.4717)" font-family="'FangSong_GB2312'" font-size="29.0614">签名</text>
+        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="260.586" y1="341.956" x2="260.586" y2="809.738" />
+        <text transform="matrix(1.0037 0 0 1 275.6575 787.5313)" font-family="'FangSong_GB2312'" font-size="25.1866">{{requestUser}}</text>
+        <text transform="matrix(1.0037 0 0 1 605.7659 785.1426)" font-family="'FangSong_GB2312'" font-size="25.1866">联系电话</text>
+        <text transform="matrix(1.0037 0 0 1 751.8928 788.2412)" font-family="'FangSong_GB2312'" font-size="25.1866">{{userPhone}}</text>
+        <!-- <text transform="matrix(1.0037 0 0 1 271.7678 669.3818)" font-family="'FangSong_GB2312'" font-size="23.2491">{{freezeNumber}}</text> -->
+        <foreignObject x=275 y=650 width="750" height="80">
+            <xhtml:div style="width:100%; height:100%; display:flex; align-items:center;text-align: justify; font-family:SimSun; font-size:24px;">{{freezeNumber}}</xhtml:div>
+        </foreignObject>
+        <text transform="matrix(1 0 0 0.9963 576.8674 1049.8174)" font-family="'FangSong_GB2312'" font-size="23.336" glyph-orientation-vertical="0" writing-mode="tb">刑侦部门负责人意见</text>
+        <rect x="165.611" y="828.525" fill="none" width="871.843" height="170.359" />
+        <foreignObject x=180 y=820 width="840" height="190">
+            <xhtml:div style="width:100%; height:100%; display:flex; align-items:center;text-align: justify; font-family:SimSun; font-size:18px;text-indent:2em;">{{caseContent}}</xhtml:div>
+        </foreignObject>
+        <text transform="matrix(1 0 0 1 304.5002 1235.7197)" font-family="'FangSong_GB2312'" font-size="24">年</text>
+        <text transform="matrix(1 0 0 1 393.5002 1235.7197)" font-family="'FangSong_GB2312'" font-size="24">月</text>
+        <text transform="matrix(1 0 0 1 480.5002 1235.7197)" font-family="'FangSong_GB2312'" font-size="24">日</text>
+        <text transform="matrix(1 0 0 1 812.6458 1236.6885)" font-family="'FangSong_GB2312'" font-size="24">年</text>
+        <text transform="matrix(1 0 0 1 901.6458 1236.6885)" font-family="'FangSong_GB2312'" font-size="24">月</text>
+        <text transform="matrix(1 0 0 1 988.6458 1236.6885)" font-family="'FangSong_GB2312'" font-size="24">日</text>
+        <text transform="matrix(1 0 0 1 812.6458 1460)" font-family="'FangSong_GB2312'" font-size="24">年</text>
+        <text transform="matrix(1 0 0 1 901.6458 1460)" font-family="'FangSong_GB2312'" font-size="24">月</text>
+        <text transform="matrix(1 0 0 1 988.6458 1460)" font-family="'FangSong_GB2312'" font-size="24">日</text>
+
+        <foreignObject x=0 y=0 width="1150" height="1622">
+            <xhtml:div>
+                <img *ngIf="isSeal" src="assets/seal.png" alt="" width="220px" height="220px" style=" position: absolute;left:760px;top: 1300px;" />
+                <img *ngIf="isSeal" [attr.src]=signal_minjing (error) = onImageError($event) alt="" width="140px" height="85px" style=" position: absolute;left:315px;top: 1110px;"/>
+                <img *ngIf="isSeal" src="assets/jianyidongjie.png" alt="" width="180px" height="139px" style=" position: absolute;left:750px;top: 1080px;"/>
+                <img *ngIf="isSeal" src="assets/signal_ju.png" alt="" width="190px" height="190px" style=" position: absolute;left:750px;top: 1280px;"/>
+
+                <img *ngIf="isSeal" [attr.src]=getYearImg(1,1) alt="" width="13px" height="26px" style=" position: absolute;left:250px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(2,1) alt="" width="13px" height="26px" style=" position: absolute;left:262px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(3,1) alt="" width="13px" height="26px" style=" position: absolute;left:274px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(4,1) alt="" width="13px" height="26px" style=" position: absolute;left:286px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getMonthImg(1,1) alt="" width="13px" height="26px" style=" position: absolute;left:360px;top: 1215px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_month()" [attr.src]=getMonthImg(2,1) alt="" width="13px" height="26px" style=" position: absolute;left:372px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getDayImg(1,1) alt="" width="13px" height="26px" style=" position: absolute;left:445px;top: 1215px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,1) alt="" width="13px" height="26px" style=" position: absolute;left:457px;top: 1215px;"/>
+
+                <img *ngIf="isSeal" [attr.src]=getYearImg(1,2) alt="" width="13px" height="26px" style=" position: absolute;left:760px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(2,2) alt="" width="13px" height="26px" style=" position: absolute;left:772px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(3,2) alt="" width="13px" height="26px" style=" position: absolute;left:785px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(4,2) alt="" width="13px" height="26px" style=" position: absolute;left:797px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getMonthImg(1,2) alt="" width="13px" height="26px" style=" position: absolute;left:870px;top: 1215px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_month()" [attr.src]=getMonthImg(2,2) alt="" width="13px" height="26px" style=" position: absolute;left:882px;top: 1215px;"/>
+                <img *ngIf="isSeal" [attr.src]=getDayImg(1,2) alt="" width="13px" height="26px" style=" position: absolute;left:960px;top: 1215px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,2) alt="" width="13px" height="26px" style=" position: absolute;left:972px;top: 1215px;"/>
+
+                <img *ngIf="isSeal" [attr.src]=getYearImg(1,3) alt="" width="13px" height="26px" style=" position: absolute;left:760px;top: 1440px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(2,3) alt="" width="13px" height="26px" style=" position: absolute;left:772px;top: 1440px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(3,3) alt="" width="13px" height="26px" style=" position: absolute;left:785px;top: 1440px;"/>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(4,3) alt="" width="13px" height="26px" style=" position: absolute;left:797px;top: 1440px;"/>
+                <img *ngIf="isSeal" [attr.src]=getMonthImg(1,3) alt="" width="13px" height="26px" style=" position: absolute;left:870px;top: 1440px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_month()" [attr.src]=getMonthImg(2,3) alt="" width="13px" height="26px" style=" position: absolute;left:882px;top: 1440px;"/>
+                <img *ngIf="isSeal" [attr.src]=getDayImg(1,3) alt="" width="13px" height="26px" style=" position: absolute;left:960px;top: 1440px;"/>
+                <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,3) alt="" width="13px" height="26px" style=" position: absolute;left:972px;top: 1440px;"/>
+
+            </xhtml:div>
+        </foreignObject>
+    </svg>
+</div>
+
+<button #btnPrint ngxPrint printSectionId='print' style="display: none;">print</button>

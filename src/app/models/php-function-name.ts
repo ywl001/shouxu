@@ -8,4 +8,5 @@ export class PhpFunctionName {
     static DEL_RECORD_BY_ACCOUNT = 'delRecordByAccount';
     static SELECT_RECORDS = 'selectRecords';
     static SELECT_LAST_DOCUMENT_NUMBER = "selectLastDocNumber"
+    static GET_SELECT_RESULT = "getSelectResult"
 }

@@ -1130,8 +1130,34 @@
         }
 
     ],
-    "user": ["姚伟立", "牛萌萌"],
-    "phoneNumber": ["15838811277", "16637939916"],
+    "freezeType":["银行卡冻结","第三方冻结"],
+    "moneyType":["人民币","美元"],
+    "freezeMoneys":["全额冻结"],
+    "unit":"洛阳市吉利区公安局",
+    "unit_1":"吉公",
+    "user":[
+        {
+            "name":"姚伟立",
+            "phoneNumber":"15838811277",
+            "email":"191957179@qq.com"
+        },
+        {
+            "name":"张延峰",
+            "phoneNumber":"13838850777",
+            "email":"971189551@qq.com"
+        },
+        {
+            "name":"牛萌萌",
+            "phoneNumber":"16637939916",
+            "email":"971189551@qq.com"
+        },
+        {
+            "name":"蒋勉丽",
+            "phoneNumber":"13938860695",
+            "email":"971189551@qq.com"
+        }
+
+    ],
     "dateSelect": [{
             "label": "主题信息",
             "value": 4

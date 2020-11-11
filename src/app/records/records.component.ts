@@ -55,7 +55,6 @@ export class RecordsComponent {
   }
 
   onClickCase(lawCase) {
-    console.log(lawCase)
     this.clickCase.emit(lawCase)
     // 获取itemList
     this.itemList = this.data.filter(item => {

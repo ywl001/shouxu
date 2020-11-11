@@ -1,15 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter, AfterViewInit, ComponentFactoryResolver } from '@angular/core';
-import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MatDialog } from '@angular/material';
 import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import * as moment from 'moment';
 import { SQLService } from '../services/sql.service';
 import * as toastr from 'toastr'
 
-import domtoimage from 'dom-to-image';
-import * as download from 'downloadjs'
 import { Shouxu } from '../models/shouxu';
 import { PhpFunctionName } from '../models/php-function-name';
-
+import { ChangeDetectorRef } from '@angular/core';
+import { State } from '../state';
 
 @Component({
   selector: 'app-dzgj',
@@ -23,18 +22,35 @@ import { PhpFunctionName } from '../models/php-function-name';
 })
 export class DzgjComponent extends Shouxu {
 
-  //和html绑定的变量
-
+  /////////////////////////////////////////////////////////和html绑定的变量/////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //是否手动设置起止日期
   isManual: boolean;
   startDate: any;
   endDate: any;
 
-  // 填表人和电话
-  requestUser: string;
+  // 填表人
+  private _requestUser: string;
+  public get requestUser(): string {
+    return this._requestUser;
+  }
+
+  public set requestUser(value: string) {
+    this._requestUser = value;
+    let user = this.getUser(value);
+    if (user) {
+      this.userPhone = user.phoneNumber;
+      this.feedbackWay = user.email;
+    }
+  }
+  //联系电话
   userPhone: string;
+  //反馈方式
+  feedbackWay: string;
   //查询说明
   cause: string;
+  //文书编号
+  docNumber: string;
   // 六个号码
   number1: string;
   number2: string;
@@ -43,68 +59,7 @@ export class DzgjComponent extends Shouxu {
   number5: string;
   number6: string;
 
-  //从主界面输入的案件属性
-  @Input() isSeal: boolean
-  @Input() users: Array<string>;
-  @Input() phones: Array<string>;
-
-  //隐藏的打印按钮,因为只有该按钮click才能打印,没有找到代码控制打印
-  @ViewChild('btnPrint', { static: false })
-  btnPrint: ElementRef
-
-  constructor(private sql: SQLService, private resolver: ComponentFactoryResolver) {
-    super();
-    console.log('dzgj constructor');
-    this.saveComplete = new EventEmitter()
-  }
-
-  private _data: any;
-  set data(value) {
-    console.log('dzgj set data')
-    if (value && this._data != value) {
-      this._data = value;
-      this.clear()
-      this.createDate = moment(value.createDate);
-      this.requestUser = value.requestUser;
-      this.userPhone = value.userPhone;
-      this.cause = value.cause;
-      this.phoneNumbers = value.phoneNumber;
-      if (value.startDate && value.endDate) {
-        this.isManual = true;
-        this.startDate = moment(value.startDate)
-        this.endDate = moment(value.endDate)
-      }
-      this.caseNumber = value.caseNumber;
-      this.caseName = value.caseName;
-      this.caseContent = value.caseContent;
-    }
-  }
-
-  get data() {
-    return this._data;
-  }
-
-  get createDate_str() {
-    if (!this.createDate)
-      return ''
-    return this.createDate.format('YYYY年MM月DD日')
-  }
-
-  private set phoneNumbers(phoneNumber) {
-    if (phoneNumber) {
-      let numbers = phoneNumber.split('|')
-      for (let i = 0; i < numbers.length; i++) {
-        eval("this.number" + (i + 1) + "= numbers[i]")
-      }
-    }
-  }
-
-  //------------------提交数据库的电子轨迹查询信息--------------------------------
-  //--------------------------------------------------------------------------
-
-  /**
-   * 查询时间段,表中填写
-   */
+  //查询时间段,表中填写
   get duration() {
     if (this.isManual) {
       if (this.startDate && this.endDate) {
@@ -122,65 +77,63 @@ export class DzgjComponent extends Shouxu {
     return ""
   }
 
-  isShowPrint = 'none'
-  toImage() {
-    if (!this.createDate) this.createDate = moment()
-    this.isShowPrint = 'block'
-    setTimeout(() => {
-      domtoimage.toPng(document.getElementById('print'), { bgcolor: 'white' })
-        .then(dataUrl => {
-          download(dataUrl, `${this.number1}.jpg`);
-          this.isShowPrint = 'none'
-        });
-    }, 0.5);
+  //号码个数的大写
+  get upCount() {
+    let count = this.phoneNumbers.split('|').length;
+    let arr = new Array("零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖");
+    return arr[count];
   }
 
-  clear() {
-    this.requestUser = this.userPhone = this.cause = '';
-    this.number1 = this.number2 = this.number3 = this.number4 = this.number5 = this.number6 = '';
-    this.startDate = this.endDate = this.createDate = null;
-    this.isManual = false;
+  //////////////////////////////////////////////构造方法////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  constructor(
+    private sql: SQLService,
+    public dialog: MatDialog) {
+    super();
+    console.log('dzgj constructor');
   }
 
-  print() {
-    if (!this.createDate) this.createDate = moment()
-    this.btnPrint.nativeElement.click()
+  ngOnInit() {
+    this.getDocNumber();
   }
 
-  save(lawCaseID) {
-    console.log('save 电子轨迹')
-    if (!this.validate())
-      return;
-    let tableData = this.getSqlData();
-    tableData['caseID'] = lawCaseID;
-    let data = {
-      tableName: 'dzgj',
-      tableData: tableData
+  ////////////////////////////////////////复写基类中的方法////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  set data(value) {
+    console.log('dzgj set data')
+    if (value) {
+      this.createDate = moment(value.createDate);
+      this.requestUser = value.requestUser;
+      this.userPhone = value.userPhone;
+      this.cause = value.cause;
+      this.phoneNumbers = value.phoneNumber;
+      if (value.startDate && value.endDate) {
+        this.isManual = true;
+        this.startDate = moment(value.startDate)
+        this.endDate = moment(value.endDate)
+      }
+      this.caseNumber = value.caseNumber;
+      this.caseName = value.caseName;
+      this.caseContent = value.caseContent;
+      this.docNumber = value.docNumber;
+      console.log(this.docNumber)
     }
-
-    this.sql.exec(PhpFunctionName.INSERT, data)
-      .subscribe(
-        res => {
-          if (res > 0) {
-            this.saveComplete.emit();
-            this.clear();
-            toastr.success('手续数据保存成功')
-          }
-        }
-      )
   }
 
-  private validate() {
-    if(!this.lawCaseID){
+  private set phoneNumbers(phoneNumber) {
+    if (phoneNumber) {
+      let numbers = phoneNumber.split('|')
+      for (let i = 0; i < numbers.length; i++) {
+        eval("this.number" + (i + 1) + "= numbers[i]")
+      }
+    }
+  }
+
+  //提交数据库前的验证
+  validate() {
+    if (!this.lawCaseID) {
       toastr.warning('请选择一个案件，没有请先添加案件');
-      return false;
-    }
-    if (!this.caseNumber || this.caseNumber.trim() == '') {
-      toastr.warning('案件编号没有填写')
-      return false;
-    }
-    if (!this.caseName || this.caseName.trim() == '') {
-      toastr.warning('案件名称没有填写')
       return false;
     }
     if (this.phoneNumbers.trim() == '') {
@@ -190,21 +143,47 @@ export class DzgjComponent extends Shouxu {
     return true;
   }
 
-  private getSqlData() {
-    if (!this.createDate) this.createDate = moment()
+  //获取提交的数据
+  getTableData(lawcaseID) {
+    console.log('get table data')
     let createDate = this.createDate.format('YYYY/MM/DD')
     let endDate = this.endDate ? this.endDate.format('YYYY/MM/DD') : createDate;
-    return {
+    let tableData = {
+      caseID: lawcaseID,
       createDate: createDate,
       cause: this.cause,
       phoneNumber: this.phoneNumbers,
       requestUser: this.requestUser ? this.requestUser : '姚伟立',
       userPhone: this.userPhone ? this.userPhone : '15838811277',
       startDate: this.getStartDate(),
-      endDate: endDate
+      endDate: endDate,
+      docNumber: this.docNumber,
+      feedbackWay: this.feedbackWay
     }
+    return tableData;
   }
 
+  getSqlInstance() {
+    return this.sql;
+  }
+
+  getDialogInstance() {
+    return this.dialog;
+  }
+
+  getSaveFileName() {
+    return '电子轨迹审批表'
+  }
+
+  clear() {
+    this.requestUser = this.userPhone = this.cause = this.feedbackWay = '';
+    this.number1 = this.number2 = this.number3 = this.number4 = this.number5 = this.number6 = '';
+    this.startDate = this.endDate = this.createDate = null;
+    this.isManual = false;
+    this.getDocNumber();
+  }
+
+  //////////////////////////////////////////其他方法//////////////////////////////////////////////////////
   // 获取起始时间,提交数据库,手动填写和自动生成的判断
   private getStartDate() {
     if (this.startDate && this.endDate) {
@@ -215,7 +194,7 @@ export class DzgjComponent extends Shouxu {
   }
 
   /**
- * 获取号码列表和号码组成的字符串
+ * 获取号码列表和号码组成的字符串 13939999999|13838888888
  */
   private get phoneNumbers() {
     let strNumbers = ''
@@ -229,9 +208,30 @@ export class DzgjComponent extends Shouxu {
     return strNumbers.substr(0, strNumbers.length - 1)
   }
 
-  get upCount() {
-    let count = this.phoneNumbers.split('|').length;
-    let arr = new Array("零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖");
-    return arr[count];
+  //获取新建文书的编号
+  private getDocNumber() {
+    this.sql.exec(PhpFunctionName.SELECT_LAST_DOCUMENT_NUMBER, State.dzgj.value).subscribe(
+      res => {
+        if (res.length == 0) {
+          this.docNumber = moment().get('year') + '-1'
+        } else {
+          let lastDocNumber = res[0]['docNumber']
+          let arr = lastDocNumber.split('-');
+          let year = arr[0];
+          let xuhao = (year == moment().get('year') + '') ? (parseInt(arr[1]) + 1) + '' : 1 + ''
+          this.docNumber = moment().get('year') + '-' + xuhao;
+        }
+      }
+    )
+  }
+
+  //获取当前填表人信息
+  private getUser(userName) {
+    for (let i = 0; i < this.users.length; i++) {
+      const user = this.users[i];
+      if (user.name == userName)
+        return user
+    }
+    return null
   }
 }

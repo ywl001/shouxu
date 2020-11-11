@@ -1,4 +1,5 @@
 <div class="root">
+    <!-- 左侧案件信息栏 -->
     <div class="left" ngResizable [rzHandles]="'e'">
         <div class="left_top">
             <button id=btnAddCase mat-raised-button color="primary" (click)=onAddCase()>添加案件</button>
@@ -12,8 +13,8 @@
                 <input [value]="filterCase" [formControl]="caseControl" matInput placeholder="过滤。。。">
             </mat-form-field>
         </div>
-
     </div>
+    <!-- 右侧手续填写和各种按钮 -->
     <div class="right">
         <div class="right_top">
             <mat-radio-group class="radio-group" [value]=state (change)=onStateChange($event)>
@@ -31,6 +32,7 @@
             <button mat-raised-button color='primary' (click)=onSave()>保存</button>
             <button mat-raised-button color='accent' (click)='onPrint()'>打印</button>
             <button mat-raised-button color='accent' (click)='onToImage()'>存图</button>
+            <button mat-raised-button color='accent' (click)='onPreview()'>预览</button>
             <mat-checkbox [(ngModel)]="isSeal">印章</mat-checkbox>
         </div>
     </div>

@@ -8,16 +8,39 @@
 
         <ng-template matExpansionPanelContent>
             <div *ngIf="state.label=='电子轨迹'">
-                <div class="dzgjItem" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();"> <span class= 'phoneTxt'>
-                    {{item.desc}} </span>
-                    <span class="createDate">{{item.createDate}}</span>
+                <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
+                    <div>
+                        <div class= 'item_txt'>{{item.desc}} </div>
+                        <div class="createDate">{{item.createDate}}</div>
+                    </div>
                     <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
                 </div>
             </div>
 
-            <div *ngIf="state.label=='调取证据'">
-                <div class="dzgjItem" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
-                    <span class= 'phoneTxt'>{{item.evidenceContent}} </span>
+            <div *ngIf="state.label=='调证通知书'">
+                <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
+                    <div class= 'item_txt'>{{item.evidenceContent}} </div>
+                    <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
+                </div>
+            </div>
+
+            <div *ngIf="state.label=='查询审批'">
+                <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
+                    <div class= 'item_txt'>{{item.needs}} </div>
+                    <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
+                </div>
+            </div>
+
+            <div *ngIf="state.label=='冻结审批表'">
+                <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
+                    <div class= 'item_txt'>{{item.freezeNumber}} </div>
+                    <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
+                </div>
+            </div>
+
+            <div *ngIf="state.label=='冻结通知书'">
+                <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
+                    <div class= 'item_txt'>{{item.freezeName}}：{{item.freezeNumber}} </div>
                     <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
                 </div>
             </div>

@@ -14,6 +14,9 @@ import { MatDialog } from '@angular/material';
 import { AddCaseComponent } from './add-case/add-case.component';
 import { PhpFunctionName } from './models/php-function-name';
 import { MessageService } from './services/message.service';
+import { DjspComponent } from './djsp/djsp.component';
+import { CxspComponent } from './cxsp/cxsp.component';
+import { DjtzsComponent } from './djtzs/djtzs.component';
 
 @Component({
   selector: 'app-root',
@@ -25,43 +28,68 @@ export class AppComponent {
 
   // ---------------------------------------html直接绑定----------------------------------
   state: any;
-  states: Array<any> = [State.dzgj, State.dqzj];
-
+  states: Array<any> = [State.dzgj, State.dqzj, State.djtzs, State.djsp, State.cxsp];
+  // 案件信息
   caseName: string;
   caseNumber: string;
   caseContent: string;
-
   lawCaseID: string;
 
+  //绑定印章复选框
+  private _isSeal = true;
+  public get isSeal() {
+    return this._isSeal;
+  }
+  public set isSeal(value) {
+    this._isSeal = value;
+    this.shouxu.isSeal = value;
+  }
 
   private _lawcases: Array<any>;
 
+  ////////////////////////////////////////////////配置文件获取的信息////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  //银行列表
+  private companys: Array<string>;
+  //填表人列表
+  private users: Array<string>;
+  //钱的类型
+  private moneyTypes: any;
+  // 调取证据时，日期选择的列表
+  private dateSelectList: Array<any>
+  // 冻结的类型
+  private freezeTypes: Array<string>;
+  // 仅仅是全额冻结
+  private freezeMoneys: Array<string>;
+  //单位名称
+  private unit: string;
+  //单位名称简写
+  private unit_1: string;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  companys: Array<string>;
-  users: Array<string>;;
-  phoneNumbers: Array<string>;
-  dateSelectList:Array<any>
 
   @ViewChild('shouxuContainer', { static: false, read: ViewContainerRef }) shouxuContainer: ViewContainerRef;
   shouxu: Shouxu;
 
-  filterCase:string = ''
+  filterCase: string = ''
   filterCase$: Observable<any>;
   caseControl = new FormControl();
+
   constructor(
     private sql: SQLService,
     private http: HttpClient,
-    private resolver: ComponentFactoryResolver, 
-    private message:MessageService,
-    private dialog:MatDialog) {
-  }
+    private resolver: ComponentFactoryResolver,
+    private message: MessageService,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.state = State.dzgj;
+    State.currentState = State.dzgj;
     this.getConfigData()
-    this.getData();
+    this.getCaseData();
     this.message.refresh$.subscribe(
-      res=>{this.getData()}
+      res => { this.getCaseData() }
     )
   }
 
@@ -69,21 +97,34 @@ export class AppComponent {
   private createComponent(state) {
     this.shouxuContainer.clear();
     if (this.state == State.dzgj) {
-      let factory = this.resolver.resolveComponentFactory(DzgjComponent)
-      let componentRef = this.shouxuContainer.createComponent(factory);
-      this.shouxu = <DzgjComponent>componentRef.instance;
-      this.shouxu.isSeal = this.isSeal;
-      (<DzgjComponent>this.shouxu).users = this.users;
-      (<DzgjComponent>this.shouxu).phones = this.phoneNumbers;
+      this.shouxu = this.getShouxuInstance(DzgjComponent);
     } else if (this.state == State.dqzj) {
-      let factory = this.resolver.resolveComponentFactory(DqzjComponent)
-      let componentRef = this.shouxuContainer.createComponent(factory);
-      this.shouxu = <DqzjComponent>componentRef.instance;
-      this.shouxu.isSeal = this.isSeal;
+      this.shouxu = this.getShouxuInstance(DqzjComponent);
       (<DqzjComponent>this.shouxu).companys = this.companys;
       (<DqzjComponent>this.shouxu).dateSelectList = this.dateSelectList;
+    } else if (this.state == State.djsp) {
+      this.shouxu = this.getShouxuInstance(DjspComponent);
+      (<DjspComponent>this.shouxu).freezeTypes = this.freezeTypes;
+    } else if (this.state == State.cxsp) {
+      this.shouxu = this.getShouxuInstance(CxspComponent);
+    } else if (this.state == State.djtzs) {
+      this.shouxu = this.getShouxuInstance(DjtzsComponent);
+      (<DjtzsComponent>this.shouxu).moneyTypes = this.moneyTypes;
+      (<DjtzsComponent>this.shouxu).companys = this.companys;
+      (<DjtzsComponent>this.shouxu).freezeMoneys = this.freezeMoneys;
     }
-    this.shouxu.saveComplete.subscribe(res => {this.getData() })
+    this.shouxu.users = this.users;
+    this.shouxu.isSeal = this.isSeal;
+    this.shouxu.unit = this.unit;
+    this.shouxu.unit_1 = this.unit_1
+    this.shouxu.saveComplete.subscribe(res => { this.getCaseData() })
+  }
+
+  //获取各种手续的实例
+  private getShouxuInstance(className) {
+    let factory = this.resolver.resolveComponentFactory(className)
+    let componentRef = this.shouxuContainer.createComponent(factory);
+    return <DqzjComponent>componentRef.instance;
   }
 
   /**获取配置数据 */
@@ -93,8 +134,12 @@ export class AppComponent {
         console.log(res)
         this.companys = res['company'];
         this.users = res['user'];
-        this.phoneNumbers = res['phoneNumber'];
-        this.dateSelectList = res['dateSelect']
+        this.dateSelectList = res['dateSelect'];
+        this.freezeTypes = res['freezeType'];
+        this.moneyTypes = res['moneyType'];
+        this.freezeMoneys = res['freezeMoneys'];
+        this.unit = res['unit'];
+        this.unit_1 = res['unit_1']
         this.createComponent(this.state)
       })
   }
@@ -102,24 +147,25 @@ export class AppComponent {
   /**手续类型选择 */
   onStateChange(e) {
     this.state = e.value;
-    this.getData()
-    this.isSeal = true;
+    State.currentState = e.value;
+    console.log(State.currentState)
+    this.getCaseData()
     this.createComponent(e.value);
     this.clear()
   }
 
-  /**获取数据 */
-  getData() {
+  /**获取案件数据 */
+  getCaseData() {
     let data = {
-      isShouxu:this.isShouxu,
-      tableName:this.state.value
+      isShouxu: this.isShouxu,
+      tableName: this.state.value
     }
-    this.sql.exec(PhpFunctionName.SELECT_RECORDS,data).subscribe(res=>{
+    this.sql.exec(PhpFunctionName.SELECT_RECORDS, data).subscribe(res => {
       this.lawCases = res;
     })
   }
 
-  set lawCases(value){
+  set lawCases(value) {
     this._lawcases = value;
     this.filterCase$ = this.caseControl.valueChanges.pipe(
       startWith(''),
@@ -128,14 +174,14 @@ export class AppComponent {
   }
 
   filter(val: string): string[] {
-    if(val=='') return this._lawcases;
+    if (val == '') return this._lawcases;
     return this._lawcases.filter(item => {
       console.log(item.caseName)
       return item['caseName'].indexOf(val) >= 0
     })
   }
 
-  get lawCase(){
+  get lawCase() {
     return this._lawcases;
   }
 
@@ -147,22 +193,11 @@ export class AppComponent {
 
   set isShouxu(value) {
     this._isShouxu = value;
-    this.getData();
+    this.getCaseData();
   }
 
-  /**绑定checkbox印章 */
-  private _isSeal: boolean;
-  get isSeal() {
-    return this._isSeal;
-  }
-
-  set isSeal(value) {
-    this._isSeal = value;
-    this.shouxu.isSeal = this.isSeal;
-  }
-
-  onAddCase(){
-    const dialogRef = this.dialog.open(AddCaseComponent,{disableClose:false});
+  onAddCase() {
+    const dialogRef = this.dialog.open(AddCaseComponent, { disableClose: false });
   }
 
   // 列表点击,显示案件信息
@@ -180,7 +215,7 @@ export class AppComponent {
     this.shouxu.caseContent = caseData.caseContent;
   }
 
-  clear(){
+  clear() {
     this.caseName = this.caseNumber = this.caseContent = this.lawCaseID = null;
   }
 
@@ -190,6 +225,8 @@ export class AppComponent {
     this.shouxu.data = itemData;
   }
 
+  /////////////////////////////////////////按钮click事件/////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////
   onPrint() {
     this.shouxu.print()
   }
@@ -201,6 +238,10 @@ export class AppComponent {
 
   onToImage() {
     this.shouxu.toImage()
+  }
+
+  onPreview() {
+    this.shouxu.preview()
   }
 
 }
