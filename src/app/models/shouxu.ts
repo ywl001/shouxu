@@ -6,6 +6,7 @@ import { PreviewComponent } from '../preview/preview.component';
 import { PhpFunctionName } from './php-function-name';
 import * as toastr from 'toastr'
 import { State } from '../state';
+import { first } from 'rxjs/operators';
 
 export abstract class Shouxu {
 
@@ -34,6 +35,14 @@ export abstract class Shouxu {
   caseNumber: string;
   caseContent: string;
   lawCaseID: string;
+
+  public set caseData(value) {
+    console.log('parent set caseData')
+    this.lawCaseID = value.lawCaseID;
+    this.caseName = value.caseName;
+    this.caseNumber = value.caseNumber;
+    this.caseContent = value.caseContent;
+  }
 
   //隐藏原始表格的style->display
   isShowPrint: string = 'none';
@@ -64,6 +73,21 @@ export abstract class Shouxu {
 
   //子类提供保存的文件名字
   abstract getSaveFileName();
+
+  //设置不选择案件就无法进行
+  public get rootStyle() {
+    // return this.lawCaseID ? :
+    if (this.lawCaseID) {
+      toastr.remove()
+      return { opacity: 1, pointerEvents: 'all' }
+    }
+    else {
+      toastr.options.preventDuplicates = true;
+      toastr.warning('请先选择案件')
+      return { opacity: 0.4, pointerEvents: 'none' }
+    }
+  }
+
 
   //保存图片
   toImage() {
@@ -187,21 +211,42 @@ export abstract class Shouxu {
       s.push(cn[YY.charAt(i)]);
     }
     s.push("年");
+
     let MM = moment.month() + 1;
     if (MM < 10)
       s.push(cn[MM]);
-    else if (MM < 20)
-      s.push("十" + cn[MM % 10]);
-    s.push("月");
+    else {
+      let first = Math.floor(MM / 10);
+      let second = MM % 10;
+      if (first == 1)
+        s.push("十")
+      else {
+        s.push(cn[first] + '十')
+      }
+      if(second != 0)
+        s.push(cn[second])
+    }
+    s.push('月');
 
-    var DD = moment.date();
-    if (DD < 10)
-      s.push(cn[DD]);
-    else if (DD < 20)
-      s.push("十" + cn[DD % 10]);
-    else
-      s.push("二十" + cn[DD % 10]);
+    let d = moment.date();
+    if(d <10){
+      s.push(cn[d])
+    }else{
+      let first = Math.floor(d / 10);
+      let second = d % 10;
+      if(first == 1)
+        s.push('十')
+      else if(first > 1 && second == 0)
+        s.push(cn[first] + '十')
+      else{
+        s.push(cn[first] + '十' + cn[second])
+      }
+    }
     s.push("日");
     return s.join('');
+  }
+
+  getValidate(value, warning) {
+
   }
 }

@@ -1,66 +1,72 @@
-<mat-form-field>
-    <mat-label>填表时间：</mat-label>
-    <input matInput [(ngModel)]="createDate" [matDatepicker]="picker">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
-
-<mat-form-field style="width: 400px;">
-    <mat-label>银行名称：</mat-label>
-    <input matInput [matAutocomplete]=autoCompany [formControl]="myControl" [(ngModel)]="company">
-    <mat-autocomplete #autoCompany="matAutocomplete">
-        <mat-option *ngFor="let option of filterCompanys | async" [value]="option.label">{{option.label}}</mat-option>
-    </mat-autocomplete>
-</mat-form-field>
-
-<mat-form-field>
-    <mat-label>类型（名称）：</mat-label>
-    <input [(ngModel)]="moneyType" matInput [matAutocomplete]="autoMoneyType">
-    <mat-autocomplete #autoMoneyType='matAutocomplete'>
-        <mat-option *ngFor="let item of moneyTypes" [value]=item>{{item}}</mat-option>
-    </mat-autocomplete>
-</mat-form-field>
-
-<div>
-    <mat-form-field style="width: 45%;">
-        <mat-label>户名或权利人：</mat-label>
-        <input matInput [(ngModel)]='freezeName'>
-    </mat-form-field>
+<div [ngStyle] = rootStyle>
+    <div>
+        <mat-form-field>
+            <mat-label>填表时间：</mat-label>
+            <input matInput [(ngModel)]="createDate" [matDatepicker]="picker">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
     
-    <mat-form-field style="width: 45%;">
-        <mat-label>账号：</mat-label>
-        <input matInput [(ngModel)]='freezeNumber'>
-    </mat-form-field>
-</div>
-
-<div>
-    <mat-form-field  style="width: 45%;">
-        <mat-label>冻结数额（大，小写）：</mat-label>
-        <input matInput [(ngModel)]='freezeMoney' placeholder="如果冻结指定数量，只填数字即可" [matAutocomplete]="autoFreezeMoney">
-        <mat-autocomplete #autoFreezeMoney='matAutocomplete'>
-            <mat-option *ngFor="let item of freezeMoneys" [value]=item>{{item}}</mat-option>
+        <mat-form-field style="width:200px;">
+            <mat-label>编号：</mat-label>
+            <input matInput [(ngModel)]=docNumber>
+        </mat-form-field>
+    </div>
+    
+    <mat-form-field style="width: 400px;">
+        <mat-label>银行名称：</mat-label>
+        <input matInput [matAutocomplete]=autoCompany [formControl]="myControl" [(ngModel)]="company">
+        <mat-autocomplete #autoCompany="matAutocomplete">
+            <mat-option *ngFor="let option of filterCompanys | async" [value]="option.label">{{option.label}}</mat-option>
         </mat-autocomplete>
     </mat-form-field>
     
-    <mat-form-field  style="width: 45%;">
-        <mat-label>其他：</mat-label>
-        <input matInput [(ngModel)]='other'>
-    </mat-form-field>
-</div>
-
-<div>
     <mat-form-field>
-        <mat-label>冻结开始时间：</mat-label>
-        <input matInput [(ngModel)]="startTime" [matDatepicker]="startPicker">
-        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-        <mat-datepicker #startPicker></mat-datepicker>
+        <mat-label>类型（名称）：</mat-label>
+        <input [(ngModel)]="moneyType" matInput [matAutocomplete]="autoMoneyType">
+        <mat-autocomplete #autoMoneyType='matAutocomplete'>
+            <mat-option *ngFor="let item of moneyTypes" [value]=item>{{item}}</mat-option>
+        </mat-autocomplete>
     </mat-form-field>
-    <mat-form-field>
-        <mat-label>冻结结束时间：</mat-label>
-        <input matInput [(ngModel)]="endTime" [matDatepicker]="endPicker">
-        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-        <mat-datepicker #endPicker></mat-datepicker>
-    </mat-form-field>
+    
+    <div>
+        <mat-form-field style="width:300px;">
+            <mat-label>户名或权利人：</mat-label>
+            <input matInput [(ngModel)]='freezeName' autocomplete="off">
+        </mat-form-field>
+    
+        <mat-form-field style="width: 45%;">
+            <mat-label>账号：</mat-label>
+            <input matInput [(ngModel)]='freezeNumber' [formControl] = "cardIDFromtrol">
+        </mat-form-field>
+    </div>
+    
+    <div>
+        <mat-form-field style="width: 300px;">
+            <mat-label>冻结数额（大，小写）：</mat-label>
+            <input matInput [(ngModel)]='freezeMoney' placeholder="如果冻结指定数量，只填数字即可">
+        </mat-form-field>
+    
+        <mat-form-field style="width: 45%;">
+            <mat-label>其他：</mat-label>
+            <input matInput [(ngModel)]='other'>
+        </mat-form-field>
+    </div>
+    
+    <div>
+        <mat-form-field>
+            <mat-label>冻结开始时间：</mat-label>
+            <input matInput [(ngModel)]="startTime" [matDatepicker]="startPicker">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>冻结结束时间：</mat-label>
+            <input matInput [(ngModel)]="endTime" [matDatepicker]="endPicker">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+    </div>
 </div>
 
 <div id="print" class="print" [style.display]=isShowPrint>

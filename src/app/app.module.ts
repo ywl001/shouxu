@@ -24,26 +24,28 @@ import { MatNativeDateModule } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { DzgjComponent } from './dzgj/dzgj.component';
-import { DqzjComponent } from './dqzj/dqzj.component';
+import { DztzsComponent } from './dztzs/dztzs.component';
 import { from } from 'rxjs';
 import { RecordsComponent } from './records/records.component';
 import { AddCaseComponent } from './add-case/add-case.component';
 import { PreviewComponent } from './preview/preview.component';
-import { DjspComponent } from './djsp/djsp.component';
+import { DjspbComponent } from './djspb/djspb.component';
 import { CxspComponent } from './cxsp/cxsp.component';
 import { DjtzsComponent } from './djtzs/djtzs.component';
+import { DzspbComponent } from './dzspb/dzspb.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DzgjComponent,
-    DqzjComponent,
+    DztzsComponent,
     RecordsComponent,
     AddCaseComponent,
     PreviewComponent,
-    DjspComponent,
+    DjspbComponent,
     CxspComponent,
-    DjtzsComponent
+    DjtzsComponent,
+    DzspbComponent
   ],
   imports: [
     BrowserModule,
@@ -68,6 +70,15 @@ import { DjtzsComponent } from './djtzs/djtzs.component';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DzgjComponent,DqzjComponent,AddCaseComponent,PreviewComponent,DjspComponent,CxspComponent,DjtzsComponent]
+  entryComponents: [
+    DzgjComponent,
+    DztzsComponent,
+    DzspbComponent,
+    AddCaseComponent,
+    PreviewComponent,
+    DjspbComponent,
+    CxspComponent,
+    DjtzsComponent
+  ]
 })
 export class AppModule { }

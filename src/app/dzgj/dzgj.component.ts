@@ -86,7 +86,7 @@ export class DzgjComponent extends Shouxu {
 
   //////////////////////////////////////////////构造方法////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+  
   constructor(
     private sql: SQLService,
     public dialog: MatDialog) {
@@ -172,7 +172,7 @@ export class DzgjComponent extends Shouxu {
   }
 
   getSaveFileName() {
-    return '电子轨迹审批表'
+    return `${this.number1}等号码查询审批表`
   }
 
   clear() {

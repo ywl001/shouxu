@@ -30,7 +30,7 @@ export class DjtzsComponent extends Shouxu {
   ///冻结的账号
   freezeNumber;
   //冻结金额
-  freezeMoney;
+  freezeMoney = '全额冻结'
   //冻结的户名
   freezeName;
   //类型
@@ -42,7 +42,7 @@ export class DjtzsComponent extends Shouxu {
   //其他
   other: string;
 
-  //冻结的开始和结束日期
+  //文书中冻结的开始和结束日期
   year_start;
   month_start;
   day_start;
@@ -51,10 +51,15 @@ export class DjtzsComponent extends Shouxu {
   day_end;
 
   //自动完成的选项
-  moneyTypes;
-  companys;
-  freezeMoneys;
+  moneyTypes;//种类
+  companys;//金融机构
+  bankBin;
+  filterCompanys: Observable<any>;//过滤后的金融机构
+  myControl: FormControl = new FormControl();//绑定金融机构的formControl
 
+  cardIDFromtrol = new FormControl();
+
+  //绑定表单中的开始和结束时间
   private _startTime;
   get startTime() {
     return this._startTime;
@@ -65,6 +70,7 @@ export class DjtzsComponent extends Shouxu {
     this.year_start = this.getYear(value)
     this.month_start = this.getMonth(value);
     this.day_start = this.getDay(value);
+    // this.endTime = this._startTime.add(6,'month')
   }
 
   private _endTime
@@ -80,9 +86,11 @@ export class DjtzsComponent extends Shouxu {
     console.log(this.endTime)
   }
 
+  //文书中的日期
   get createDate_chinese() {
     return this.toChineseDate(this.createDate)
   }
+  //冻结金额的大小写
   get freezeMoney2() {
     if (this.freezeMoney != '全额冻结')
       return this.digitUppercase(this.freezeMoney) + ',' + this.freezeMoney + '元';
@@ -90,18 +98,25 @@ export class DjtzsComponent extends Shouxu {
   }
 
   //////////////////////////////////////////////////其他变量///////////////////////////////////////
-  filterCompanys: Observable<any>;
-  myControl: FormControl = new FormControl();
-
   constructor(public dialog: MatDialog, private sql: SQLService) {
     super()
   }
 
   ngOnInit() {
     this.getDocNumber();
+    this.startTime = moment();
+    this.endTime = moment().add(6,'month');
     this.filterCompanys = this.myControl.valueChanges.pipe(
       startWith(''),
       map(val => this.filter(val))
+    )
+
+    this.cardIDFromtrol.valueChanges.subscribe(
+      res=>{
+        if(this.getBankNameByCard(res))
+          this.company = this.getBankNameByCard(res)
+        console.log(res)
+      }
     )
   }
 
@@ -115,6 +130,7 @@ export class DjtzsComponent extends Shouxu {
     this.endTime = moment(value.endTime);
     this.createDate = moment(value.createDate)
     this.company = value.company;
+    this.docNumber = value.docNumber;
   }
 
   validate() {
@@ -130,10 +146,10 @@ export class DjtzsComponent extends Shouxu {
       toastr.warning('冻结结束时间没有填写')
       return false;
     }
-    if (!this.freezeName || this.isEmptyStr(this.freezeName)) {
-      toastr.warning('户名或权利人没有填写')
-      return false;
-    }
+    // if (!this.freezeName || this.isEmptyStr(this.freezeName)) {
+    //   toastr.warning('户名或权利人没有填写')
+    //   return false;
+    // }
     if (!this.freezeNumber || this.isEmptyStr(this.freezeNumber)) {
       toastr.warning('账号没有填写')
       return false;
@@ -179,13 +195,15 @@ export class DjtzsComponent extends Shouxu {
   }
 
   getSaveFileName() {
-    return '冻结通知书'
+    return `${this.docNumber}_冻结通知书`
   }
 
   clear() {
-
+    this.company = this.freezeNumber = this.freezeName = null;
+    this.startTime = moment();
+    this.endTime = moment().add(6,'month');
+    this.getDocNumber()
   }
-
 
   filter(val: string): string[] {
     if (val == '' || !val) return this.companys;
@@ -248,4 +266,23 @@ export class DjtzsComponent extends Shouxu {
       .replace(/^整$/, '零元整');
   };
 
+  private getBankNameByCard(idCard: string) {
+    if(!idCard)
+      return;
+    if (this.bankBin[idCard.substr(0, 3)])
+      return this.bankBin[idCard.substr(0, 3)]
+    else if (this.bankBin[idCard.substr(0, 4)])
+      return this.bankBin[idCard.substr(0, 4)]
+    else if (this.bankBin[idCard.substr(0, 5)])
+      return this.bankBin[idCard.substr(0, 5)]
+    else if (this.bankBin[idCard.substr(0, 6)])
+      return this.bankBin[idCard.substr(0, 6)]
+    else if (this.bankBin[idCard.substr(0, 7)])
+      return this.bankBin[idCard.substr(0, 8)]
+    else if (this.bankBin[idCard.substr(0, 9)])
+      return this.bankBin[idCard.substr(0, 9)]
+    else if (this.bankBin[idCard.substr(0, 10)])
+      return this.bankBin[idCard.substr(0, 10)]
+    return ""
+  }
 }

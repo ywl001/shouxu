@@ -4,8 +4,6 @@ import * as moment from 'moment'
 import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS, MAT_HAMMER_OPTIONS, MatDialog } from '@angular/material';
 import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
 
-import domtoimage from 'dom-to-image';
-import * as download from 'downloadjs'
 import { SQLService } from '../services/sql.service';
 import * as toastr from 'toastr';
 import { Shouxu } from '../models/shouxu';
@@ -17,16 +15,16 @@ import { PhpFunctionName } from '../models/php-function-name';
 import { State } from '../state';
 
 @Component({
-  selector: 'app-dqzj',
-  templateUrl: './dqzj.component.html',
-  styleUrls: ['./dqzj.component.css'],
+  selector: 'app-dztzs',
+  templateUrl: './dztzs.component.html',
+  styleUrls: ['./dztzs.component.css'],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ]
 })
-export class DqzjComponent extends Shouxu {
+export class DztzsComponent extends Shouxu {
   ///////////////////////////////////////和html直接绑定的变量///////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
   //调取的金融机构
@@ -44,6 +42,7 @@ export class DqzjComponent extends Shouxu {
   //查询的基准日期
   baseDate: any;
   docNumber: string;
+  bankBin: any;
 
   //绑定文号中年份
   get year() {
@@ -61,6 +60,8 @@ export class DqzjComponent extends Shouxu {
   filterCompanys: Observable<any>;
   myControl: FormControl = new FormControl();
 
+  cardIDControl:FormControl = new FormControl();
+
   constructor(private http: HttpClient,
     private sql: SQLService,
     public dialog: MatDialog) {
@@ -73,6 +74,14 @@ export class DqzjComponent extends Shouxu {
     this.filterCompanys = this.myControl.valueChanges.pipe(
       startWith(''),
       map(val => this.filter(val))
+    )
+
+    this.cardIDControl.valueChanges.subscribe(
+      res=>{
+        if(this.getBankNameByCard(res))
+          this.company = this.getBankNameByCard(res)
+        // console.log(this.bankBin)
+      }
     )
   }
 
@@ -104,7 +113,13 @@ export class DqzjComponent extends Shouxu {
   }
 
   getTableData(caseID: any) {
-    throw new Error('Method not implemented.');
+    return {
+      caseID: caseID,
+      docNumber: this.docNumber,
+      company: this.company,
+      evidenceContent: this.evidenceContent2 ? this.evidenceContent2 : this.evidenceContent,
+      createDate: this.createDate.format('YYYY/MM/DD')
+    }
   }
 
   getSqlInstance() {
@@ -116,12 +131,12 @@ export class DqzjComponent extends Shouxu {
   }
 
   clear() {
-    this.company = this.evidenceContent = this.createDate = this.evidenceContent2 = null;
+    this.company = this.evidenceContent = this.baseDate = this.evidenceContent2 = null;
     this.getdocNumber()
   }
 
   getSaveFileName() {
-    return '调取证据通知书'
+    return `${this.docNumber}号调证通知书`
   }
 
   //辅助选择日期的点击
@@ -151,7 +166,7 @@ export class DqzjComponent extends Shouxu {
   }
 
   private getdocNumber() {
-    this.sql.exec(PhpFunctionName.SELECT_LAST_DOCUMENT_NUMBER, State.dqzj.value).subscribe(
+    this.sql.exec(PhpFunctionName.SELECT_LAST_DOCUMENT_NUMBER, State.dztzs.value).subscribe(
       res => {
         if (res.length == 0) {
           this.docNumber = moment().format('MMDD') + '01'
@@ -172,6 +187,25 @@ export class DqzjComponent extends Shouxu {
       }
     )
   }
-  
- 
+  private getBankNameByCard(idCard: string) {
+    if(!idCard)
+      return;
+    if (this.bankBin[idCard.substr(0, 3)])
+      return this.bankBin[idCard.substr(0, 3)]
+    else if (this.bankBin[idCard.substr(0, 4)])
+      return this.bankBin[idCard.substr(0, 4)]
+    else if (this.bankBin[idCard.substr(0, 5)])
+      return this.bankBin[idCard.substr(0, 5)]
+    else if (this.bankBin[idCard.substr(0, 6)])
+      return this.bankBin[idCard.substr(0, 6)]
+    else if (this.bankBin[idCard.substr(0, 7)])
+      return this.bankBin[idCard.substr(0, 8)]
+    else if (this.bankBin[idCard.substr(0, 9)])
+      return this.bankBin[idCard.substr(0, 9)]
+    else if (this.bankBin[idCard.substr(0, 10)])
+      return this.bankBin[idCard.substr(0, 10)]
+    return ""
+  }
+
+
 }

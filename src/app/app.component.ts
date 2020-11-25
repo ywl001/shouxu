@@ -5,7 +5,7 @@ import * as toastr from 'toastr';
 import { State } from './state';
 import { DzgjComponent } from './dzgj/dzgj.component';
 import { Shouxu } from './models/shouxu';
-import { DqzjComponent } from './dqzj/dqzj.component';
+import { DztzsComponent } from './dztzs/dztzs.component';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -14,9 +14,11 @@ import { MatDialog } from '@angular/material';
 import { AddCaseComponent } from './add-case/add-case.component';
 import { PhpFunctionName } from './models/php-function-name';
 import { MessageService } from './services/message.service';
-import { DjspComponent } from './djsp/djsp.component';
+import { DjspbComponent } from './djspb/djspb.component';
 import { CxspComponent } from './cxsp/cxsp.component';
 import { DjtzsComponent } from './djtzs/djtzs.component';
+import { DzspbComponent } from './dzspb/dzspb.component';
+import * as pinyin from 'pinyin'
 
 @Component({
   selector: 'app-root',
@@ -28,7 +30,7 @@ export class AppComponent {
 
   // ---------------------------------------html直接绑定----------------------------------
   state: any;
-  states: Array<any> = [State.dzgj, State.dqzj, State.djtzs, State.djsp, State.cxsp];
+  states: Array<any> = [State.dzgj, State.dztzs, State.dzspb, State.djtzs, State.djspb, State.cxsp];
   // 案件信息
   caseName: string;
   caseNumber: string;
@@ -59,12 +61,14 @@ export class AppComponent {
   private dateSelectList: Array<any>
   // 冻结的类型
   private freezeTypes: Array<string>;
-  // 仅仅是全额冻结
-  private freezeMoneys: Array<string>;
   //单位名称
   private unit: string;
   //单位名称简写
   private unit_1: string;
+  //部平台查询类型
+  private queryTypes: Array<string>;
+  //银行bin码
+  private bankBin
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -96,22 +100,37 @@ export class AppComponent {
   /**创建动态组件 */
   private createComponent(state) {
     this.shouxuContainer.clear();
+    //电子轨迹
     if (this.state == State.dzgj) {
       this.shouxu = this.getShouxuInstance(DzgjComponent);
-    } else if (this.state == State.dqzj) {
-      this.shouxu = this.getShouxuInstance(DqzjComponent);
-      (<DqzjComponent>this.shouxu).companys = this.companys;
-      (<DqzjComponent>this.shouxu).dateSelectList = this.dateSelectList;
-    } else if (this.state == State.djsp) {
-      this.shouxu = this.getShouxuInstance(DjspComponent);
-      (<DjspComponent>this.shouxu).freezeTypes = this.freezeTypes;
-    } else if (this.state == State.cxsp) {
-      this.shouxu = this.getShouxuInstance(CxspComponent);
-    } else if (this.state == State.djtzs) {
+    }
+    //调证通知书
+    else if (this.state == State.dztzs) {
+      this.shouxu = this.getShouxuInstance(DztzsComponent);
+      (<DztzsComponent>this.shouxu).companys = this.companys;
+      (<DztzsComponent>this.shouxu).dateSelectList = this.dateSelectList;
+      (<DztzsComponent>this.shouxu).bankBin = this.bankBin;
+    }
+    //调证审批表
+    else if (this.state == State.dzspb) {
+      this.shouxu = this.getShouxuInstance(DzspbComponent);
+      (<DzspbComponent>this.shouxu).queryTypes = this.queryTypes;
+    }
+    //冻结通知书
+    else if (this.state == State.djtzs) {
       this.shouxu = this.getShouxuInstance(DjtzsComponent);
       (<DjtzsComponent>this.shouxu).moneyTypes = this.moneyTypes;
       (<DjtzsComponent>this.shouxu).companys = this.companys;
-      (<DjtzsComponent>this.shouxu).freezeMoneys = this.freezeMoneys;
+      (<DjtzsComponent>this.shouxu).bankBin = this.bankBin;
+    }
+    //冻结审批表
+    else if (this.state == State.djspb) {
+      this.shouxu = this.getShouxuInstance(DjspbComponent);
+      (<DjspbComponent>this.shouxu).freezeTypes = this.freezeTypes;
+    }
+    //反诈中心查询审批
+    else if (this.state == State.cxsp) {
+      this.shouxu = this.getShouxuInstance(CxspComponent);
     }
     this.shouxu.users = this.users;
     this.shouxu.isSeal = this.isSeal;
@@ -124,7 +143,7 @@ export class AppComponent {
   private getShouxuInstance(className) {
     let factory = this.resolver.resolveComponentFactory(className)
     let componentRef = this.shouxuContainer.createComponent(factory);
-    return <DqzjComponent>componentRef.instance;
+    return <Shouxu>componentRef.instance;
   }
 
   /**获取配置数据 */
@@ -137,12 +156,14 @@ export class AppComponent {
         this.dateSelectList = res['dateSelect'];
         this.freezeTypes = res['freezeType'];
         this.moneyTypes = res['moneyType'];
-        this.freezeMoneys = res['freezeMoneys'];
         this.unit = res['unit'];
-        this.unit_1 = res['unit_1']
+        this.unit_1 = res['unit_1'];
+        this.queryTypes = res['queryType'];
+        this.bankBin = res['bankBin']
         this.createComponent(this.state)
       })
   }
+
 
   /**手续类型选择 */
   onStateChange(e) {
@@ -176,8 +197,8 @@ export class AppComponent {
   filter(val: string): string[] {
     if (val == '') return this._lawcases;
     return this._lawcases.filter(item => {
-      console.log(item.caseName)
-      return item['caseName'].indexOf(val) >= 0
+      const py = pinyin(item['caseName'],{style:pinyin.STYLE_FIRST_LETTER}).join('');
+      return item['caseName'].indexOf(val) >= 0 || py.indexOf(val)>=0
     })
   }
 
@@ -210,9 +231,7 @@ export class AppComponent {
     this.caseContent = caseData.caseContent;
 
     this.lawCaseID = caseData.lawCaseID;
-    this.shouxu.caseName = caseData.caseName;
-    this.shouxu.caseNumber = caseData.caseNumber;
-    this.shouxu.caseContent = caseData.caseContent;
+    this.shouxu.caseData = caseData;
   }
 
   clear() {

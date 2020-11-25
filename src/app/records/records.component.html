@@ -24,9 +24,16 @@
                 </div>
             </div>
 
-            <div *ngIf="state.label=='查询审批'">
+            <div *ngIf="state.label=='调证审批表'">
                 <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
-                    <div class= 'item_txt'>{{item.needs}} </div>
+                    <div class= 'item_txt'>{{item.queryContent}} </div>
+                    <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
+                </div>
+            </div>
+
+            <div *ngIf="state.label=='冻结通知书'">
+                <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
+                    <div class= 'item_txt'>{{item.freezeName}}：{{item.freezeNumber}} </div>
                     <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
                 </div>
             </div>
@@ -38,12 +45,16 @@
                 </div>
             </div>
 
-            <div *ngIf="state.label=='冻结通知书'">
+            <div *ngIf="state.label=='查询审批'">
                 <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
-                    <div class= 'item_txt'>{{item.freezeName}}：{{item.freezeNumber}} </div>
+                    <div class= 'item_txt'>{{item.needs}} </div>
                     <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
                 </div>
             </div>
+
+           
+
+           
         </ng-template>
 
     </mat-expansion-panel>

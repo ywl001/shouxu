@@ -1,36 +1,38 @@
-import { Component, EventEmitter, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DateAdapter, MatDialog, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
-import { MAT_MOMENT_DATE_FORMATS, MomentDateAdapter } from '@angular/material-moment-adapter';
 import { Shouxu } from '../models/shouxu';
-import * as toastr from 'toastr'
-import * as pinyin from 'pinyin'
-import { State } from '../state';
 import { SQLService } from '../services/sql.service';
+import * as toastr from 'toastr';
+import * as pinyin from 'pinyin'
 import { PhpFunctionName } from '../models/php-function-name';
 import * as moment from 'moment';
+import { State } from '../state';
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'app-djsp',
-  templateUrl: './djsp.component.html',
-  styleUrls: ['./djsp.component.css'],
+  selector: 'app-dzspb',
+  templateUrl: './dzspb.component.html',
+  styleUrls: ['./dzspb.component.css'],
   providers: [//和格式化日期相关
     { provide: MAT_DATE_LOCALE, useValue: 'ja-JP' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ]
 })
-export class DjspComponent extends Shouxu {
+export class DzspbComponent extends Shouxu {
   //////////////////////////////////////////////////////////和html直接绑定的变量////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   users: Array<any>;
-  freezeInfo;
+  //获取调证通知书最后十条内容
+  dztzsInfo;
   //法律文书编号
   docNumber: string;
   //冻结类型
-  freezeType: string;
+  queryType: string;
   //冻结的账号
-  freezeNumber: string;
+  queryContent: string;
   //承办人
   private _requestUser1: string = '蒋勉丽';
   public get requestUser1(): string {
@@ -45,21 +47,29 @@ export class DjspComponent extends Shouxu {
   //联系电话
   userPhone: string = '13938860695';
 
+  numList = 10;
+
   //冻结类型，配置文件获取
-  @Input() freezeTypes: Array<string>;
+  queryTypes: Array<string>;
 
   getDocNumbers(value) {
     let year = this.getYear(this.createDate);
-    let str = `${this.unit_1}（刑）冻财字[${year}]`;
+    let str = `${this.unit_1}（刑）调证字[${year}]`;
     if (this.docNumber && this.docNumber.charAt(this.docNumber.length - 1) == '号')
       return `${this.docNumber}，${value}号`
     return str + value + `号`;
   }
 
-  getFreezeNumbers(value){
-    if(this.freezeNumber)
-      return this.freezeNumber + '，'+value;
-    return value;
+  getQueryContent(value) {
+    const re = /[\w\@\.]{6,}(\(?（?[\u4e00-\u9fa5]{2,4}\)?）?)?/g
+    let arr = value.match(re);
+    if(!arr || arr.length ===0)
+      return ""
+    
+    let r = arr.join(",");
+    if (this.queryContent)
+      return this.queryContent + '，' + r;
+    return r;
   }
 
   get requestUser() {
@@ -79,24 +89,39 @@ export class DjspComponent extends Shouxu {
   }
 
   ///////////////////////////////////////////////////////////////构造/////////////////////////////////////////////////////////////////////
+  numControl:FormControl = new FormControl()
   constructor(private sql: SQLService, public dialog: MatDialog) {
     super();
-    this.saveComplete = new EventEmitter();
   }
 
   ngOnInit() {
-    this.getFreezeInfo()
+    console.log(this.createDate)
+    this.getDztzsInfo();
+    this.numControl.valueChanges.subscribe(
+      value =>{
+        this.getDztzsInfo()
+      }
+    )
   }
 
   /////////////////////////////////////////////////////////复写父类的方法///////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+  set caseData(value){
+    console.log('child set caseData')
+    this.lawCaseID = value.lawCaseID;
+    this.caseName = value.caseName;
+    this.caseNumber = value.caseNumber;
+    this.caseContent = value.caseContent;
+    this.getDztzsInfo()
+  }
+
   getTableData(caseID: any) {
     return {
       createDate: this.createDate.format('YYYY/MM/DD'),
       docNumber: this.docNumber,
-      freezeType: this.freezeType,
-      freezeNumber: this.freezeNumber,
+      queryType: this.queryType,
+      queryContent: this.queryContent,
       requestUser1: this.requestUser1,
       requestUser2: this.requestUser2,
       userPhone: this.userPhone,
@@ -113,8 +138,8 @@ export class DjspComponent extends Shouxu {
 
   set data(value: any) {
     this.docNumber = value.docNumber;
-    this.freezeType = value.freezeType;
-    this.freezeNumber = value.freezeNumber;
+    this.queryType = value.queryType;
+    this.queryContent = value.queryContent;
     this.requestUser1 = value.requestUser1;
     this.requestUser2 = value.requestUser2
     this.userPhone = value.userPhone;
@@ -122,30 +147,36 @@ export class DjspComponent extends Shouxu {
   }
 
   clear() {
-
+    this.docNumber = this.queryType = this.queryContent = null;
   }
 
   validate() {
-    if (!this.lawCaseID) {
+    if (!this.lawCaseID || this.isEmptyStr(this.lawCaseID)) {
       toastr.warning('请选择一个案件，没有请先添加案件');
       return false;
     }
-    if (this.isEmptyStr(this.freezeNumber)) {
-      toastr.warning('冻结账号没有填写');
+    if (!this.queryContent || this.isEmptyStr(this.queryContent)) {
+      toastr.warning('请填写查询内容');
       return false;
     }
-    if (this.isEmptyStr(this.docNumber)) {
-      toastr.warning('法律文书号没有填写');
+    if (!this.queryType || this.isEmptyStr(this.queryType)) {
+      toastr.warning('请填写查询类型');
+      return false;
+    }
+    if (!this.docNumber || this.isEmptyStr(this.docNumber)) {
+      toastr.warning('请填写法律文书号');
       return false;
     }
     return true;
   }
 
   getSaveFileName() {
-    return '冻结审批表'
+    const re = /\d{6}/g;
+    const r = this.docNumber.match(re).join(",")
+    return r + '_查询审批表'
   }
 
-  
+  //根据名字获取uer对象
   private getUser(userName) {
     for (let i = 0; i < this.users.length; i++) {
       const user = this.users[i];
@@ -155,12 +186,14 @@ export class DjspComponent extends Shouxu {
     return null
   }
 
-  private getFreezeInfo() {
-    let sql = `select * from ${State.djtzs.value} order by id desc limit 10`;
+  //获取调取证据通知书最后十条记录
+  getDztzsInfo() {
+    let sql = `select * from ${State.dztzs.value} where caseID = '${this.lawCaseID}' order by id desc limit ${this.numList}`;
     this.sql.exec(PhpFunctionName.GET_SELECT_RESULT, sql).subscribe(
       res => {
-        this.freezeInfo = res;
+        this.dztzsInfo = res;
       }
     )
   }
+
 }

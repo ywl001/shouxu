@@ -1,80 +1,82 @@
-<div class="contactsDiv">
-    <mat-form-field>
-        <mat-label>填表时间：</mat-label>
-        <input matInput [(ngModel)]="createDate" [matDatepicker]="picker" placeholder="不选择为当天日期">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
+<div [ngStyle]="rootStyle">
+    <div class="contactsDiv">
+        <mat-form-field>
+            <mat-label>填表时间：</mat-label>
+            <input matInput [(ngModel)]="createDate" [matDatepicker]="picker" placeholder="不选择为当天日期">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>提请人：</mat-label>
+            <input [(ngModel)]="requestUser" matInput [matAutocomplete]="autoUserName">
+            <mat-autocomplete #autoUserName='matAutocomplete'>
+                <mat-option *ngFor="let item of users" [value]=item.name>{{item.name}}</mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>联系电话：</mat-label>
+            <input [(ngModel)]="userPhone" matInput [matAutocomplete]="autoUserPhone">
+            <mat-autocomplete #autoUserPhone='matAutocomplete'>
+                <mat-option *ngFor="let item of users" [value]=item.phoneNumber>{{item.phoneNumber}}</mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>反馈方式：</mat-label>
+            <input [(ngModel)]="feedbackWay" matInput [matAutocomplete]="autoFeedbackWay">
+            <mat-autocomplete #autoFeedbackWay='matAutocomplete'>
+                <mat-option *ngFor="let item of users" [value]=item.email>{{item.email}}</mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field style="width: 100%;">
+        <mat-label>查询理由：</mat-label>
+        <textarea matInput [(ngModel)]="cause" cdkTextareaAutosize></textarea>
     </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>提请人：</mat-label>
-        <input [(ngModel)]="requestUser" matInput [matAutocomplete]="autoUserName">
-        <mat-autocomplete #autoUserName='matAutocomplete'>
-            <mat-option *ngFor="let item of users" [value]=item.name>{{item.name}}</mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>联系电话：</mat-label>
-        <input [(ngModel)]="userPhone" matInput [matAutocomplete]="autoUserPhone">
-        <mat-autocomplete #autoUserPhone='matAutocomplete'>
-            <mat-option *ngFor="let item of users" [value]=item.phoneNumber>{{item.phoneNumber}}</mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field>
-        <mat-label>反馈方式：</mat-label>
-        <input [(ngModel)]="feedbackWay" matInput [matAutocomplete]="autoFeedbackWay">
-        <mat-autocomplete #autoFeedbackWay='matAutocomplete'>
-            <mat-option *ngFor="let item of users" [value]=item.email>{{item.email}}</mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-</div>
-
-<mat-form-field style="width: 100%;">
-    <mat-label>查询理由：</mat-label>
-    <textarea matInput [(ngModel)]="cause" cdkTextareaAutosize></textarea>
-</mat-form-field>
-
-<div class="numberDiv">
-    <mat-form-field>
-        <mat-label>号码1：</mat-label>
-        <input matInput [(ngModel)]='number1'>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>号码2：</mat-label>
-        <input matInput [(ngModel)]='number2'>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>号码3：</mat-label>
-        <input matInput [(ngModel)]='number3'>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>号码4：</mat-label>
-        <input matInput [(ngModel)]='number4'>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>号码5：</mat-label>
-        <input matInput [(ngModel)]='number5'>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>号码6：</mat-label>
-        <input matInput [(ngModel)]='number6'>
-    </mat-form-field>
-</div>
-<mat-checkbox [(ngModel)]="isManual">手动设置起止时间</mat-checkbox>
-<div *ngIf="isManual">
-    <mat-form-field>
-        <mat-label>起始时间：</mat-label>
-        <input matInput [(ngModel)]="startDate" [matDatepicker]="startPicker">
-        <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-        <mat-datepicker #startPicker></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-        <mat-label>结束时间：</mat-label>
-        <input matInput [(ngModel)]="endDate" [matDatepicker]="endPicker">
-        <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-        <mat-datepicker #endPicker></mat-datepicker>
-    </mat-form-field>
+    <div class="numberDiv">
+        <mat-form-field>
+            <mat-label>号码1：</mat-label>
+            <input matInput [(ngModel)]='number1'>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>号码2：</mat-label>
+            <input matInput [(ngModel)]='number2'>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>号码3：</mat-label>
+            <input matInput [(ngModel)]='number3'>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>号码4：</mat-label>
+            <input matInput [(ngModel)]='number4'>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>号码5：</mat-label>
+            <input matInput [(ngModel)]='number5'>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>号码6：</mat-label>
+            <input matInput [(ngModel)]='number6'>
+        </mat-form-field>
+    </div>
+    <mat-checkbox [(ngModel)]="isManual">手动设置起止时间</mat-checkbox>
+    <div *ngIf="isManual">
+        <mat-form-field>
+            <mat-label>起始时间：</mat-label>
+            <input matInput [(ngModel)]="startDate" [matDatepicker]="startPicker">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>结束时间：</mat-label>
+            <input matInput [(ngModel)]="endDate" [matDatepicker]="endPicker">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+    </div>
 </div>
 
 <div id="print" class="print" [style.display]='isShowPrint'>
@@ -148,7 +150,7 @@
             <tspan x="0" y="19.2" font-family="'SimSun'" font-size="16">电信用户通话记录信息</tspan>
             <tspan x="-44" y="38.4" font-family="'SimSun'" font-size="16">移动网警用户定位系统（LBS）信息</tspan>
         </text>
-       
+
         <text transform="matrix(1 0 0 1 272 799)" font-family="'SimSun'" font-size="18">查询目标</text>
         <text transform="matrix(1 0 0 1 480 799)" font-family="'SimSun'" font-size="18">查询数据类型</text>
         <text transform="matrix(1 0 0 1 774.0176 799)" font-family="'SimSun'" font-size="18">查询时间范围</text>
@@ -167,13 +169,13 @@
         <text transform="matrix(1 0 0 1 447.5 1480.5)" font-family="'SimSun'" font-size="18">年　月　日</text>
         <text transform="matrix(1 0 0 1 868 1480.5)" font-family="'SimSun'" font-size="18">年　月　日</text>
         <text transform="matrix(1 0 0 1 197.605 1512.5156)" font-family="'SimSun'" font-size="18" glyph-orientation-vertical="0" writing-mode="tb">备注</text>
-    
+
         <foreignObject x=0 y=0 width="1150" height="1622">
             <xhtml:div>
                 <img *ngIf="isSeal" src="assets/seal.png" alt="" width="220px" height="220px" style=" position: absolute;left:760px;top: 1310px;" />
-                <img *ngIf="isSeal" src="assets/signal_dui.png" alt="" width="190px" height="190px" style=" position: absolute;left:270px;top: 1300px;"/>
+                <img *ngIf="isSeal" src="assets/jianyichaxun.png" alt="" width="190px" height="190px" style=" position: absolute;left:270px;top: 1300px;"/>
                 <img *ngIf="isSeal" src="assets/signal_ju.png" alt="" width="190px" height="190px" style=" position: absolute;left:670px;top: 1300px;"/>
-                
+
                 <img *ngIf="isSeal" [attr.src]=getYearImg(1,1) alt="" width="10px" height="20px" style=" position: absolute;left:397px;top: 1465px;"/>
                 <img *ngIf="isSeal" [attr.src]=getYearImg(2,1) alt="" width="10px" height="20px" style=" position: absolute;left:408px;top: 1465px;"/>
                 <img *ngIf="isSeal" [attr.src]=getYearImg(3,1) alt="" width="10px" height="20px" style=" position: absolute;left:420px;top: 1465px;"/>

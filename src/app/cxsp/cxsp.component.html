@@ -1,34 +1,36 @@
-<mat-form-field>
-    <mat-label>填表时间：</mat-label>
-    <input matInput [(ngModel)]="createDate" [matDatepicker]="picker" placeholder="不选择为当天日期">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-</mat-form-field>
-
-<mat-form-field>
-    <mat-label>提请人1：</mat-label>
-    <input matInput [(ngModel)]="requestUser1" [matAutocomplete]="autoUserName">
-    <mat-autocomplete #autoUserName='matAutocomplete'>
-        <mat-option *ngFor="let item of users" value = {{item.name}}:{{item.phoneNumber}}>{{item.name}}:{{item.phoneNumber}}</mat-option>
-    </mat-autocomplete>
-</mat-form-field>
-
-<mat-form-field>
-    <mat-label>提请人2：</mat-label>
-    <input matInput [(ngModel)]="requestUser2" [matAutocomplete]="autoUserName2">
-    <mat-autocomplete #autoUserName2='matAutocomplete'>
-        <mat-option *ngFor="let item of users" value = {{item.name}}:{{item.phoneNumber}}>{{item.name}}:{{item.phoneNumber}}</mat-option>
-    </mat-autocomplete>
-</mat-form-field>>
-
-<mat-form-field style="width: 100%;">
-    <mat-label>查询依据：</mat-label>
-    <textarea matInput [(ngModel)]="cause" cdkTextareaAutosize></textarea>
-</mat-form-field>
-<mat-form-field style="width: 100%;">
-    <mat-label>查询需求：</mat-label>
-    <textarea matInput [(ngModel)]="needs" cdkTextareaAutosize></textarea>
-</mat-form-field>
+<div [ngStyle]="rootStyle">
+    <mat-form-field>
+        <mat-label>填表时间：</mat-label>
+        <input matInput [(ngModel)]="createDate" [matDatepicker]="picker" placeholder="不选择为当天日期">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label>提请人1：</mat-label>
+        <input matInput [(ngModel)]="requestUser1" [matAutocomplete]="autoUserName">
+        <mat-autocomplete #autoUserName='matAutocomplete'>
+            <mat-option *ngFor="let item of users" value = {{item.name}}:{{item.phoneNumber}}>{{item.name}}:{{item.phoneNumber}}</mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label>提请人2：</mat-label>
+        <input matInput [(ngModel)]="requestUser2" [matAutocomplete]="autoUserName2">
+        <mat-autocomplete #autoUserName2='matAutocomplete'>
+            <mat-option *ngFor="let item of users" value = {{item.name}}:{{item.phoneNumber}}>{{item.name}}:{{item.phoneNumber}}</mat-option>
+        </mat-autocomplete>
+    </mat-form-field>>
+    
+    <mat-form-field style="width: 100%;">
+        <mat-label>查询依据：</mat-label>
+        <textarea matInput [(ngModel)]="cause" cdkTextareaAutosize></textarea>
+    </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>查询需求：</mat-label>
+        <textarea matInput [(ngModel)]="needs" cdkTextareaAutosize></textarea>
+    </mat-form-field>
+</div>
 
 <div id="print" class="print" [style.display]=isShowPrint>
     <svg version="1.1" id='svg' xmlns="http://www.w3.org/2000/svg" width="1150px" height="1626px">

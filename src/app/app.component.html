@@ -5,7 +5,7 @@
             <button id=btnAddCase mat-raised-button color="primary" (click)=onAddCase()>添加案件</button>
         </div>
         <div class="left_middle">
-            <app-records [state]=state [data]=filterCase$|async (clickCase)=showCaseData($event) (clickItem)=showShouxuData($event) (delComplete)=getData()></app-records>
+            <app-records [state]=state [data]=filterCase$|async (clickCase)=showCaseData($event) (clickItem)=showShouxuData($event) (delComplete)=getCaseData()></app-records>
         </div>
         <div class="left_bottom">
             <mat-checkbox [(ngModel)]="isShouxu">仅显示有手续的案件</mat-checkbox>
