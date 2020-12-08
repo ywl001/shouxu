@@ -78,7 +78,7 @@ export abstract class Shouxu {
   public get rootStyle() {
     // return this.lawCaseID ? :
     if (this.lawCaseID) {
-      toastr.remove()
+      //toastr.remove()
       return { opacity: 1, pointerEvents: 'all' }
     }
     else {

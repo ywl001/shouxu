@@ -86,3 +86,15 @@
 .radio-button{
     margin-right: 15px;
 }
+
+.clip{
+    background-image: url('../assets/clipboard.svg');
+    width: 30px;
+    height: 30px;
+    background-size: cover;
+    margin-right: 20px;
+}
+
+.clip:hover{
+    background-image: url('../assets/clipboard_over.svg');
+}

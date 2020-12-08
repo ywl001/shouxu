@@ -15,14 +15,14 @@
         <mat-label>调取单位</mat-label>
         <input matInput [matAutocomplete]=auto [formControl]="myControl" [(ngModel)]="company">
         <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filterCompanys | async" [value]="option.label">{{option.label}}</mat-option>
+            <mat-option *ngFor="let option of filterCompanys$ | async" [value]="option.label">{{option.label}}</mat-option>
         </mat-autocomplete>
     </mat-form-field>
     
     <div style="margin-bottom: 30px">
         <mat-form-field style="width: 100%;">
             <mat-label>证据内容</mat-label>
-            <input #evidence matInput [(ngModel)]="evidenceContent" [formControl] = "cardIDControl" placeholder="账号查询只需填写账号，然后点击相应时间" autocomplete='off'>
+            <textarea #evidence matInput cdkTextareaAutosize [(ngModel)]="evidenceContent" [formControl] = "cardIDControl" placeholder="账号查询只需填写账号，然后点击相应时间" autocomplete='off'></textarea>
         </mat-form-field>
         <mat-label style="color: darkcyan;">{{evidenceContent2}}</mat-label>
     </div>

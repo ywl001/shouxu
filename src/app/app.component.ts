@@ -263,4 +263,8 @@ export class AppComponent {
     this.shouxu.preview()
   }
 
+  onCbSuccess(){
+    console.log('aaaaa')
+    toastr.success('复制成功')
+  }
 }

@@ -9,6 +9,7 @@ import { Shouxu } from '../models/shouxu';
 import { PhpFunctionName } from '../models/php-function-name';
 import { ChangeDetectorRef } from '@angular/core';
 import { State } from '../state';
+import { concatAll } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dzgj',
@@ -86,7 +87,7 @@ export class DzgjComponent extends Shouxu {
 
   //////////////////////////////////////////////构造方法////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
+
   constructor(
     private sql: SQLService,
     public dialog: MatDialog) {
@@ -133,10 +134,12 @@ export class DzgjComponent extends Shouxu {
   //提交数据库前的验证
   validate() {
     if (!this.lawCaseID) {
+
       toastr.warning('请选择一个案件，没有请先添加案件');
       return false;
     }
     if (this.phoneNumbers.trim() == '') {
+      console.log('fffffffff')
       toastr.warning('没有填写号码')
       return false;
     }

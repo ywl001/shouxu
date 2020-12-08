@@ -24,8 +24,13 @@
             </mat-radio-group>
         </div>
         <div class="right_middle">
-            <p>{{caseNumber}}－－－－{{caseName}}</p>
-            <p>{{caseContent}}</p>
+            <p><span id="caseNumber">{{caseNumber}}</span>－－－－<span id="caseName">{{caseName}}</span></p>
+            <p id="caseContent">{{caseContent}}</p>
+            <div style="display: flex; flex-direction: row; margin-bottom: 10px;">
+                <div *ngIf="caseNumber" class="clip" matTooltip="复制案件编号" (cbOnSuccess)=onCbSuccess() ngxClipboard [cbContent]="caseNumber"></div>
+                <div *ngIf="caseName" class="clip" matTooltip="复制案件名称" (cbOnSuccess)=onCbSuccess() ngxClipboard [cbContent]="caseName"></div>
+                <div *ngIf="caseContent" class="clip" matTooltip="复制案件内容" (cbOnSuccess)=onCbSuccess() ngxClipboard [cbContent]="caseContent"></div>
+            </div>
             <template #shouxuContainer></template>
         </div>
         <div class="right_bottom">

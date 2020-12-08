@@ -4,6 +4,8 @@ import { State } from '../state';
 import { MatDialog } from '@angular/material';
 import { AddCaseComponent } from '../add-case/add-case.component';
 import { PhpFunctionName } from '../models/php-function-name';
+import { from, Observable, of } from 'rxjs';
+import { filter,map } from 'rxjs/operators';
 
 declare var alertify;
 @Component({
@@ -23,6 +25,10 @@ export class RecordsComponent {
    * 手续列表
    */
   itemList: Array<any>;
+
+  itemList$: Observable<any>;
+
+  data$: Observable<any>;
 
   @Input() state: any;
   @Output() clickCase = new EventEmitter()
@@ -50,26 +56,39 @@ export class RecordsComponent {
     }
   }
 
-  get data() {
+  get data():Array<any> {
     return this._data;
   }
 
   onClickCase(lawCase) {
-    this.clickCase.emit(lawCase)
-    // 获取itemList
-    this.itemList = this.data.filter(item => {
-      if (this.state == State.dzgj) {
-        if (item.phoneNumber) {
-          let phones = item.phoneNumber.split('|')
-          item.desc = phones.length > 2 ? `${phones.slice(0, 2)}　等${phones.length}个号码` : item.phoneNumber;
-          return item.lawCaseID == lawCase.lawCaseID && item.id;
+    this.clickCase.emit(lawCase);
+    this.itemList = [];
+
+    for (let i = 0; i < this.data.length; i++) {
+      const item = this.data[i];
+      if (item.id && item.lawCaseID == lawCase.lawCaseID) {
+        if (this.state == State.dzgj) {
+          if (item.phoneNumber) {
+            let phones = item.phoneNumber.split('|')
+            item.desc = phones.length > 2 ? `${phones.slice(0, 2)}　等${phones.length}个号码` : item.phoneNumber;
+            console.log(item.desc)
+          }
         }
-        return null;
+        if(this.state == State.djtzs || this.state == State.dztzs){
+          if(this.state == State.dztzs){
+            this.itemList.forEach(item=>{
+              let e = item.evidenceContent;
+              item.desc = e.match(/[\w\.@]{6,}/g).join(",")
+            })
+          }
+          //按照文书编号排序
+          this.itemList.sort((a,b)=>{
+            return b.docNumber - a.docNumber
+          })
+        }
+        this.itemList.push(item);
       }
-      else
-        return item.lawCaseID == lawCase.lawCaseID && item.id;
-    })
-    console.log(this.itemList)
+    }
   }
 
   onItemClick(item) {
@@ -102,7 +121,6 @@ export class RecordsComponent {
     this.sql.exec(PhpFunctionName.DEL, data).subscribe(
       res => { this.delComplete.emit() }
     )
-
   }
 
   onDblClick(e) {

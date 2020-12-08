@@ -17,15 +17,16 @@ import {
   MatAutocompleteModule,
   MatListModule,
   MatExpansionModule,
-  MatDialogModule
+  MatDialogModule,
+  MatTooltipModule,
 } from '@angular/material'
 
 import { MatNativeDateModule } from '@angular/material/core';
+import { ClipboardModule } from 'ngx-clipboard'
 
 import { AppComponent } from './app.component';
 import { DzgjComponent } from './dzgj/dzgj.component';
 import { DztzsComponent } from './dztzs/dztzs.component';
-import { from } from 'rxjs';
 import { RecordsComponent } from './records/records.component';
 import { AddCaseComponent } from './add-case/add-case.component';
 import { PreviewComponent } from './preview/preview.component';
@@ -66,7 +67,9 @@ import { DzspbComponent } from './dzspb/dzspb.component';
     MatListModule,
     MatExpansionModule,
     ReactiveFormsModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTooltipModule,
+    ClipboardModule
   ],
   providers: [],
   bootstrap: [AppComponent],

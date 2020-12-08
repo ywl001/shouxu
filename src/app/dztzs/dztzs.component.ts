@@ -57,7 +57,8 @@ export class DztzsComponent extends Shouxu {
 
   @ViewChild('evidence', { static: false })
   evidenceInput: ElementRef;
-  filterCompanys: Observable<any>;
+
+  filterCompanys$: Observable<any>;
   myControl: FormControl = new FormControl();
 
   cardIDControl:FormControl = new FormControl();
@@ -71,7 +72,7 @@ export class DztzsComponent extends Shouxu {
 
   ngOnInit() {
     this.getdocNumber();
-    this.filterCompanys = this.myControl.valueChanges.pipe(
+    this.filterCompanys$ = this.myControl.valueChanges.pipe(
       startWith(''),
       map(val => this.filter(val))
     )
@@ -141,8 +142,8 @@ export class DztzsComponent extends Shouxu {
 
   //辅助选择日期的点击
   onDateSelect(item) {
-    if (item.label == '主题信息') {
-      this.evidenceContent2 = `调取账号${this.evidenceContent}的主题信息`;
+    if (item.label == '主体信息') {
+      this.evidenceContent2 = `调取账号${this.evidenceContent}的主体信息`;
     } else if (item.label == '流水号') {
       this.evidenceContent2 = `调取交易流水号${this.evidenceContent}的账号信息`;
     }

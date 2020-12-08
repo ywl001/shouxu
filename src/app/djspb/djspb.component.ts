@@ -160,8 +160,9 @@ export class DjspbComponent extends Shouxu {
 
   getSaveFileName() {
     const re = /\d{6}/g;
-    const r = this.docNumber.match(re).join(",")
-    return r + '_冻结审批表'
+    const r = this.docNumber.match(re);
+    const name = r[0]+ "--" + r[r.length-1];
+    return name + '_冻结审批表'
   }
 
   

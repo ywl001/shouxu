@@ -61,7 +61,8 @@ export class DzspbComponent extends Shouxu {
   }
 
   getQueryContent(value) {
-    const re = /[\w\@\.]{6,}(\(?（?[\u4e00-\u9fa5]{2,4}\)?）?)?/g
+    // const re = /[\w\@\.]{6,}(\(?（?[\u4e00-\u9fa5]{2,4}\)?）?)?/g
+    const re = /[\w\@\.]{6,}/g
     let arr = value.match(re);
     if(!arr || arr.length ===0)
       return ""
@@ -172,8 +173,9 @@ export class DzspbComponent extends Shouxu {
 
   getSaveFileName() {
     const re = /\d{6}/g;
-    const r = this.docNumber.match(re).join(",")
-    return r + '_查询审批表'
+    const r = this.docNumber.match(re);
+    const name = r[0]+ "--" + r[r.length-1];
+    return name + '_查询审批表'
   }
 
   //根据名字获取uer对象
