@@ -75,15 +75,21 @@ export abstract class Shouxu {
   abstract getSaveFileName();
 
   //设置不选择案件就无法进行
+  private isRemove;
   public get rootStyle() {
     // return this.lawCaseID ? :
     if (this.lawCaseID) {
-      //toastr.remove()
+      if(!this.isRemove){
+        toastr.remove()
+        this.isRemove = true;
+      }
       return { opacity: 1, pointerEvents: 'all' }
     }
     else {
+      this.isRemove = false;
       toastr.options.preventDuplicates = true;
       toastr.warning('请先选择案件')
+      //半透明，无法点击
       return { opacity: 0.4, pointerEvents: 'none' }
     }
   }
@@ -160,17 +166,18 @@ export abstract class Shouxu {
   }
 
   getDayImg(p, level) {
+    console.log(p,level)
     let day = this.getDay(this.createDate) + ''
     let day_p = day.substr(p - 1, 1);
     return `assets/${day_p}_${level}.png`
   }
 
   isDoubleDigit_month() {
-    return this.getMonth(this.createDate) > 10;
+    return this.getMonth(this.createDate) >= 10;
   }
 
   isDoubleDigit_day() {
-    return this.getDay(this.createDate) > 10
+    return this.getDay(this.createDate) >= 10
   }
 
   get createDate_china() {

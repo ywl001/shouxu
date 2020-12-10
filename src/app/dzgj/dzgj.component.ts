@@ -7,9 +7,7 @@ import * as toastr from 'toastr'
 
 import { Shouxu } from '../models/shouxu';
 import { PhpFunctionName } from '../models/php-function-name';
-import { ChangeDetectorRef } from '@angular/core';
 import { State } from '../state';
-import { concatAll } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dzgj',

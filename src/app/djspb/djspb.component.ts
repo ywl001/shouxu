@@ -62,8 +62,8 @@ export class DjspbComponent extends Shouxu {
 
   getFreezeNumbers(value){
     if(this.freezeNumber)
-      return `${this.freezeNumber}，${value.freezeName}:${value.freezeNumber}`
-    return `${value.freezeName}:${value.freezeNumber}`;
+      return `${this.freezeNumber}，${value.freezeNumber}`
+    return `${value.freezeNumber}`;
   }
 
   get requestUser() {
