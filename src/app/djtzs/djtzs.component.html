@@ -1,18 +1,31 @@
-<div [ngStyle] = rootStyle>
-    <div>
+<div [ngStyle]=rootStyle>
+    <div style="display: flex;">
         <mat-form-field>
             <mat-label>填表时间：</mat-label>
             <input matInput [(ngModel)]="createDate" [matDatepicker]="picker">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-    
+
         <mat-form-field style="width:200px;">
             <mat-label>编号：</mat-label>
             <input matInput [(ngModel)]=docNumber>
         </mat-form-field>
+
+        <div *ngIf="!isNew">
+            <div *ngIf="!isUnfreeze">
+                <button mat-raised-button  (click)="onAddUnfreeze()">添加解除冻结手续</button>
+            </div>
+            <mat-radio-group *ngIf="isUnfreeze">
+                <mat-radio-button>冻结</mat-radio-button>
+                <mat-radio-button>解冻</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div>
+
+        </div>
     </div>
-    
+
     <mat-form-field style="width: 400px;">
         <mat-label>银行名称：</mat-label>
         <input matInput [matAutocomplete]=autoCompany [formControl]="myControl" [(ngModel)]="company">
@@ -20,7 +33,7 @@
             <mat-option *ngFor="let option of filterCompanys | async" [value]="option.label">{{option.label}}</mat-option>
         </mat-autocomplete>
     </mat-form-field>
-    
+
     <mat-form-field>
         <mat-label>类型（名称）：</mat-label>
         <input [(ngModel)]="moneyType" matInput [matAutocomplete]="autoMoneyType">
@@ -28,31 +41,31 @@
             <mat-option *ngFor="let item of moneyTypes" [value]=item>{{item}}</mat-option>
         </mat-autocomplete>
     </mat-form-field>
-    
+
     <div>
         <mat-form-field style="width:300px;">
             <mat-label>户名或权利人：</mat-label>
             <input matInput [(ngModel)]='freezeName' autocomplete="off">
         </mat-form-field>
-    
+
         <mat-form-field style="width: 45%;">
             <mat-label>账号：</mat-label>
-            <input matInput [(ngModel)]='freezeNumber' [formControl] = "cardIDFromtrol">
+            <input matInput [(ngModel)]='freezeNumber' [formControl]="cardIDFromtrol">
         </mat-form-field>
     </div>
-    
+
     <div>
         <mat-form-field style="width: 300px;">
             <mat-label>冻结数额（大，小写）：</mat-label>
             <input matInput [(ngModel)]='freezeMoney' placeholder="如果冻结指定数量，只填数字即可">
         </mat-form-field>
-    
+
         <mat-form-field style="width: 45%;">
             <mat-label>其他：</mat-label>
             <input matInput [(ngModel)]='other'>
         </mat-form-field>
     </div>
-    
+
     <div>
         <mat-form-field>
             <mat-label>冻结开始时间：</mat-label>
@@ -79,7 +92,7 @@
         <text transform="matrix(1 0 0 1 401 305)" font-family="'SimHei'" font-size="46">协助冻结财产通知书</text>
         <text transform="matrix(1 0 0 1 417.5107 107.8623)" font-family="'TimesNewRomanPSMT'" font-size="26">{{caseNumber}}</text>
         <text transform="matrix(1 0 0 1 500.2905 411.2061)" font-family="'FangSong_GB2312'" font-size="30">{{unit_1}}（刑）冻财字〔{{getYear(this.createDate)}}〕{{docNumber}}号</text>
-        <text transform="matrix(1 0 0 1 258.7983 520.1963)" font-family="'FangSong_GB2312'" font-size="30">根据《中华人民共和国刑事诉讼法》第一百四十四条之</text>
+        <text transform="matrix(1 0 0 1 258.7983 520.1963)" font-family="'FangSong_GB2312'" font-size="30">根据《中华人民共和国刑事诉讼法》第一百四十二条之</text>
         <text transform="matrix(1.0799 0 0 1 186.6064 571.6807)" font-family="'FangSong_GB2312'" font-size="30">规定，请予冻结犯罪嫌疑人的下列财产：</text>
         <text transform="matrix(1 0 0 1 239.5547 626.1973)" font-family="'FangSong_GB2312'" font-size="30">类型（名称）</text>
         <text transform="matrix(1 0 0 1 502.8701 626.1973)" font-family="'FangSong_GB2312'" font-size="30">{{moneyType}}</text>

@@ -12,6 +12,8 @@ import { SQLService } from '../services/sql.service';
 import { State } from '../state';
 import * as toastr from 'toastr'
 
+declare var alertify;
+
 @Component({
   selector: 'app-djtzs',
   templateUrl: './djtzs.component.html',
@@ -27,6 +29,7 @@ export class DjtzsComponent extends Shouxu {
 
   //////////////////////////////////////////////////////////和html直接绑定的变量////////////////////////////////////////////////////////
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  shouxuID;//手续数据的id
   ///冻结的账号
   freezeNumber;
   //冻结金额
@@ -42,6 +45,21 @@ export class DjtzsComponent extends Shouxu {
   //其他
   other: string;
 
+  private _docNumber2;//解除冻结的文号
+  public get docNumber2() {
+    if(this.isManual){
+      return this.docNumber
+    }else{
+      this.getDocNumber2()
+    }
+    return this._docNumber2;
+  }
+  public set docNumber2(value) {
+    this._docNumber2 = value;
+  }
+
+  createDate2;//解除冻结的日期
+
   //文书中冻结的开始和结束日期
   year_start;
   month_start;
@@ -56,6 +74,11 @@ export class DjtzsComponent extends Shouxu {
   bankBin;
   filterCompanys: Observable<any>;//过滤后的金融机构
   myControl: FormControl = new FormControl();//绑定金融机构的formControl
+
+  isNew: boolean = true;//是否新建手续
+  isUnfreeze: boolean = false;//是否已经解除冻结
+
+  isManual = false//是否手动生成解除冻结的日期和文书编号
 
   cardIDFromtrol = new FormControl();
 
@@ -105,15 +128,15 @@ export class DjtzsComponent extends Shouxu {
   ngOnInit() {
     this.getDocNumber();
     this.startTime = moment();
-    this.endTime = moment().add(6,'month');
+    this.endTime = moment().add(6, 'month');
     this.filterCompanys = this.myControl.valueChanges.pipe(
       startWith(''),
       map(val => this.filter(val))
     )
 
     this.cardIDFromtrol.valueChanges.subscribe(
-      res=>{
-        if(this.getBankNameByCard(res))
+      res => {
+        if (this.getBankNameByCard(res))
           this.company = this.getBankNameByCard(res)
         console.log(res)
       }
@@ -123,6 +146,7 @@ export class DjtzsComponent extends Shouxu {
   /////////////////////////////////////////////////////////复写父类的方法///////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   set data(value: any) {
+    this.shouxuID = value.id;
     this.freezeNumber = value.freezeNumber;
     this.freezeName = value.freezeName;
     this.freezeMoney = value.freezeMoney;
@@ -131,6 +155,18 @@ export class DjtzsComponent extends Shouxu {
     this.createDate = moment(value.createDate)
     this.company = value.company;
     this.docNumber = value.docNumber;
+    this.docNumber2 = value.docNumber2;
+    this.createDate2 = value.createDate2;
+    this.isUnfreeze = this.docNumber2 && this.createDate2;
+    this.isNew = false;
+  }
+
+  set caseData(value) {
+    this.lawCaseID = value.lawCaseID;
+    this.caseName = value.caseName;
+    this.caseNumber = value.caseNumber;
+    this.caseContent = value.caseContent;
+    this.isNew = true;
   }
 
   validate() {
@@ -201,7 +237,7 @@ export class DjtzsComponent extends Shouxu {
   clear() {
     this.company = this.freezeNumber = this.freezeName = null;
     this.startTime = moment();
-    this.endTime = moment().add(6,'month');
+    this.endTime = moment().add(6, 'month');
     this.getDocNumber()
   }
 
@@ -232,6 +268,57 @@ export class DjtzsComponent extends Shouxu {
           }
         }
       }
+    )
+  }
+
+  private getDocNumber2() {
+    this.sql.exec(PhpFunctionName.SELECT_LAST_DOCUMENT_NUMBER, State.djtzs.value).subscribe(
+      res => {
+        if (res.length == 0) {
+          this.docNumber2 = moment().format('MMDD') + '01'
+        } else {
+          let lastDocNumber = res[0]['docNumber']
+          let str = moment().format('MMDD');
+          if (str == lastDocNumber.substr(0, 4)) {
+            let num = parseInt(lastDocNumber.substr(4, 2))
+            console.log(num)
+            num += 1;
+            let strNum = num < 10 ? '0' + num : '' + num;
+            this.docNumber2 = str + strNum
+          } else {
+            this.docNumber2 = moment().format('MMDD') + '01'
+          }
+        }
+      }
+    )
+  }
+
+
+  onAddUnfreeze(){
+    alertify.set({
+      labels: {
+        ok: "确定",
+        cancel: "取消"
+      }
+    });
+    alertify.confirm("确定要添加解除冻结手续吗？", e => {
+      if (e) {
+        this.confirmAddUnfreeze();
+      }
+    });
+  }
+
+  confirmAddUnfreeze(){
+    let tableData={
+      tableName: State.currentState.value,
+      tableData:{
+        docNumber2:this.docNumber2,
+        createDate2:this.createDate2,
+      },
+      id:this.shouxuID
+    }
+    this.sql.exec(PhpFunctionName.UPDATE,tableData).subscribe(
+      res=>console.log(res)
     )
   }
 
@@ -267,22 +354,12 @@ export class DjtzsComponent extends Shouxu {
   };
 
   private getBankNameByCard(idCard: string) {
-    if(!idCard)
+    if (!idCard)
       return;
-    if (this.bankBin[idCard.substr(0, 3)])
-      return this.bankBin[idCard.substr(0, 3)]
-    else if (this.bankBin[idCard.substr(0, 4)])
-      return this.bankBin[idCard.substr(0, 4)]
-    else if (this.bankBin[idCard.substr(0, 5)])
-      return this.bankBin[idCard.substr(0, 5)]
-    else if (this.bankBin[idCard.substr(0, 6)])
-      return this.bankBin[idCard.substr(0, 6)]
-    else if (this.bankBin[idCard.substr(0, 7)])
-      return this.bankBin[idCard.substr(0, 8)]
-    else if (this.bankBin[idCard.substr(0, 9)])
-      return this.bankBin[idCard.substr(0, 9)]
-    else if (this.bankBin[idCard.substr(0, 10)])
-      return this.bankBin[idCard.substr(0, 10)]
+    for (let i = 10; i > 2; i--) {
+      if(this.bankBin[idCard.substr(0,i)])
+        return this.bankBin[idCard.substr(0,i)];
+    }
     return ""
   }
 }

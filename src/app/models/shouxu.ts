@@ -79,7 +79,7 @@ export abstract class Shouxu {
   public get rootStyle() {
     // return this.lawCaseID ? :
     if (this.lawCaseID) {
-      if(!this.isRemove){
+      if (!this.isRemove) {
         toastr.remove()
         this.isRemove = true;
       }
@@ -166,7 +166,7 @@ export abstract class Shouxu {
   }
 
   getDayImg(p, level) {
-    console.log(p,level)
+    console.log(p, level)
     let day = this.getDay(this.createDate) + ''
     let day_p = day.substr(p - 1, 1);
     return `assets/${day_p}_${level}.png`
@@ -210,7 +210,7 @@ export abstract class Shouxu {
 
   //日期转中文
   toChineseDate(moment) {
-    const cn = ["〇", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+    const cn = ["〇", "一", "二", "三", "四", "五", "六", "七", "八", "九", ''];
     let s = [];
 
     let YY = moment.year().toString();
@@ -223,32 +223,23 @@ export abstract class Shouxu {
     if (MM < 10)
       s.push(cn[MM]);
     else {
-      let first = Math.floor(MM / 10);
       let second = MM % 10;
-      if (first == 1)
-        s.push("十")
-      else {
-        s.push(cn[first] + '十')
-      }
-      if(second != 0)
-        s.push(cn[second])
+      s.push("十")
+      if (second != 0) s.push(cn[second])
     }
     s.push('月');
 
     let d = moment.date();
-    if(d <10){
+    if (d < 10) {
       s.push(cn[d])
-    }else{
+    } else {
       let first = Math.floor(d / 10);
+      if(first == 1) first = 10;
       let second = d % 10;
-      if(first == 1)
-        s.push('十')
-      else if(first > 1 && second == 0)
-        s.push(cn[first] + '十')
-      else{
-        s.push(cn[first] + '十' + cn[second])
-      }
+      if(second == 0) second = 10;
+      s.push(cn[first] + '十' + cn[second])
     }
+    // console.log(s)
     s.push("日");
     return s.join('');
   }
