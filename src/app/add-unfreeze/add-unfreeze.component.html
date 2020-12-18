@@ -1,0 +1,19 @@
+
+<h2 mat-dialog-title>添加解冻手续</h2>
+<mat-dialog-content>
+    <mat-form-field>
+        <mat-label>填表时间：</mat-label>
+        <input matInput [(ngModel)]="createDate" [matDatepicker]="picker">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    
+    <mat-form-field style="width:200px;">
+        <mat-label>编号：</mat-label>
+        <input matInput [(ngModel)]=docNumber>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>取消</button>
+  <button mat-button mat-dialog-close (click) = onSubmit()>确定</button>
+</mat-dialog-actions>

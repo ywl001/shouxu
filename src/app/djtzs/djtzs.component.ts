@@ -11,6 +11,7 @@ import { Shouxu } from '../models/shouxu';
 import { SQLService } from '../services/sql.service';
 import { State } from '../state';
 import * as toastr from 'toastr'
+import { AddUnfreezeComponent } from '../add-unfreeze/add-unfreeze.component';
 
 declare var alertify;
 
@@ -45,21 +46,6 @@ export class DjtzsComponent extends Shouxu {
   //其他
   other: string;
 
-  private _docNumber2;//解除冻结的文号
-  public get docNumber2() {
-    if(this.isManual){
-      return this.docNumber
-    }else{
-      this.getDocNumber2()
-    }
-    return this._docNumber2;
-  }
-  public set docNumber2(value) {
-    this._docNumber2 = value;
-  }
-
-  createDate2;//解除冻结的日期
-
   //文书中冻结的开始和结束日期
   year_start;
   month_start;
@@ -81,6 +67,11 @@ export class DjtzsComponent extends Shouxu {
   isManual = false//是否手动生成解除冻结的日期和文书编号
 
   cardIDFromtrol = new FormControl();
+
+  docNumber2;
+  createDate2;
+
+  type = '1';
 
   //绑定表单中的开始和结束时间
   private _startTime;
@@ -111,7 +102,7 @@ export class DjtzsComponent extends Shouxu {
 
   //文书中的日期
   get createDate_chinese() {
-    return this.toChineseDate(this.createDate)
+    return this.type === '1' ? this.toChineseDate(this.createDate) : this.toChineseDate(this.createDate2)
   }
   //冻结金额的大小写
   get freezeMoney2() {
@@ -155,10 +146,10 @@ export class DjtzsComponent extends Shouxu {
     this.createDate = moment(value.createDate)
     this.company = value.company;
     this.docNumber = value.docNumber;
-    this.docNumber2 = value.docNumber2;
-    this.createDate2 = value.createDate2;
-    this.isUnfreeze = this.docNumber2 && this.createDate2;
     this.isNew = false;
+    this.docNumber2 = value.docNumber2;
+    this.createDate2 = moment(value.createDate2);
+    this.isUnfreeze = this.docNumber2 && this.createDate2;
   }
 
   set caseData(value) {
@@ -167,6 +158,7 @@ export class DjtzsComponent extends Shouxu {
     this.caseNumber = value.caseNumber;
     this.caseContent = value.caseContent;
     this.isNew = true;
+    this.isUnfreeze = this.docNumber2 && this.createDate2;
   }
 
   validate() {
@@ -271,55 +263,9 @@ export class DjtzsComponent extends Shouxu {
     )
   }
 
-  private getDocNumber2() {
-    this.sql.exec(PhpFunctionName.SELECT_LAST_DOCUMENT_NUMBER, State.djtzs.value).subscribe(
-      res => {
-        if (res.length == 0) {
-          this.docNumber2 = moment().format('MMDD') + '01'
-        } else {
-          let lastDocNumber = res[0]['docNumber']
-          let str = moment().format('MMDD');
-          if (str == lastDocNumber.substr(0, 4)) {
-            let num = parseInt(lastDocNumber.substr(4, 2))
-            console.log(num)
-            num += 1;
-            let strNum = num < 10 ? '0' + num : '' + num;
-            this.docNumber2 = str + strNum
-          } else {
-            this.docNumber2 = moment().format('MMDD') + '01'
-          }
-        }
-      }
-    )
-  }
 
-
-  onAddUnfreeze(){
-    alertify.set({
-      labels: {
-        ok: "确定",
-        cancel: "取消"
-      }
-    });
-    alertify.confirm("确定要添加解除冻结手续吗？", e => {
-      if (e) {
-        this.confirmAddUnfreeze();
-      }
-    });
-  }
-
-  confirmAddUnfreeze(){
-    let tableData={
-      tableName: State.currentState.value,
-      tableData:{
-        docNumber2:this.docNumber2,
-        createDate2:this.createDate2,
-      },
-      id:this.shouxuID
-    }
-    this.sql.exec(PhpFunctionName.UPDATE,tableData).subscribe(
-      res=>console.log(res)
-    )
+  onAddUnfreeze() {
+    this.dialog.open(AddUnfreezeComponent, { data: { shouxuID: this.shouxuID } })
   }
 
   private digitUppercase(n) {
@@ -357,8 +303,8 @@ export class DjtzsComponent extends Shouxu {
     if (!idCard)
       return;
     for (let i = 10; i > 2; i--) {
-      if(this.bankBin[idCard.substr(0,i)])
-        return this.bankBin[idCard.substr(0,i)];
+      if (this.bankBin[idCard.substr(0, i)])
+        return this.bankBin[idCard.substr(0, i)];
     }
     return ""
   }

@@ -33,7 +33,7 @@
 
             <div *ngIf="state.label=='冻结通知书'">
                 <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
-                    <div class= 'item_txt'><span style="color: red;">{{item.docNumber}}</span>：{{item.freezeName}}-{{item.freezeNumber}} </div>
+                    <div class= 'item_txt'><span [style.color]="item.docNumber2 ? 'green' : 'red'" >{{item.docNumber}}</span>：{{item.freezeName}}-{{item.freezeNumber}} </div>
                     <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
                 </div>
             </div>

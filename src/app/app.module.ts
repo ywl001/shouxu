@@ -34,6 +34,7 @@ import { DjspbComponent } from './djspb/djspb.component';
 import { CxspComponent } from './cxsp/cxsp.component';
 import { DjtzsComponent } from './djtzs/djtzs.component';
 import { DzspbComponent } from './dzspb/dzspb.component';
+import { AddUnfreezeComponent } from './add-unfreeze/add-unfreeze.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { DzspbComponent } from './dzspb/dzspb.component';
     DjspbComponent,
     CxspComponent,
     DjtzsComponent,
-    DzspbComponent
+    DzspbComponent,
+    AddUnfreezeComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +83,8 @@ import { DzspbComponent } from './dzspb/dzspb.component';
     PreviewComponent,
     DjspbComponent,
     CxspComponent,
-    DjtzsComponent
+    DjtzsComponent,
+    AddUnfreezeComponent
   ]
 })
 export class AppModule { }
