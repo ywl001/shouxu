@@ -16,11 +16,17 @@ export class MessageService {
   // closeLeft$ = this.closeLeft.asObservable();
   // caseName$ = this.caseName.asObservable();
   // refreshChart$ = this.refreshChart.asObservable();
-  
+
+  private unFreezeInfo = new BehaviorSubject(null)
+  unfreezeInfo$ = this.unFreezeInfo.asObservable()
   constructor() { }
 
   sendRefresh(){
     this.refresh.next('')
+  }
+
+  sendUnfreeze(value){
+    this.unFreezeInfo.next(value)
   }
 
   // ·

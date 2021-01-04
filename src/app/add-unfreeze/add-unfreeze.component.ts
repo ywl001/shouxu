@@ -70,7 +70,7 @@ export class AddUnfreezeComponent implements OnInit {
     }
     this.sql.exec(PhpFunctionName.UPDATE,tableData).subscribe(
       res=>{
-        this.message.sendRefresh()
+        this.message.sendUnfreeze(tableData)
       }
     )
   }

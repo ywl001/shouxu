@@ -46,3 +46,7 @@
 .numberDiv > * {
     margin-right: 10px;
 }
+
+mat-form-field{
+    width: 140px;
+}

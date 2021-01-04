@@ -149,6 +149,7 @@ export class DzspbComponent extends Shouxu {
 
   clear() {
     this.docNumber = this.queryType = this.queryContent = null;
+    this.createDate = null
   }
 
   validate() {

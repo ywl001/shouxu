@@ -98,3 +98,8 @@
 .clip:hover{
     background-image: url('../assets/clipboard_over.svg');
 }
+
+.mat-flat-button,
+.mat-raised-button {
+  border-radius: 0;
+}

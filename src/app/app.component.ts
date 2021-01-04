@@ -225,7 +225,7 @@ export class AppComponent {
   showCaseData(caseData) {
     console.log('show case data')
     this.clear()
-    this.shouxu.clear()
+    this.shouxu.clear();
     this.caseNumber = caseData.caseNumber;
     this.caseName = caseData.caseName;
     this.caseContent = caseData.caseContent;

@@ -35,10 +35,6 @@ export class RecordsComponent {
   @Output() clickItem = new EventEmitter()
   @Output() delComplete = new EventEmitter()
 
-  constructor(private sql: SQLService, private dialog: MatDialog) {
-
-  }
-
   @Input()
   set data(value: Array<any>) {
     if (value && value != this._data) {
@@ -55,9 +51,11 @@ export class RecordsComponent {
       })
     }
   }
-
+  
   get data():Array<any> {
     return this._data;
+  }
+  constructor(private sql: SQLService, private dialog: MatDialog) {
   }
 
   onClickCase(lawCase) {
