@@ -1,0 +1,161 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'FangSong_GB2312';
+    src: url('assets/FangSong_GB2312.woff2') format('woff2'),
+        url('assets/FangSong_GB2312.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: 'FangSong_GB2312';
+}
+
+$outBorder:2px solid black;
+$innerBorder:1px solid black;
+
+.table {
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .left {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .right {
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .text-normal {
+    font-size: 16pt;
+    font-family: FangSong;
+  }
+
+  .text-content {
+    font-size: 14pt;
+    padding: 10px;
+    text-align: justify
+  }
+
+  .text-title {
+    font-size: 30pt;
+    font-family: SimHei;
+  }
+
+  .text-little{
+    font-size: 12pt;
+  }
+
+  .space{
+    flex:1;
+    min-height: 30px;
+    width: 100%;
+  }
+  
+  .p10{
+    padding:10px;
+  }
+
+  .blt {
+    border-left: $outBorder;
+    border-top: $outBorder;
+    border-right: $innerBorder;
+    border-bottom: $innerBorder;
+  }
+
+  .brt {
+    border-right: $outBorder;
+    border-top: $outBorder;
+    border-bottom: $innerBorder;
+  }
+
+  .blb {
+    border-left: $outBorder;
+    border-bottom: $outBorder;
+    border-right: $innerBorder;
+  }
+
+  .brb {
+    border-right: $outBorder;
+    border-bottom: $outBorder;
+  }
+
+  .bl {
+    border-left: $outBorder;
+    border-right: $innerBorder;
+    border-bottom: $innerBorder;
+  }
+
+  .br {
+    border-right: $outBorder;
+    border-bottom: $innerBorder;
+  }
+
+  .bt {
+    border-top: $outBorder;
+    border-right: $innerBorder;
+    border-bottom: $innerBorder;
+  }
+
+  .bb {
+    border-bottom: $outBorder;
+    border-right: $innerBorder;
+  }
+
+  .b {
+    border-right: $innerBorder;
+    border-bottom: $innerBorder;
+  }
+  .b4{
+    border: 6px solid black;
+  }
+  .b2{
+    border: 2px solid black;
+  }
+  .b-under{
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
+  }
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100%;
+}
+
+
+
+.row {
+  flex-direction: row;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.bg {
+  background-color: red;
+}
+
+.bg2 {
+  background-color: green;
+}
