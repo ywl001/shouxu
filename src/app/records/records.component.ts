@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { SQLService } from '../services/sql.service';
 import { State } from '../state';
 import { MatDialog } from '@angular/material';
 import { AddCaseComponent } from '../add-case/add-case.component';
 import { PhpFunctionName } from '../models/php-function-name';
 import { from, Observable, of } from 'rxjs';
-import { filter,map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { MessageService } from '../services/message.service';
 
 declare var alertify;
 @Component({
@@ -13,7 +14,7 @@ declare var alertify;
   templateUrl: './records.component.html',
   styleUrls: ['./records.component.css']
 })
-export class RecordsComponent {
+export class RecordsComponent implements OnInit {
 
   private _data: Array<any>;
 
@@ -51,11 +52,28 @@ export class RecordsComponent {
       })
     }
   }
-  
-  get data():Array<any> {
+
+  get data(): Array<any> {
     return this._data;
   }
-  constructor(private sql: SQLService, private dialog: MatDialog) {
+  constructor(private sql: SQLService, 
+    private dialog: MatDialog,
+    private cdf:ChangeDetectorRef,
+    private message:MessageService) {
+  }
+  ngOnInit(): void {
+    this.message.unfreezeInfo$.subscribe(
+      res=>{
+        if(!res) return;
+        console.log(res);
+        // console.log(this.itemList);
+        let item = this.itemList.find(item=>item.id == res.id);
+        console.log(item)
+        item.createDate2 = res.tableData.createDate2;
+        item.docNumber2 = res.tableData.docNumber2;
+        this.cdf.detectChanges()
+      }
+    )
   }
 
   onClickCase(lawCase) {
@@ -72,15 +90,9 @@ export class RecordsComponent {
             console.log(item.desc)
           }
         }
-        if(this.state == State.djtzs || this.state == State.dztzs){
-          if(this.state == State.dztzs){
-            this.itemList.forEach(item=>{
-              let e = item.evidenceContent;
-              item.desc = e.match(/[\w\.@]{6,}/g).join(",")
-            })
-          }
+        if (this.state == State.djtzs || this.state == State.dztzs) {
           //按照文书编号排序
-          this.itemList.sort((a,b)=>{
+          this.itemList.sort((a, b) => {
             return b.docNumber - a.docNumber
           })
         }

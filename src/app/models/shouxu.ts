@@ -166,7 +166,7 @@ export abstract class Shouxu {
   }
 
   getDayImg(p, level) {
-    console.log(p, level)
+    // console.log(p, level)
     let day = this.getDay(this.createDate) + ''
     let day_p = day.substr(p - 1, 1);
     return `assets/${day_p}_${level}.png`

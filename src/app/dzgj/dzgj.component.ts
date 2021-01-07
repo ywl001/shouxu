@@ -132,12 +132,10 @@ export class DzgjComponent extends Shouxu {
   //提交数据库前的验证
   validate() {
     if (!this.lawCaseID) {
-
       toastr.warning('请选择一个案件，没有请先添加案件');
       return false;
     }
     if (this.phoneNumbers.trim() == '') {
-      console.log('fffffffff')
       toastr.warning('没有填写号码')
       return false;
     }
@@ -198,15 +196,9 @@ export class DzgjComponent extends Shouxu {
  * 获取号码列表和号码组成的字符串 13939999999|13838888888
  */
   private get phoneNumbers() {
-    let strNumbers = ''
     let arrNumber = [this.number1, this.number2, this.number3, this.number4, this.number5, this.number6];
-    for (let index in arrNumber) {
-      let number = arrNumber[index]
-      if (number !== undefined && number != '' && number != null) {
-        strNumbers += number + '|';
-      }
-    }
-    return strNumbers.substr(0, strNumbers.length - 1)
+    let arr = arrNumber.filter(item=>item && item.length>0)
+    return arr.join('|')
   }
 
   //获取新建文书的编号

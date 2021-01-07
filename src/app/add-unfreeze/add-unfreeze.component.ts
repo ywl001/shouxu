@@ -30,7 +30,7 @@ export class AddUnfreezeComponent implements OnInit {
   set createDate(value) {
     this._createDate = value;
   }
-  constructor(private sql:SQLService,@Inject(MAT_DIALOG_DATA) public data: any,private message:MessageService) { }
+  constructor(private sql: SQLService, @Inject(MAT_DIALOG_DATA) public data: any, private message: MessageService) { }
 
   ngOnInit() {
     this.getDocNumber()
@@ -39,10 +39,8 @@ export class AddUnfreezeComponent implements OnInit {
   private getDocNumber() {
     this.sql.exec('selectLastDocNumber2', State.djtzs.value).subscribe(
       res => {
-        if (res.length == 0) {
-          this.docNumber = moment().format('MMDD') + '01'
-        } else {
-          let lastDocNumber = res[0]['docNumber2']
+        let lastDocNumber = res[0]['docNumber2']
+        if (lastDocNumber) {
           let str = moment().format('MMDD');
           if (str == lastDocNumber.substr(0, 4)) {
             let num = parseInt(lastDocNumber.substr(4, 2))
@@ -54,22 +52,24 @@ export class AddUnfreezeComponent implements OnInit {
           } else {
             this.docNumber = moment().format('MMDD') + '01'
           }
+        }else{
+          this.docNumber = moment().format('MMDD') + '01'
         }
       }
     )
   }
 
-  onSubmit(){
-     let tableData={
+  onSubmit() {
+    let tableData = {
       tableName: State.currentState.value,
-      tableData:{
-        docNumber2:this.docNumber,
-        createDate2:this.createDate,
+      tableData: {
+        docNumber2: this.docNumber,
+        createDate2: this.createDate,
       },
-      id:this.data.shouxuID
+      id: this.data.shouxuID
     }
-    this.sql.exec(PhpFunctionName.UPDATE,tableData).subscribe(
-      res=>{
+    this.sql.exec(PhpFunctionName.UPDATE, tableData).subscribe(
+      res => {
         this.message.sendUnfreeze(tableData)
       }
     )

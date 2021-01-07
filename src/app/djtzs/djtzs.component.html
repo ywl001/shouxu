@@ -2,27 +2,24 @@
     <div style="display: flex;">
         <mat-form-field>
             <mat-label>填表时间：</mat-label>
-            <input matInput [(ngModel)]="createDate" [matDatepicker]="picker">
+            <input matInput [(ngModel)]="(type && type=='2') ? createDate2 :createDate" [matDatepicker]="picker">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
         <mat-form-field style="width:200px;">
             <mat-label>编号：</mat-label>
-            <input matInput [(ngModel)]=docNumber>
+            <input matInput [(ngModel)]="type&&type=='2' ? docNumber2:docNumber">
         </mat-form-field>
 
         <div *ngIf="!isNew" style="display: flex; align-items: center; margin: 0 20px;">
             <div *ngIf="!isUnfreeze">
-                <button mat-flat-button  (click)="onAddUnfreeze()" >添加解除冻结手续</button>
+                <button mat-flat-button (click)="onAddUnfreeze()">添加解除冻结手续</button>
             </div>
             <mat-radio-group *ngIf="isUnfreeze" [(ngModel)]="type">
-                <mat-radio-button checked value = 1 style="margin-right: 20px;">冻结</mat-radio-button>
-                <mat-radio-button value = 2>解冻</mat-radio-button>
+                <mat-radio-button value=1 style="margin-right: 20px;">冻结</mat-radio-button>
+                <mat-radio-button value=2>解冻</mat-radio-button>
             </mat-radio-group>
-        </div>
-        <div>
-
         </div>
     </div>
 
@@ -82,276 +79,130 @@
     </div>
 </div>
 
-<div id="print" class="print" [style.display] = isShowPrint *ngIf="type==1">
-    <svg version="1.1" id="id" xmlns="http://www.w3.org/2000/svg" width="1150px" height="1626px">
-        <rect x="172.208" y="142.163" fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" width="838.653" height="1220.792" />
-        <rect x="178.076" y="147.861" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" width="826.771" height="1209.708" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="184.334" y1="470.272" x2="575.001" y2="470.272" />
-        <text transform="matrix(1 0 0 1 406 247)" font-family="'AdobeSongStd-Light-GBpc-EUC-H'" font-size="34" letter-spacing="12">{{unit}}</text>
-        <!-- <text transform="matrix(1 0 0 1 406 247)" fill="none" stroke="#000000" stroke-miterlimit="10" font-family="'SimHei'" font-size="34" letter-spacing="6">{{unit}}</text> -->
-        <text transform="matrix(1 0 0 1 401 305)" font-family="'SimHei'" font-size="46">协助冻结财产通知书</text>
-        <text transform="matrix(1 0 0 1 417.5107 107.8623)" font-family="'TimesNewRomanPSMT'" font-size="26">{{caseNumber}}</text>
-        <text transform="matrix(1 0 0 1 500.2905 411.2061)" font-family="'FangSong_GB2312'" font-size="30">{{unit_1}}（刑）冻财字〔{{getYear(this.createDate)}}〕{{docNumber}}号</text>
-        <text transform="matrix(1 0 0 1 258.7983 520.1963)" font-family="'FangSong_GB2312'" font-size="30">根据《中华人民共和国刑事诉讼法》第一百四十二条之</text>
-        <text transform="matrix(1.0799 0 0 1 186.6064 571.6807)" font-family="'FangSong_GB2312'" font-size="30">规定，请予冻结犯罪嫌疑人的下列财产：</text>
-        <text transform="matrix(1 0 0 1 239.5547 626.1973)" font-family="'FangSong_GB2312'" font-size="30">类型（名称）</text>
-        <text transform="matrix(1 0 0 1 502.8701 626.1973)" font-family="'FangSong_GB2312'" font-size="30">{{moneyType}}</text>
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="423.497" y1="634.969" x2="994.413" y2="634.969" />
-        <text transform="matrix(1 0 0 1 239.5547 680.6602)" font-family="'FangSong_GB2312'" font-size="30">所在机构</text>
-        <text transform="matrix(1 0 0 1 239.5547 733.917)" font-family="'FangSong_GB2312'" font-size="30">户名或权利人</text>
-        <text transform="matrix(1 0 0 1 239.5547 789.5645)" font-family="'FangSong_GB2312'" font-size="30">账号等号码</text>
-        <text transform="matrix(1 0 0 1 239.5547 842.2256)" font-family="'FangSong_GB2312'" font-size="30">冻结数额（大、小写）</text>
-        <text transform="matrix(1 0 0 1 239.5547 899.0703)" font-family="'FangSong_GB2312'" font-size="30">其他</text>
-        <text transform="matrix(1 0 0 1 239.5547 952.7324)" font-family="'FangSong_GB2312'" font-size="30">冻结时间从</text>
-        <text transform="matrix(1 0 0 1 477.9478 952.7324)" font-family="'FangSong_GB2312'" font-size="30">年</text>
-        <text transform="matrix(1 0 0 1 557.5332 952.7324)" font-family="'FangSong_GB2312'" font-size="30">月</text>
-        <text transform="matrix(1 0 0 1 644.709 952.7324)" font-family="'FangSong_GB2312'" font-size="30">日起至</text>
-        <text transform="matrix(1 0 0 1 815.667 952.7324)" font-family="'FangSong_GB2312'" font-size="30">年</text>
-        <text transform="matrix(1 0 0 1 916.5684 952.7324)" font-family="'FangSong_GB2312'" font-size="30">月</text>
-        <text transform="matrix(1 0 0 1 186.8916 1004.6084)" font-family="'FangSong_GB2312'" font-size="30">日止</text>
-        <text transform="matrix(1 0 0 1 406 680.6602)" font-family="'FangSong_GB2312'" font-size="30">{{company}}</text>
-        <text transform="matrix(1 0 0 1 453.4194 733.917)" font-family="'FangSong_GB2312'" font-size="30">{{freezeName}}</text>
-        <text transform="matrix(1 0 0 1 423.4971 789.5645)" font-family="'FangSong_GB2312'" font-size="30">{{freezeNumber}}</text>
-        <text transform="matrix(1 0 0 1 558.6523 839.8311)" font-family="'FangSong_GB2312'" font-size="30">{{freezeMoney2}}</text>
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="364.85" y1="687.661" x2="994.413" y2="687.661" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="423.497" y1="739.292" x2="994.413" y2="739.292" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="401" y1="795.546" x2="994.413" y2="795.546" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="545.58" y1="848.209" x2="994.413" y2="848.209" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="307.399" y1="905.07" x2="994.413" y2="905.07" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="401" y1="957.126" x2="477.948" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="512.067" y1="957.126" x2="557.533" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="591.462" y1="957.126" x2="644.709" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="734.688" y1="957.126" x2="815.667" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="853.18" y1="957.126" x2="916.615" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="951.325" y1="957.126" x2="994.413" y2="957.126" />
-        <text transform="matrix(1 0 0 1 406 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{year_start}}</text>
-        <text transform="matrix(1 0 0 1 521.6426 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{month_start}}</text>
-        <text transform="matrix(1 0 0 1 603.0303 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{day_start}}</text>
-        <text transform="matrix(1 0 0 1 744.6426 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{year_end}}</text>
-        <text transform="matrix(1 0 0 1 870.4141 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{month_end}}</text>
-        <text transform="matrix(1 0 0 1 956.3467 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{day_end}}</text>
-        <text transform="matrix(1 0 0 1 318.1709 899.0703)" font-family="'FangSong_GB2312'" font-size="30">{{other}}</text>
-        <text transform="matrix(1 0 0 1 675.8438 1107.7354)" font-family="'FangSong_GB2312'" font-size="30">{{unit}}</text>
-        <text transform="matrix(1 0 0 1 630.1621 1162.3125)" font-family="'FangSong_GB2312'" font-size="30">{{createDate_chinese}}</text>
-        <text transform="matrix(1 0 0 1 227.7983 1407.3662)" font-family="'FangSong_GB2312'" font-size="27">此联交协助单位</text>
-        <text transform="matrix(1 0 0 1 219.5859 458.2529)" font-family="'FangSong_GB2312'" font-size="27">{{company}}</text>
-        <text transform="matrix(1 0 0 1 573.2275 463.041)" font-family="'FangSong_GB2312'" font-size="27">：</text>
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="172.208" y1="119.5" x2="1010.861" y2="119.5" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="736.5" y1="529.5" x2="945.5" y2="529.5" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="344.5" y1="580.5" x2="413.5" y2="580.5" />
+<div id="print" class="table" [style.display]=isShowPrint *ngIf="type=='1'">
+    <div class="column" style="width: 1150px;height: 1622px;padding: 0 100px 0 180px;font-size: 30px; font-family: FangSong;">
+        <div class="w100 flex1" style="min-height: 20px;max-height: 120px;"></div>
+        <div class="w100 text-content" style="height: 40px;">{{caseNumber}}</div>
+        <div class="w100 b4 column" style="height: 1275px;padding: 2px;">
+            <div class="w100 h100 b2 column" style="padding-top: 70px;">
+                <div class="column"><span
+              style="font-family: SimHei; font-size: 34px; letter-spacing: 8px; padding-bottom: 10px;">{{unit}}</span>
+                    <span style="font-family: SimHei; font-size: 46px;">协助冻结财产通知书</span></div>
+                <div class="w100 right " style="height: 120px;padding-right: 70px;">{{unit_1}}（刑）冻财字〔{{getYear(this.createDate)}}〕{{docNumber}}号</div>
+                <div class="w100 left" style="height: 70px;align-items: flex-end; padding-left: 5px;"><span
+              class="b-under">{{company}}：</span></div>
+                <div style="display: block;text-align: justify;width: 100%;text-indent: 2em;line-height: 1.5em;padding: 10px 10px 0 10px;">
+                    根据《中华人民共和国刑事诉讼法》
+                    <span class="b-under">第一百四十二条</span>
+                    之规定，请予<span class="b-under">冻结</span>
+                    犯罪嫌疑人的下列财产：
+                </div>
+                <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                    <div>类型（名称）</div>
+                    <div class="b-under flex1 left" style="padding-left: 10px;">{{moneyType}}</div>
+                </div>
+                <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                    <div>所在机构</div>
+                    <div class="b-under flex1 left" style="padding-left: 10px;">{{company}}</div>
+                </div>
+                <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                    <div>户名或权利人</div>
+                    <div class="b-under flex1 left" style="padding-left: 10px;">{{freezeName}}</div>
+                </div>
+                <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                    <div>账号等号码</div>
+                    <div class="b-under flex1 left" style="padding-left: 10px;">{{freezeNumber}}</div>
+                </div>
+                <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                    <div>冻结金额（大、小写）</div>
+                    <div class="b-under flex1 left" style="padding-left: 10px;">{{freezeMoney2}}</div>
+                </div>
+                <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                    <div>其他</div>
+                    <div class="b-under flex1 left" style="padding-left: 10px;">&nbsp;</div>
+                </div>
+                <div class="w100" style="text-indent: 2em;display: block; text-align: left; padding-top: 5px;line-height: 1.5em;">
+                    冻结时间从
+                    <span class="b-under" style="padding: 0 10px;">{{year_start}}</span>年
+                    <span class="b-under" style="padding: 0 10px;">{{month_start}}</span>月
+                    <span class="b-under" style="padding: 0 10px;">{{day_start}}</span>日起至
+                    <span class="b-under" style="padding: 0 10px;">{{year_end}}</span>年
+                    <span class="b-under" style="padding: 0 10px;">{{month_end}}</span>月
+                    <span class="b-under" style="padding: 0 10px;">{{day_end}}</span>日止
+                </div>
 
-        <foreignObject x=0 y=0 width="1150" height="1622">
-            <xhtml:div>
-                <img *ngIf="isSeal" src="assets/seal.png" alt="" width="220px" height="220px" style=" position: absolute;left:740px;top: 1020px;" />
-            </xhtml:div>
-        </foreignObject>
-    </svg>
-</div>
-
-<div id="print" class="print"  [style.display] = isShowPrint *ngIf="type==2">
-    <svg version="1.1" id="id" xmlns="http://www.w3.org/2000/svg" width="1150px" height="1626px">
-        <rect x="172.208" y="142.163" fill="none" stroke="#000000" stroke-width="4" stroke-miterlimit="10" width="838.653" height="1220.792" />
-        <rect x="178.076" y="147.861" fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" width="826.771" height="1209.708" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="184.334" y1="470.272" x2="575.001" y2="470.272" />
-        <text transform="matrix(1 0 0 1 406 247)" font-family="'AdobeSongStd-Light-GBpc-EUC-H'" font-size="34" letter-spacing="12">{{unit}}</text>
-        <text transform="matrix(1 0 0 1 350 305)" font-family="'SimHei'" font-size="46">协助解除冻结财产通知书</text>
-        <text transform="matrix(1 0 0 1 417.5107 107.8623)" font-family="'TimesNewRomanPSMT'" font-size="26">{{caseNumber}}</text>
-        <text transform="matrix(1 0 0 1 490 411.2061)" font-family="'FangSong_GB2312'" font-size="30">{{unit_1}}（刑）解冻财字〔{{getYear(this.createDate2)}}〕{{docNumber2}}号</text>
-        <text transform="matrix(1 0 0 1 258.7983 520.1963)" font-family="'FangSong_GB2312'" font-size="30">根据《中华人民共和国刑事诉讼法》第一百四十二条之</text>
-        <text transform="matrix(1 0 0 1 186.6064 571.6807)" font-family="'FangSong_GB2312'" font-size="30">规定，请予解除冻结犯罪嫌疑人的下列财产：</text>
-        <text transform="matrix(1 0 0 1 239.5547 626.1973)" font-family="'FangSong_GB2312'" font-size="30">类型（名称）</text>
-        <text transform="matrix(1 0 0 1 502.8701 626.1973)" font-family="'FangSong_GB2312'" font-size="30">{{moneyType}}</text>
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="423.497" y1="634.969" x2="994.413" y2="634.969" />
-        <text transform="matrix(1 0 0 1 239.5547 680.6602)" font-family="'FangSong_GB2312'" font-size="30">所在机构</text>
-        <text transform="matrix(1 0 0 1 239.5547 733.917)" font-family="'FangSong_GB2312'" font-size="30">户名或权利人</text>
-        <text transform="matrix(1 0 0 1 239.5547 789.5645)" font-family="'FangSong_GB2312'" font-size="30">账号等号码</text>
-        <text transform="matrix(1 0 0 1 239.5547 842.2256)" font-family="'FangSong_GB2312'" font-size="30">冻结数额（大、小写）</text>
-        <text transform="matrix(1 0 0 1 239.5547 899.0703)" font-family="'FangSong_GB2312'" font-size="30">其他</text>
-        <text transform="matrix(1 0 0 1 239.5547 952.7324)" font-family="'FangSong_GB2312'" font-size="30">冻结时间从</text>
-        <text transform="matrix(1 0 0 1 477.9478 952.7324)" font-family="'FangSong_GB2312'" font-size="30">年</text>
-        <text transform="matrix(1 0 0 1 557.5332 952.7324)" font-family="'FangSong_GB2312'" font-size="30">月</text>
-        <text transform="matrix(1 0 0 1 644.709 952.7324)" font-family="'FangSong_GB2312'" font-size="30">日起至</text>
-        <text transform="matrix(1 0 0 1 815.667 952.7324)" font-family="'FangSong_GB2312'" font-size="30">年</text>
-        <text transform="matrix(1 0 0 1 916.5684 952.7324)" font-family="'FangSong_GB2312'" font-size="30">月</text>
-        <text transform="matrix(1 0 0 1 186.8916 1004.6084)" font-family="'FangSong_GB2312'" font-size="30">日止</text>
-        <text transform="matrix(1 0 0 1 406 680.6602)" font-family="'FangSong_GB2312'" font-size="30">{{company}}</text>
-        <text transform="matrix(1 0 0 1 453.4194 733.917)" font-family="'FangSong_GB2312'" font-size="30">{{freezeName}}</text>
-        <text transform="matrix(1 0 0 1 423.4971 789.5645)" font-family="'FangSong_GB2312'" font-size="30">{{freezeNumber}}</text>
-        <text transform="matrix(1 0 0 1 558.6523 839.8311)" font-family="'FangSong_GB2312'" font-size="30">{{freezeMoney2}}</text>
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="364.85" y1="687.661" x2="994.413" y2="687.661" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="423.497" y1="739.292" x2="994.413" y2="739.292" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="401" y1="795.546" x2="994.413" y2="795.546" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="545.58" y1="848.209" x2="994.413" y2="848.209" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="307.399" y1="905.07" x2="994.413" y2="905.07" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="401" y1="957.126" x2="477.948" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="512.067" y1="957.126" x2="557.533" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="591.462" y1="957.126" x2="644.709" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="734.688" y1="957.126" x2="815.667" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="853.18" y1="957.126" x2="916.615" y2="957.126" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="951.325" y1="957.126" x2="994.413" y2="957.126" />
-        <text transform="matrix(1 0 0 1 406 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{year_start}}</text>
-        <text transform="matrix(1 0 0 1 521.6426 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{month_start}}</text>
-        <text transform="matrix(1 0 0 1 603.0303 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{day_start}}</text>
-        <text transform="matrix(1 0 0 1 744.6426 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{year_end}}</text>
-        <text transform="matrix(1 0 0 1 870.4141 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{month_end}}</text>
-        <text transform="matrix(1 0 0 1 956.3467 952.7324)" font-family="'FangSong_GB2312'" font-size="30">{{day_end}}</text>
-        <text transform="matrix(1 0 0 1 318.1709 899.0703)" font-family="'FangSong_GB2312'" font-size="30">{{other}}</text>
-        <text transform="matrix(1 0 0 1 675.8438 1107.7354)" font-family="'FangSong_GB2312'" font-size="30">{{unit}}</text>
-        <text transform="matrix(1 0 0 1 630 1162.3125)" font-family="'FangSong_GB2312'" font-size="30">{{createDate_chinese}}</text>
-        <text transform="matrix(1 0 0 1 227.7983 1407.3662)" font-family="'FangSong_GB2312'" font-size="27">此联交协助单位</text>
-        <text transform="matrix(1 0 0 1 219.5859 458.2529)" font-family="'FangSong_GB2312'" font-size="27">{{company}}</text>
-        <text transform="matrix(1 0 0 1 573.2275 463.041)" font-family="'FangSong_GB2312'" font-size="27">：</text>
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="172.208" y1="119.5" x2="1010.861" y2="119.5" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="736.5" y1="529.5" x2="945.5" y2="529.5" />
-        <line fill="none" stroke="#000000" stroke-miterlimit="10" x1="344.5" y1="580.5" x2="465" y2="580.5" />
-
-        <foreignObject x=0 y=0 width="1150" height="1622">
-            <xhtml:div>
-                <img *ngIf="isSeal" src="assets/seal.png" alt="" width="220px" height="220px" style=" position: absolute;left:740px;top: 1020px;" />
-            </xhtml:div>
-        </foreignObject>
-    </svg>
-</div>
-
-
-<div class="table" style="display: none;">
-    <div class="column"
-      style="width: 1150px;height: 1622px;padding: 0 100px 0 180px;font-size: 30px; font-family: FangSong;">
-      <div class="w100 flex1" style="min-height: 20px;max-height: 120px;"></div>
-      <div class="w100 text-content" style="height: 40px;">444444444444444444444</div>
-      <div class="w100 b4 column" style="height: 1275px;padding: 2px;">
-        <div class="w100 h100 b2 column" style="padding-top: 70px;">
-          <div class="column"><span
-              style="font-family: SimHei; font-size: 34px; letter-spacing: 8px; padding-bottom: 10px;">洛阳市吉利区公安局</span>
-            <span style="font-family: SimHei; font-size: 46px;">协助冻结财产通知书</span></div>
-          <div class="w100 right " style="height: 120px;padding-right: 70px;">吉公刑调证字2000号</div>
-          <div class="w100 left" style="height: 70px;align-items: flex-end; padding-left: 5px;"><span
-              class="b-under">支付宝(中国)网络技术有限公司:</span></div>
-          <div
-            style="display: block;text-align: justify;width: 100%;text-indent: 2em;line-height: 1.5em;padding: 10px 10px 0 10px;">
-            根据《中华人民共和国刑事诉讼法》
-            <span class="b-under">第一百四十二条</span>
-            之规定，请予<span class="b-under">冻结</span>
-            犯罪嫌疑人的下列财产：
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>类型（名称）</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>所在机构</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>户名或权利人</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>账号等号码</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>冻结金额（大、小写）</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>其他</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100" style="text-indent: 2em;display: block; text-align: left; padding-top: 5px;line-height: 1.5em;">
-            冻结时间从
-            <span class="b-under" style="padding: 0 10px;">2020</span>年
-            <span class="b-under" style="padding: 0 10px;">11</span>月
-            <span class="b-under" style="padding: 0 10px;">11</span>日起至
-            <span class="b-under" style="padding: 0 10px;">2020</span>年
-            <span class="b-under" style="padding: 0 10px;">02</span>月
-            <span class="b-under" style="padding: 0 10px;">20</span>日止
-          </div>
-  
-          <div class="w100 right" style="line-height: 2em; padding-right: 20px;padding-top: 3em;position: relative;">
-            二〇二〇年一月一日<br>洛阳市吉利区公安局
-            <img src="assets/xingjingdui.png" width="220px" height="220px"
-              style="position: absolute; top: 40px; left: 600px;" />
-          </div>
-  
-          
-  
-          <div class="w100 flex1 " style="min-height: 30px;"></div>
+                <div class="w100 right" style="line-height: 2em; padding-right: 20px;padding-top: 3em;position: relative;">
+                    {{createDate_chinese}}<br>{{unit}}
+                    <img src="assets/seal.png" width="220px" height="220px" style="position: absolute; top: 40px; left: 600px;" />
+                </div>
+                    <div class="w100 flex1 " style="min-height: 30px;"></div>
+                </div>
+            </div>
+            <div class="w100 left" style="padding: 10px 0 0 50px;">此联交协助单位</div>
+            <div class="w100 flex1" style="min-height: 30px;"></div>
         </div>
-      </div>
-      <div class="w100 left" style="padding: 10px 0 0 50px;">此联交协助单位</div>
-      <div class="w100 flex1" style="min-height: 30px;"></div>
     </div>
-  </div>
-  
-  <div class="table">
-    <div class="column"
-      style="width: 1150px;height: 1622px;padding: 0 100px 0 180px;font-size: 30px; font-family: FangSong;">
-      <div class="w100 flex1" style="min-height: 20px;max-height: 120px;"></div>
-      <div class="w100 text-content" style="height: 40px;">444444444444444444444</div>
-      <div class="w100 b4 column" style="height: 1275px;padding: 2px;">
-        <div class="w100 h100 b2 column" style="padding-top: 70px;">
-          <div class="column"><span
-              style="font-family: SimHei; font-size: 34px; letter-spacing: 8px; padding-bottom: 10px;">洛阳市吉利区公安局</span>
-            <span style="font-family: SimHei; font-size: 46px;">协助冻结财产通知书</span></div>
-          <div class="w100 right " style="height: 120px;padding-right: 70px;">吉公刑调证字2000号</div>
-          <div class="w100 left" style="height: 70px;align-items: flex-end; padding-left: 5px;"><span
-              class="b-under">支付宝(中国)网络技术有限公司:</span></div>
-          <div
-            style="display: block;text-align: justify;width: 100%;text-indent: 2em;line-height: 1.5em;padding: 10px 10px 0 10px;">
-            根据《中华人民共和国刑事诉讼法》第一百四十三条之规定，请予解除冻结犯罪嫌疑人
-            <span class="b-under">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            （性别<span class="b-under">&nbsp;&nbsp;&nbsp;&nbsp;</span>
-            出生日期<span class="b-under">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>）的下列财产：
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>类型（名称）</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>所在机构</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>户名或权利人</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>账号等号码</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>冻结金额（大、小写）</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
-            <div>其他</div>
-            <div class="b-under flex1 left" style="padding-left: 10px;">人民币</div>
-          </div>
-          <div class="w100" style="text-indent: 2em;display: block; text-align: left; padding-top: 5px;line-height: 1.5em;">
-            冻结时间从
-            <span class="b-under" style="padding: 0 10px;">2020</span>年
-            <span class="b-under" style="padding: 0 10px;">11</span>月
-            <span class="b-under" style="padding: 0 10px;">11</span>日起至
-            <span class="b-under" style="padding: 0 10px;">2020</span>年
-            <span class="b-under" style="padding: 0 10px;">02</span>月
-            <span class="b-under" style="padding: 0 10px;">20</span>日止
-          </div>
-  
-          <div class="w100 right" style="line-height: 2em; padding-right: 20px;padding-top: 3em;position: relative;">
-            二〇二〇年一月一日<br>洛阳市吉利区公安局
-            <img src="assets/xingjingdui.png" width="220px" height="220px"
-              style="position: absolute; top: 40px; left: 600px;" />
-          </div>
-  
-          
-  
-          <div class="w100 flex1 " style="min-height: 30px;"></div>
+
+    <div id="print" class="table" [style.display]=isShowPrint *ngIf="type=='2'">
+        <div class="column" style="width: 1150px;height: 1622px;padding: 0 100px 0 180px;font-size: 30px; font-family: FangSong;">
+            <div class="w100 flex1" style="min-height: 20px;max-height: 120px;"></div>
+            <div class="w100 text-content" style="height: 40px;">{{caseNumber}}</div>
+            <div class="w100 b4 column" style="height: 1275px;padding: 2px;">
+                <div class="w100 h100 b2 column" style="padding-top: 70px;">
+                    <div class="column"><span
+              style="font-family: SimHei; font-size: 34px; letter-spacing: 8px; padding-bottom: 10px;">{{unit}}</span>
+                        <span style="font-family: SimHei; font-size: 46px;">协助解除冻结财产通知书</span></div>
+                    <div class="w100 right " style="height: 120px;padding-right: 70px;">{{unit_1}}（刑）解冻财字〔{{getYear(this.createDate2)}}〕{{docNumber2}}号</div>
+                    <div class="w100 left" style="height: 70px;align-items: flex-end; padding-left: 5px;"><span
+              class="b-under">{{company}}:</span></div>
+                    <div style="display: block;text-align: justify;width: 100%;text-indent: 2em;line-height: 1.5em;padding: 10px 10px 0 10px;">
+                        根据《中华人民共和国刑事诉讼法》第一百四十三条之规定，请予解除冻结犯罪嫌疑人
+                        <span class="b-under">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        （性别<span class="b-under">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                        出生日期<span class="b-under">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>）的下列财产：
+                    </div>
+                    <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                        <div>类型（名称）</div>
+                        <div class="b-under flex1 left" style="padding-left: 10px;">{{moneyType}}</div>
+                    </div>
+                    <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                        <div>所在机构</div>
+                        <div class="b-under flex1 left" style="padding-left: 10px;">{{company}}</div>
+                    </div>
+                    <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                        <div>户名或权利人</div>
+                        <div class="b-under flex1 left" style="padding-left: 10px;">{{freezeName}}</div>
+                    </div>
+                    <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                        <div>账号等号码</div>
+                        <div class="b-under flex1 left" style="padding-left: 10px;">{{freezeNumber}}</div>
+                    </div>
+                    <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                        <div>冻结金额（大、小写）</div>
+                        <div class="b-under flex1 left" style="padding-left: 10px;">{{freezeMoney2}}</div>
+                    </div>
+                    <div class="w100 left" style="padding: 10px 5px 5px 2em ;">
+                        <div>其他</div>
+                        <div class="b-under flex1 left" style="padding-left: 10px;">&nbsp;</div>
+                    </div>
+                    <div class="w100" style="text-indent: 2em;display: block; text-align: left; padding-top: 5px;line-height: 1.5em;">
+                        冻结时间从
+                        <span class="b-under" style="padding: 0 10px;">{{year_start}}</span>年
+                        <span class="b-under" style="padding: 0 10px;">{{month_start}}</span>月
+                        <span class="b-under" style="padding: 0 10px;">{{day_start}}</span>日起至
+                        <span class="b-under" style="padding: 0 10px;">{{year_end}}</span>年
+                        <span class="b-under" style="padding: 0 10px;">{{month_end}}</span>月
+                        <span class="b-under" style="padding: 0 10px;">{{day_end}}</span>日止
+                    </div>
+
+                    <div class="w100 right" style="line-height: 2em; padding-right: 20px;padding-top: 3em;position: relative;">
+                        {{createDate_chinese}}<br>{{unit}}
+                        <img src="assets/seal.png" width="220px" height="220px" style="position: absolute; top: 40px; left: 600px;" />
+                </div>
+                        <div class="w100 flex1 " style="min-height: 30px;"></div>
+                    </div>
+                </div>
+                <div class="w100 left" style="padding: 10px 0 0 50px;">此联交协助单位</div>
+                <div class="w100 flex1" style="min-height: 30px;"></div>
+            </div>
         </div>
-      </div>
-      <div class="w100 left" style="padding: 10px 0 0 50px;">此联交协助单位</div>
-      <div class="w100 flex1" style="min-height: 30px;"></div>
-    </div>
-  </div>
-  
-  

@@ -35,6 +35,7 @@ import { CxspComponent } from './cxsp/cxsp.component';
 import { DjtzsComponent } from './djtzs/djtzs.component';
 import { DzspbComponent } from './dzspb/dzspb.component';
 import { AddUnfreezeComponent } from './add-unfreeze/add-unfreeze.component';
+import { AccountPipe } from './account.pipe';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { AddUnfreezeComponent } from './add-unfreeze/add-unfreeze.component';
     CxspComponent,
     DjtzsComponent,
     DzspbComponent,
-    AddUnfreezeComponent
+    AddUnfreezeComponent,
+    AccountPipe
   ],
   imports: [
     BrowserModule,

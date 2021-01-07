@@ -132,7 +132,7 @@ export class DztzsComponent extends Shouxu {
   }
 
   clear() {
-    this.company = this.evidenceContent = this.baseDate = this.evidenceContent2 = null;
+    this.company = this.evidenceContent = this.baseDate = this.evidenceContent2 = this.createDate = null;
     this.getdocNumber()
   }
 

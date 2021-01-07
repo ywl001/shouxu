@@ -19,7 +19,7 @@
 
             <div *ngIf="state.label=='调证通知书'">
                 <div class="item" *ngFor="let item of itemList" (click)="onItemClick(item);$event.stopPropagation();">
-                    <div class= 'item_txt'><span style="color: red;">{{item.docNumber}}</span>:{{item.desc}} </div>
+                    <div class= 'item_txt'><span style="color: red;">{{item.docNumber}}</span>:{{item.evidenceContent|account}} </div>
                     <div class="btnDel" (click)="onDelete(item);$event.stopPropagation();"></div>
                 </div>
             </div>

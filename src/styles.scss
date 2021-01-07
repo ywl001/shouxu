@@ -30,7 +30,7 @@ $innerBorder:1px solid black;
 
   .left {
     justify-content: flex-start;
-    align-items: flex-start;
+    align-items:center;
   }
 
   .right {
@@ -46,7 +46,9 @@ $innerBorder:1px solid black;
   .text-content {
     font-size: 14pt;
     padding: 10px;
-    text-align: justify
+    text-align: justify;
+    word-break: break-all;
+    text-indent: 2em;
   }
 
   .text-title {

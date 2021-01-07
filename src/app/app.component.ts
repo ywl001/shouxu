@@ -30,7 +30,7 @@ export class AppComponent {
 
   // ---------------------------------------html直接绑定----------------------------------
   state: any;
-  states: Array<any> = [State.dzgj, State.dztzs, State.dzspb, State.djtzs, State.djspb, State.cxsp];
+  states: Array<any> = [State.dzgj, State.dztzs, State.dzspb, State.djtzs, State.djspb];
   // 案件信息
   caseName: string;
   caseNumber: string;

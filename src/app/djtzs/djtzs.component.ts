@@ -12,6 +12,7 @@ import { SQLService } from '../services/sql.service';
 import { State } from '../state';
 import * as toastr from 'toastr'
 import { AddUnfreezeComponent } from '../add-unfreeze/add-unfreeze.component';
+import { MessageService } from '../services/message.service';
 
 declare var alertify;
 
@@ -71,7 +72,7 @@ export class DjtzsComponent extends Shouxu {
   docNumber2;
   createDate2;
 
-  type = '1';
+  type:string;
 
   //绑定表单中的开始和结束时间
   private _startTime;
@@ -102,7 +103,7 @@ export class DjtzsComponent extends Shouxu {
 
   //文书中的日期
   get createDate_chinese() {
-    return this.type === '1' ? this.toChineseDate(this.createDate) : this.toChineseDate(this.createDate2)
+    return (this.type && this.type=='2') ? this.toChineseDate(this.createDate2) : this.toChineseDate(this.createDate)
   }
   //冻结金额的大小写
   get freezeMoney2() {
@@ -112,7 +113,7 @@ export class DjtzsComponent extends Shouxu {
   }
 
   //////////////////////////////////////////////////其他变量///////////////////////////////////////
-  constructor(public dialog: MatDialog, private sql: SQLService) {
+  constructor(public dialog: MatDialog, private sql: SQLService,private message:MessageService) {
     super()
   }
 
@@ -129,7 +130,17 @@ export class DjtzsComponent extends Shouxu {
       res => {
         if (this.getBankNameByCard(res))
           this.company = this.getBankNameByCard(res)
-        console.log(res)
+        // console.log(res)
+      }
+    )
+
+    this.message.unfreezeInfo$.subscribe(
+      res=>{
+        if(res){
+          this.docNumber2 = res.tableData.docNumber2;
+          this.createDate2 = res.tableData.createDate2;
+          this.isUnfreeze = true;
+        }
       }
     )
   }
@@ -174,10 +185,6 @@ export class DjtzsComponent extends Shouxu {
       toastr.warning('冻结结束时间没有填写')
       return false;
     }
-    // if (!this.freezeName || this.isEmptyStr(this.freezeName)) {
-    //   toastr.warning('户名或权利人没有填写')
-    //   return false;
-    // }
     if (!this.freezeNumber || this.isEmptyStr(this.freezeNumber)) {
       toastr.warning('账号没有填写')
       return false;
