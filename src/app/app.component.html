@@ -31,7 +31,9 @@
                 <div *ngIf="caseName" class="clip" matTooltip="复制案件名称" (cbOnSuccess)=onCbSuccess() ngxClipboard [cbContent]="caseName"></div>
                 <div *ngIf="caseContent" class="clip" matTooltip="复制案件内容" (cbOnSuccess)=onCbSuccess() ngxClipboard [cbContent]="caseContent"></div>
             </div>
-            <template #shouxuContainer></template>
+            <template #shouxuContainer>
+                
+            </template>
         </div>
         <div class="right_bottom">
             <button mat-raised-button color='primary' (click)=onSave()>保存</button>

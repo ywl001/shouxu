@@ -72,7 +72,7 @@ export class DjtzsComponent extends Shouxu {
   docNumber2;
   createDate2;
 
-  type:string;
+  type:string='1';
 
   //绑定表单中的开始和结束时间
   private _startTime;

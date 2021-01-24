@@ -58,10 +58,10 @@ export class RecordsComponent implements OnInit {
   }
   constructor(private sql: SQLService, 
     private dialog: MatDialog,
-    private cdf:ChangeDetectorRef,
     private message:MessageService) {
   }
   ngOnInit(): void {
+    //监听到添加解除冻结信息后，添加解除冻结数据
     this.message.unfreezeInfo$.subscribe(
       res=>{
         if(!res) return;
@@ -71,40 +71,19 @@ export class RecordsComponent implements OnInit {
         console.log(item)
         item.createDate2 = res.tableData.createDate2;
         item.docNumber2 = res.tableData.docNumber2;
-        this.cdf.detectChanges()
       }
     )
   }
 
+  // 点击案件的时候获取手续信息
   onClickCase(lawCase) {
     this.clickCase.emit(lawCase);
-    this.itemList = [];
-
-    for (let i = 0; i < this.data.length; i++) {
-      const item = this.data[i];
-      if (item.id && item.lawCaseID == lawCase.lawCaseID) {
-        if (this.state == State.dzgj) {
-          if (item.phoneNumber) {
-            let phones = item.phoneNumber.split('|')
-            item.desc = phones.length > 2 ? `${phones.slice(0, 2)}　等${phones.length}个号码` : item.phoneNumber;
-            console.log(item.desc)
-          }
-        }
-        if (this.state == State.djtzs || this.state == State.dztzs) {
-          //按照文书编号排序
-          this.itemList.sort((a, b) => {
-            return b.docNumber - a.docNumber
-          })
-        }
-        this.itemList.push(item);
-      }
-    }
+    this.itemList = this.data.filter(item=>item.id && item.lawCaseID == lawCase.lawCaseID)
   }
 
   onItemClick(item) {
     console.log('record item click')
     this.clickItem.emit(item)
-    // EventBus.dispatch(EventType.SHOW_SHOUXU_DATA, item)
   }
 
   /**删除记录 */

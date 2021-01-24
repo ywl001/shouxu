@@ -50,6 +50,7 @@
     width: 100% - 10px;
     flex: 1;
     padding-left: 10px;
+    overflow: auto;
 }
 
 .right_bottom{

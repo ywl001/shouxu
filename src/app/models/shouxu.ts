@@ -6,7 +6,6 @@ import { PreviewComponent } from '../preview/preview.component';
 import { PhpFunctionName } from './php-function-name';
 import * as toastr from 'toastr'
 import { State } from '../state';
-import { first } from 'rxjs/operators';
 
 export abstract class Shouxu {
 
@@ -75,18 +74,18 @@ export abstract class Shouxu {
   abstract getSaveFileName();
 
   //设置不选择案件就无法进行
-  private isRemove;
+  private isRemoveToastr;
   public get rootStyle() {
     // return this.lawCaseID ? :
     if (this.lawCaseID) {
-      if (!this.isRemove) {
+      if (!this.isRemoveToastr) {
         toastr.remove()
-        this.isRemove = true;
+        this.isRemoveToastr = true;
       }
       return { opacity: 1, pointerEvents: 'all' }
     }
     else {
-      this.isRemove = false;
+      this.isRemoveToastr = false;
       toastr.options.preventDuplicates = true;
       toastr.warning('请先选择案件')
       //半透明，无法点击

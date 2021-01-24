@@ -79,7 +79,7 @@
     </div>
 </div>
 
-<div class="table" id="print" [style.display]='isShowPrint'>
+<div class="table" id="print" [style.display]=isShowPrint>
     <div class="column text-normal" style="width: 1150px;height: 1622px;padding: 0 150px;">
         <div class="space"></div>
         <div class="left w100" style="height: 60px;font-family: SimHei;">编号：{{docNumber}}</div>
@@ -91,28 +91,28 @@
             <div class="h100 b bt" style="width: 110px;;">提请人</div>
             <div class="h100 brt" style="flex: 1;">{{requestUser}}</div>
         </div>
-        <div class="w100 row" style="height: 50px;">
+        <div class="w100" style="height: 50px;">
             <div class="h100 bl" style="width: 220px;">联系电话</div>
             <div class="h100 b" style="width: 300px;">{{userPhone}}</div>
             <div class="h100 b" style="width: 110px;;">反馈方式</div>
             <div class="h100 br" style="flex: 1;">{{feedbackWay}}</div>
         </div>
-        <!-- 查询事由 -->
-        <div class="w100 row" style="min-height: 210px;">
-            <div class="h100 bl" style="width: 50px;">查<br>询<br>事<br>由</div>
-            <div class="h100 flex1 br text-content column" style="text-align: justify;text-indent: 2em;padding: 10px;justify-content:center;align-items: flex-start;">
+        <div class="w100" style="min-height: 210px;align-items: stretch;">
+            <div class="bl" style="width: 50px;">查<br>询<br>事<br>由</div>
+            <div class="flex1 br text-content column" style="text-align: justify;text-indent: 2em;padding: 10px;justify-content:center;align-items: flex-start;min-height: 100%;">
                 <div> 案件编号：{{caseNumber}}</div>
                 <div> 案件名称：{{caseName}}</div>
-                <div style="text-align: justify;text-indent: 2em;"> {{caseContent}}</div>
+                <div style="text-align: justify;text-indent: 2em;">
+                    {{caseContent}}
+                </div>
                 <div style="text-align: justify;text-indent: 2em;"> {{cause}}</div>
             </div>
-
         </div>
 
-        <div class="w100">
+        <div class="w100" style="height: 520px;">
             <div class="h100 bl" style="width: 50px;">查<br>询<br>内<br>容</div>
             <div class="h100 column flex1">
-                <div class="w100" style="height: 48px;">
+                <div class="w100" style="height: 50px;">
                     <div class="h100 b" style="width: 168px;">查询目标</div>
                     <div class="h100 b" style="width: 300px;">查询数据类型</div>
                     <div class="h100 flex1 br">查询时间范围</div>
@@ -167,8 +167,7 @@
         <div class="w100" style="height: 200px;">
             <div class="h100 bl" style="width: 50px;">审<br>核<br>意<br>见</div>
             <div class="h100 b" style="width: 330px; position: relative;">
-                <div style="position: absolute; top:170px;left: 150px;">年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日
-                </div>
+                <div style="position: absolute; top:170px;left: 150px;">年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
                 <img src="assets/xingjingdui.png" width="220px" height="220px" />
                 <img src="assets/jianyichaxun.png" width="190px" height="190px"
                   style="position: absolute; top:0px;left: 100px;" />
@@ -181,27 +180,26 @@
                 <img *ngIf="isSeal" [attr.src]=getDayImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 250px;" />
                 <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 262px;" />
             </div>
-                <div class="h100 b" style="width: 50px;">审<br>批<br>意<br>见</div>
-                <div class="h100 flex1 br" style="position: relative;">
-                    <div style="position: absolute; top:170px;left: 150px;">年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日
-                    </div>
-                    <img src="assets/seal.png" width="220px" height="220px" style="position: absolute; top:0px;left: 100px;" />
-                    <img src="assets/signal_ju.png" width="190px" height="190px" />
-                    <img *ngIf="isSeal" [attr.src]=getYearImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 90px;" />
-                    <img *ngIf="isSeal" [attr.src]=getYearImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 102px;" />
-                    <img *ngIf="isSeal" [attr.src]=getYearImg(3,1) width="13px" height="26px" style="position: absolute; top:170px;left: 114px;" />
-                    <img *ngIf="isSeal" [attr.src]=getYearImg(4,1) width="13px" height="26px" style="position: absolute; top:170px;left: 126px;" />
-                    <img *ngIf="isSeal" [attr.src]=getMonthImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 186px;" />
-                    <img *ngIf="isSeal && isDoubleDigit_month()" [attr.src]=getMonthImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 198px;" />
-                    <img *ngIf="isSeal" [attr.src]=getDayImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 250px;" />
-                    <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 262px;" />
-                </div>
-                </div>
-                <div class="w100" style="height: 70px;">
-                    <div class="h100 blb" style="width: 50px;">备注</div>
-                    <div class="h100 flex1 brb"></div>
-                </div>
-                <div class="space"></div>
+            <div class="h100 b" style="width: 50px;">审<br>批<br>意<br>见</div>
+            <div class="h100 flex1 br" style="position: relative;">
+                <img src="assets/signal_ju.png" width="190px" height="190px" style="z-index: 10;" />
+                <img src="assets/seal.png" width="220px" height="220px" style="position: absolute; top:0px;left: 100px;" />
+                <div style="position: absolute; top:170px;left: 150px;">年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 90px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 102px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(3,1) width="13px" height="26px" style="position: absolute; top:170px;left: 114px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(4,1) width="13px" height="26px" style="position: absolute; top:170px;left: 126px;" />
+                <img *ngIf="isSeal" [attr.src]=getMonthImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 186px;" />
+                <img *ngIf="isSeal && isDoubleDigit_month()" [attr.src]=getMonthImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 198px;" />
+                <img *ngIf="isSeal" [attr.src]=getDayImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 250px;" />
+                <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 262px;" />
             </div>
         </div>
-        <button #btnPrint ngxPrint printSectionId='print' style="display: none;">print</button>
+        <div class="w100" style="height: 70px;">
+            <div class="h100 blb" style="width: 50px;">备注</div>
+            <div class="h100 flex1 brb"></div>
+        </div>
+        <div class="space"></div>
+    </div>
+</div>
+<button #btnPrint ngxPrint printSectionId='print' style="display: none;">print</button>

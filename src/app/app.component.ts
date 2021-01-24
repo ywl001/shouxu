@@ -19,6 +19,7 @@ import { CxspComponent } from './cxsp/cxsp.component';
 import { DjtzsComponent } from './djtzs/djtzs.component';
 import { DzspbComponent } from './dzspb/dzspb.component';
 import * as pinyin from 'pinyin'
+import { MeituanComponent } from './meituan/meituan.component';
 
 @Component({
   selector: 'app-root',
@@ -30,7 +31,7 @@ export class AppComponent {
 
   // ---------------------------------------html直接绑定----------------------------------
   state: any;
-  states: Array<any> = [State.dzgj, State.dztzs, State.dzspb, State.djtzs, State.djspb];
+  states: Array<any> = [State.dzgj, State.meituan,State.dztzs, State.dzspb, State.djtzs, State.djspb];
   // 案件信息
   caseName: string;
   caseNumber: string;
@@ -103,6 +104,9 @@ export class AppComponent {
     //电子轨迹
     if (this.state == State.dzgj) {
       this.shouxu = this.getShouxuInstance(DzgjComponent);
+    }
+    else if (this.state == State.meituan) {
+      this.shouxu = this.getShouxuInstance(MeituanComponent);
     }
     //调证通知书
     else if (this.state == State.dztzs) {

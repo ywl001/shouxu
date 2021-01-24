@@ -1,0 +1,311 @@
+<div [ngStyle]="rootStyle" style="display:flex;flex-direction: column;flex:1">
+    <div class="contactsDiv">
+        <mat-form-field>
+            <mat-label>填表时间：</mat-label>
+            <input matInput [(ngModel)]="createDate" [matDatepicker]="picker" placeholder="不选择为当天日期">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>提请人：</mat-label>
+            <input [(ngModel)]="requestUser" matInput [matAutocomplete]="autoUserName">
+            <mat-autocomplete #autoUserName='matAutocomplete'>
+                <mat-option *ngFor="let item of users" [value]=item.name>{{item.name}}</mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>联系电话：</mat-label>
+            <input [(ngModel)]="userPhone" matInput [matAutocomplete]="autoUserPhone">
+            <mat-autocomplete #autoUserPhone='matAutocomplete'>
+                <mat-option *ngFor="let item of users" [value]=item.phoneNumber>{{item.phoneNumber}}</mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>反馈方式：</mat-label>
+            <input [(ngModel)]="feedbackWay" matInput [matAutocomplete]="autoFeedbackWay">
+            <mat-autocomplete #autoFeedbackWay='matAutocomplete'>
+                <mat-option *ngFor="let item of users" [value]=item.email>{{item.email}}</mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+
+    <mat-form-field style="width: 100%;">
+        <mat-label>查询理由：</mat-label>
+        <textarea matInput [(ngModel)]="cause" cdkTextareaAutosize></textarea>
+    </mat-form-field>
+
+    <div style="flex:1;">
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[0].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[0].id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[0].phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[1].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[1]!.id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[1]!.phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[2].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[2]!.id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[2]!.phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[3].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[3]!.id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[3]!.phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[4].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[4]!.id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[4]!.phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[5].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[5]!.id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[5]!.phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[6].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[6]!.id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[6]!.phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[7].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[7]!.id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[7]!.phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[8].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[8]!.id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[8]!.phone'>
+            </mat-form-field>
+        </div>
+        <div>
+            <mat-form-field style="width: 200px;">
+                <mat-label>姓名：</mat-label>
+                <input matInput [(ngModel)]="targetUsers[9].name">
+            </mat-form-field>
+            <mat-form-field style="width: 300px;">
+                <mat-label>身份证号：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[9]!.id'>
+            </mat-form-field>
+            <mat-form-field style="width:250px">
+                <mat-label>电话号码：</mat-label>
+                <input matInput [(ngModel)]='targetUsers[9]!.phone'>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+
+<div class="table" id="print" [style.display] = "isShowPrint">
+    <div class="column text-normal" style="width: 1150px;height: 1622px;padding: 0 150px;">
+        <div class="space"></div>
+        <div class="w100 text-title" style="height: 84px;">美团查询申请审批表</div>
+        <div class="w100 right p10">填表时间：{{createDate_china}}</div>
+        <div class="w100" style="height: 50px;">
+            <div class="h100 blt" style="width: 220px;">提请单位</div>
+            <div class="h100 b bt" style="width: 300px;">{{unit}}</div>
+            <div class="h100 b bt" style="width: 110px;;">提请人</div>
+            <div class="h100 brt" style="flex: 1;">{{requestUser}}</div>
+        </div>
+        <div class="w100" style="height: 50px;">
+            <div class="h100 bl" style="width: 220px;">联系电话</div>
+            <div class="h100 b" style="width: 300px;">{{userPhone}}</div>
+            <div class="h100 b" style="width: 110px;;">反馈方式</div>
+            <div class="h100 br" style="flex: 1;">{{feedbackWay}}</div>
+        </div>
+        <div class="w100" style="min-height: 210px;align-items: stretch;">
+            <div class="bl" style="width: 50px;">查<br>询<br>事<br>由</div>
+            <div class="flex1 br text-content column" style="text-align: justify;text-indent: 2em;padding: 10px;justify-content:center;align-items: flex-start;min-height: 100%;">
+                <div> 案件编号：{{caseNumber}}</div>
+                <div> 案件名称：{{caseName}}</div>
+                <div style="text-align: justify;text-indent: 2em;">
+                    {{caseContent}}
+                </div>
+                <div style="text-align: justify;text-indent: 2em;"> {{cause}}</div>
+            </div>
+        </div>
+
+        <div class="w100" style="height: 530px;">
+            <div class="h100 bl" style="width: 50px;">查<br>询<br>内<br>容</div>
+            <div class="h100 column flex1">
+                <div class="w100" style="height: 40px;">
+                    <div class="h100 b" style="width: 200px;">姓名</div>
+                    <div class="h100 b" style="width: 350px;">身份证号</div>
+                    <div class="h100 flex1 br">手机号码</div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[0].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[0].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[0].phone}}</span></div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[1].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[1].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[1].phone}}</span></div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[2].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[2].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[2].phone}}</span></div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[3].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[3].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[3].phone}}</span></div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[4].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[4].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[4].phone}}</span></div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[5].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[5].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[5].phone}}</span></div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[6].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[6].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[6].phone}}</span></div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[7].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[7].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[7].phone}}</span></div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[8].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[8].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[8].phone}}</span></div>
+                </div>
+                <div class="w100" style="height: 45px;">
+                    <div class="h100 b text-little" style="width: 200px;"><span >{{targetUsers[9].name}}</span></div>
+                    <div class="h100 b text-little" style="width: 350px;"><span >{{targetUsers[9].id}}</span></div>
+                    <div class="h100 flex1 br text-little"><span  >{{targetUsers[9].phone}}</span></div>
+                </div>
+                <div class="w100 br" style="height: 50px;">以上共{{upCount}}个查询目标（大写）</div>
+
+            </div>
+        </div>
+        <div class="w100" style="height: 200px;">
+            <div class="h100 bl" style="width: 50px;">办<br>案<br>民<br>警<br>签<br>字</div>
+            <div class="h100 b" style="width: 330px; position: relative;">
+                <div style="position: absolute; top:170px;left: 150px;">年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+                <img src="assets/xingjingdui.png" width="220px" height="220px" />
+                <img src="assets/jianyichaxun.png" width="190px" height="190px"
+                  style="position: absolute; top:0px;left: 100px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 90px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 102px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(3,1) width="13px" height="26px" style="position: absolute; top:170px;left: 114px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(4,1) width="13px" height="26px" style="position: absolute; top:170px;left: 126px;" />
+                <img *ngIf="isSeal" [attr.src]=getMonthImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 186px;" />
+                <img *ngIf="isSeal && isDoubleDigit_month()" [attr.src]=getMonthImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 198px;" />
+                <img *ngIf="isSeal" [attr.src]=getDayImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 250px;" />
+                <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 262px;" />
+            </div>
+            <div class="h100 b" style="width: 50px;">领<br>导<br>审<br>批<br>意<br>见</div>
+            <div class="h100 flex1 br" style="position: relative;">
+                <img src="assets/signal_ju.png" width="190px" height="190px" style="z-index: 10;" />
+                <img src="assets/seal.png" width="220px" height="220px" style="position: absolute; top:0px;left: 100px;" />
+                <div style="position: absolute; top:170px;left: 150px;">年&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;日</div>
+                <img *ngIf="isSeal" [attr.src]=getYearImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 90px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 102px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(3,1) width="13px" height="26px" style="position: absolute; top:170px;left: 114px;" />
+                <img *ngIf="isSeal" [attr.src]=getYearImg(4,1) width="13px" height="26px" style="position: absolute; top:170px;left: 126px;" />
+                <img *ngIf="isSeal" [attr.src]=getMonthImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 186px;" />
+                <img *ngIf="isSeal && isDoubleDigit_month()" [attr.src]=getMonthImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 198px;" />
+                <img *ngIf="isSeal" [attr.src]=getDayImg(1,1) width="13px" height="26px" style="position: absolute; top:170px;left: 250px;" />
+                <img *ngIf="isSeal && isDoubleDigit_day()" [attr.src]=getDayImg(2,1) width="13px" height="26px" style="position: absolute; top:170px;left: 262px;" />
+            </div>
+        </div>
+        <div class="w100" style="height: 70px;">
+            <div class="h100 blb" style="width: 50px;">备注</div>
+            <div class="h100 flex1 brb"></div>
+        </div>
+        <div class="space"></div>
+    </div>
+</div>

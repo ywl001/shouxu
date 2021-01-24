@@ -19,6 +19,7 @@ import {
   MatExpansionModule,
   MatDialogModule,
   MatTooltipModule,
+  MatCardModule
 } from '@angular/material'
 
 import { MatNativeDateModule } from '@angular/material/core';
@@ -36,6 +37,8 @@ import { DjtzsComponent } from './djtzs/djtzs.component';
 import { DzspbComponent } from './dzspb/dzspb.component';
 import { AddUnfreezeComponent } from './add-unfreeze/add-unfreeze.component';
 import { AccountPipe } from './account.pipe';
+import { SortPipe } from './sort.pipe';
+import { MeituanComponent } from './meituan/meituan.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,9 @@ import { AccountPipe } from './account.pipe';
     DjtzsComponent,
     DzspbComponent,
     AddUnfreezeComponent,
-    AccountPipe
+    AccountPipe,
+    SortPipe,
+    MeituanComponent
   ],
   imports: [
     BrowserModule,
@@ -73,6 +78,7 @@ import { AccountPipe } from './account.pipe';
     ReactiveFormsModule,
     MatDialogModule,
     MatTooltipModule,
+    MatCardModule,
     ClipboardModule
   ],
   providers: [],
@@ -86,7 +92,8 @@ import { AccountPipe } from './account.pipe';
     DjspbComponent,
     CxspComponent,
     DjtzsComponent,
-    AddUnfreezeComponent
+    AddUnfreezeComponent,
+    MeituanComponent
   ]
 })
 export class AppModule { }

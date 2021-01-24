@@ -67,7 +67,7 @@
 </div>
 
 <button #btnPrint ngxPrint printSectionId='print' style="display:none;">print</button>
-<div class="table" id="print" [style.display]="isShowPrint">
+<div class="table" id="print" [style.display] = isShowPrint>
     <div class="column text-normal" style="width: 1150px;height: 1622px;padding:0 100px;">
         <div class="w100 flex1" style="min-height: 20px;max-height: 120px;"></div>
         <div class="w100 left" style="height: 40px;font-size: 30px;">附件1：</div>
@@ -85,17 +85,19 @@
             <div class="h100 bl" style="width: 180px;">案件编号</div>
             <div class="h100 flex1 br">{{caseNumber}}</div>
         </div>
-        <div class="w100" style="min-height: 60px;max-height: 120px;">
-            <div class="h100 bl" style="width: 180px;">法律文书号</div>
-            <div class="h100 flex1 br">{{docNumber}}</div>
+        <div class="w100" style="min-height: 60px;max-height:120px;align-items: stretch;">
+            <div class="bl" style="width: 180px;">法律文书号</div>
+            <div class="flex1 br" style="align-self: stretch;">
+                {{docNumber}}
+            </div>
         </div>
         <div class="w100" style="height: 60px;">
             <div class="h100 bl" style="width: 180px;">查询类别</div>
             <div class="h100 flex1 br">{{queryType}}</div>
         </div>
-        <div class="w100" style="min-height: 60px;max-height: 240px;">
-            <div class="h100 bl" style="width: 180px;">查询内容</div>
-            <div class="h100 flex1 br text-content">{{queryContent}}</div>
+        <div class="w100" style="min-height: 60px;max-height: 240px;align-items: stretch;">
+            <div class="bl" style="width: 180px;">查询内容</div>
+            <div class="flex1 br text-content" style="align-items: stretch;">{{queryContent}}</div>
         </div>
         <div class="w100" style="height: 60px;">
             <div class="h100 bl" style="width: 180px;">承办人</div>
@@ -103,9 +105,9 @@
             <div class="h100 b" style="width: 180px;">联系方式</div>
             <div class="h100 flex1 br">{{userPhone}}</div>
         </div>
-        <div class="w100" style="min-height: 200px;max-height: 300px;">
-            <div class="h100 bl" style="width: 70px;">简<br>要<br>案<br>情</div>
-            <div class="h100 flex1 br text-content">{{caseContent}}</div>
+        <div class="w100" style="min-height: 200px;max-height: 300px;align-items: stretch;">
+            <div class="bl" style="width: 70px;">简<br>要<br>案<br>情</div>
+            <div class="flex1 br text-content">{{caseContent}}</div>
         </div>
         <div class="w100" style="height: 250px;">
             <div class="h100 bl" style="width: 70px;">申<br>请<br>人<br>签<br>字</div>
